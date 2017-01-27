@@ -1,0 +1,7 @@
+tipo de historico
+
+atualizações do usuario: 2
+ ||       	do orçamento: 1
+ ||       	da criação: 3
+ ||	     	de Fornecimento: 4
+ ||	    	do sistema: 5

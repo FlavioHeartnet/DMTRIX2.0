@@ -1,0 +1,29 @@
+1- Carrinho
+2- compra concretizada
+3- Orçamento atualizado
+4- Recusado Orçamento
+5- distribuição de tarefa
+6- Arte aprovada
+7- Arte recusada
+8- Fornecedor
+81 - disponivel pra entrega
+82 - pedido proximo a entrega;
+9- Aguardando Usuario aprovar
+10- Aguardando aprovar arte
+101 - revisão de arte
+11- Finalizado - data em que foi entregue
+12- pedido cancelado -- talvez não seja usado!
+
+Compras - status
+
+-Em analise
+-aprovacoes
+-criacao
+-fornecedor
+-finalizado
+-cancelado 
+
+
+Sempre que um status for regredido,
+uma observação do pedido deve ser registrada
+junto com o registro de reprovações  
