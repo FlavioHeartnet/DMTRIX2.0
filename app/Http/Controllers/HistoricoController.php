@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Services\Services;
 use Illuminate\Http\Request;
 
 use App\Http\Requests;
@@ -12,18 +13,25 @@ class HistoricoController extends Controller
 
     private $con;
 
+
     public function __construct()
     {
         $this->con = new \config();
-
+        
     }
 
+    
 
     public function addObs($id, $obs)
     {
 
-        $infos = ['idCompra'=> $id, 'tipo' => 2, 'texto' => $obs];
-        $this->historicoCompras($infos);
+       $Compra = $this->con->fetch_array($this->con->query("select idPedido from PedidoDMTRIX where idCompra= '$id'"));
+       $idPedido = $Compra['idPedido'];
+
+       $infos = ['idPedido'=> $idPedido, 'tipo' => 2, 'texto' => $obs];
+
+       return $this->create($infos);
+        
     }
 
 
@@ -34,9 +42,20 @@ class HistoricoController extends Controller
         $idPedido = $infos['idPedido'];
         $texto = $infos['texto'];
         $tipo = $infos['tipo'];
-        
+
         $this->con->query("insert into dmtrixII.historicoObs (tipo, observacao, idUsusario,dataObs,idPedido)
   values('$tipo','$texto', '$idUsuario',GETDATE(),'$idPedido')");
+
+        if(odbc_error() == ''){
+            
+
+            return 'sucesso';
+
+        }else{
+
+            return 'Erro';
+
+        }
         
     }
 
@@ -49,8 +68,21 @@ class HistoricoController extends Controller
         $texto = $infos['texto'];
         $tipo = $infos['tipo'];
 
-        $this->con->query("insert into dmtrixII.historicoObsCompras (tipo, observacao, idUsuario,dataObs,idCompra)
+          $this->con->query("insert into dmtrixII.historicoObsCompras (tipo, observacao, idUsuario,dataObs,idCompra)
   values('$tipo','$texto', '$idUsuario',GETDATE(),'$idCompra')");
+
+        if(odbc_error() == ''){
+
+            return 'sucesso';
+
+        }else{
+
+            return 'Erro';
+
+        }
+
+
+
     }
 
 

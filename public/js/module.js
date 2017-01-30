@@ -100,7 +100,21 @@ app.factory('detalhesPedidos', function($resource) {
                 method:'POST',
                 url: '/pedidos/todos/detalhes/:id/add/:obs'
 
-            }
+            },
+            
+            nortificacoes: {
+                
+                method:'get',
+                url: '/pedidos/nortificacao'
+                
+            },msgTopo:
+                {
+
+                    method:'get',
+                    isArray: true,
+                    url: '/pedidos/msgTopo'
+
+                }
         });
 
    });
@@ -173,7 +187,7 @@ app.service('Services', function ($http, $location, detalhesPedidos, criacao) {
 
         return detalhesPedidos.addObs({ id: idCompra, obs: obs}).$promise.then(function(data) {
             return data.array;
-
+            
         });
 
     };
@@ -466,13 +480,10 @@ app.controller('mainCusto', function($scope, $http, Services)
 
 });
 
-app.controller('todosPedidos', function($scope,$http,Services)
-{
-    $scope.botoes = Services;
-    $scope.pedidos = [];
-    $scope.idCompra = '';
-    $scope.obs = '';
 
+app.controller('detalhesPedido',function($scope,$http,Services){
+
+    $scope.botoes = Services;
 
     $scope.submit = function() {
 
@@ -486,6 +497,15 @@ app.controller('todosPedidos', function($scope,$http,Services)
 
     };
 
+});
+
+app.controller('todosPedidos', function($scope,$http,Services)
+{
+    $scope.botoes = Services;
+    $scope.pedidos = [];
+    $scope.idCompra = '';
+    $scope.obs = '';
+    
 
     var resp = Services.requestHTTP('/pedidos/todos/carregar');
 
@@ -972,5 +992,79 @@ app.controller('filaFornecedor',function ($scope,$http,Services, FornecedorSrv)
     $scope.init();
 
 
+
+});
+
+app.controller('master', function ($scope,$http,Services, detalhesPedidos){
+
+    $scope.service = Services;
+    
+    
+    $scope.init = function() {
+        $scope.nortificacoes = [];
+        $scope.msg=[];
+        $scope.aprovados = [];
+        $scope.revisao = [];
+        var resp = detalhesPedidos.nortificacoes().$promise.then(function (data) {
+
+            return data;
+
+        });
+        resp.then(function (d) {
+
+            $scope.nortificacoes.push(d);
+            $scope.nortificacoes = $scope.nortificacoes[0];
+
+
+        });
+
+        $scope.msgTopo = [];
+
+        var topo = detalhesPedidos.msgTopo().$promise.then(function (data) {
+
+            return data;
+
+        });
+        topo.then(function (d) {
+
+            $scope.msgTopo.push(d);
+            $scope.msgTopo = $scope.msgTopo[0];
+
+
+            $scope.aprovados = $scope.msgTopo[0];
+            $scope.revisao =$scope.msgTopo[1];
+            $scope.msg=$scope.msgTopo[2];
+
+
+
+        });
+
+    };
+    
+    $scope.init();
+
+
+});
+
+app.controller('mensagem',function ($scope,$http,Services, detalhesPedidos){
+
+
+    $scope.service = Services;
+
+    $scope.pesquisar = function(id){
+        $scope.idCompra = id;
+        $scope.array = [];
+        $scope.pedido = [];
+        $scope.timeline = [];
+
+        var resp1 = Services.perfil(id);
+
+        resp1.then(function(d) {
+            $scope.array = d[0];
+            $scope.pedido = d[1];
+            $scope.timeline = d[2];
+        });
+
+    };
 
 });

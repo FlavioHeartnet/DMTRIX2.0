@@ -37,6 +37,35 @@ class Services
         
     }
 
+    public function DiffDatasPedidos($data){
+
+        $data = new \DateTime($data);
+        $hoje = new \DateTime();
+
+        $diff = $data->diff($hoje);
+
+         if($diff->days > 0){
+
+             return $diff->days.' dias';
+
+         }else {
+
+             if($diff->m < 60){
+
+                 return $diff->m.' min';
+
+             }else{
+
+                 return $diff->h.' horas';
+
+             }
+
+
+
+         }
+
+    }
+
     public function atualizarStatusCompra($status, $idCompra, $tipoStatus)
     {
 
@@ -60,6 +89,152 @@ class Services
             
         }
 
+
+
+    }
+    
+    public function nortificacoesMenu(){
+
+        $value = session('user');
+        $idUsuario = $value['id'];
+
+       $rs = $this->con->fetch_array($this->con->query("select (select COUNT(*) as num from PedidoDMTRIX where status_pedido = 3 ) as triagem,
+        (select COUNT(*) as num from PedidoDMTRIX where status_pedido = 101 ) as numRevisao,
+        (select COUNT(*) as num from PedidoDMTRIX where status_pedido = 10 ) as numAprovacao,
+        (select COUNT(*) as num from PedidoDMTRIX where status_pedido = 6 ) as numAprovados,
+        (select COUNT(*) as num from PedidoDMTRIX where status_pedido = 2 or status_pedido = 4  ) as numOrcamento,
+        (select COUNT(*) as num from PedidoDMTRIX where status_pedido = 6 or status_pedido = 81 or status_pedido = 8 ) as numFornecedor"));
+
+        $sql = $this->con->query("select top 10  h.id
+        from dmtrixII.historicoObs h join PedidoDMTRIX p on p.idPedido = h.idPedido
+        join usuariosDMTRIX u on u.idUsuario = h.idUsusario
+        join ComprasDMTRIX c on c.idCompra = p.idCompra
+        join lojasDMTRIX l on l.numeroLoja = c.idLoja
+         where h.tipo = 2 ");
+
+        $msg = 0;
+       while($x = $this->con->fetch_array($sql))
+       {
+           $idHistorico = $x['id'];
+           $verifica = $this->con->query("select idHistorico FROM [MARKETING].[dmtrixII].[controleMensagens] where idHistorico = '$idHistorico' and idUsuario = '$idUsuario'");
+           if(odbc_num_rows($verifica) == 0 )
+           {
+
+               $msg++;
+
+           }
+
+
+       }
+        
+        
+        return ['msg'=>$msg, 'triagem' => $rs['triagem'],'numRevisao' => $rs['numRevisao'],'numAprovacao' => $rs['numAprovacao'],'numOrcamento' => $rs['numOrcamento'],'numFornecedor' => $rs['numFornecedor'],'numAprovados' => $rs['numAprovados'] ];
+        
+        
+    }
+
+    public function mensagensTopo(){
+
+        $value = session('user');
+        $idUsuario = $value['id'];
+
+    $response = array();
+        $sql = $this->con->query("select distinct top 10 u.nome+' '+u.sobrenome as solicitante, c.idCompra, l.numeroLoja+' - '+l.nomeLoja as loja,u.foto, ca.data_aprovado_arte
+        from ComprasDMTRIX c join usuariosDMTRIX u on u.idUsuario = c.idUsuario join lojasDMTRIX l on l.numeroLoja = c.idLoja
+        join PedidoDMTRIX p on p.idCompra = c.idCompra
+        join ControleAprovacoesDMTRIX ca on ca.idPedido = p.idPedido where p.status_pedido = 6 order by ca.data_aprovado_arte desc");
+        $aprovacao = array();
+        if(odbc_num_rows($sql) != 0) {
+
+            while ($rs = odbc_fetch_array($sql)) {
+
+                $dataAprvado = $rs['data_aprovado_arte'];
+
+                $dataAprvado = $this->DiffDatasPedidos($dataAprvado);
+
+                array_push($aprovacao,
+
+                    [
+                        'solicitante' => $rs['solicitante'],
+                        'loja' => $rs['loja'],
+                        'idCompra' => $rs['idCompra'],
+                        'foto' => $rs['foto'],
+                        'data' => $dataAprvado,
+                    ]
+
+                );
+
+            }
+        }
+
+        $sql = $this->con->query("select top 10 u.nome+' '+u.sobrenome as solicitante, c.idCompra, l.numeroLoja+' - '+l.nomeLoja as loja,u.foto, p.dataArtePostada
+        from ComprasDMTRIX c join usuariosDMTRIX u on u.idUsuario = c.idUsuario join lojasDMTRIX l on l.numeroLoja = c.idLoja
+        join PedidoDMTRIX p on p.idCompra = c.idCompra where p.status_pedido = 101");
+        $revisao = array();
+        if(odbc_num_rows($sql) != 0) {
+            while ($rs = odbc_fetch_array($sql)) {
+
+                $data = $rs['dataArtePostada'];
+
+                $data = $this->DiffDatasPedidos($data);
+
+
+                array_push($revisao,
+
+                    [
+                        'solicitante' => $rs['solicitante'],
+                        'loja' => $rs['loja'],
+                        'idCompra' => $rs['idCompra'],
+                        'foto' => $rs['foto'],
+                        'data' => $data
+                    ]
+
+                );
+
+            }
+        }
+
+        $sql = $this->con->query(" select top 10 u.nome+' '+u.sobrenome as solicitante, c.idCompra, l.numeroLoja+' - '+l.nomeLoja as loja,u.foto, h.observacao,h.dataObs,h.id
+        from dmtrixII.historicoObs h join PedidoDMTRIX p on p.idPedido = h.idPedido
+        join usuariosDMTRIX u on u.idUsuario = h.idUsusario
+        join ComprasDMTRIX c on c.idCompra = p.idCompra
+        join lojasDMTRIX l on l.numeroLoja = c.idLoja
+        where h.tipo = 2  ");
+        $mensagem = array();
+        if(odbc_num_rows($sql) != 0) {
+            while ($rs = odbc_fetch_array($sql)) {
+
+
+                $data = $rs['dataObs'];
+                $idHistorico = $rs['id'];
+                $verifica = $this->con->query("select idHistorico FROM [MARKETING].[dmtrixII].[controleMensagens] where idHistorico = '$idHistorico' and idUsuario = '$idUsuario'");
+
+                $data = $this->DiffDatasPedidos($data);
+
+                if(odbc_num_rows($verifica) == 0) {
+
+                    array_push($mensagem,
+
+                        [
+                            'solicitante' => $rs['solicitante'],
+                            'loja' => $rs['loja'],
+                            'idCompra' => $rs['idCompra'],
+                            'foto' => $rs['foto'],
+                            'data' => $data,
+                            'obs' => $rs['observacao']
+                        ]
+
+                    );
+                }
+
+            }
+        }
+        
+        array_push($response, $aprovacao);
+        array_push($response, $revisao);
+        array_push($response, $mensagem);
+        
+        return $response;
 
 
     }
@@ -119,6 +294,8 @@ class Services
         return $array1;
 
     }
+    
+   
 
 
 }

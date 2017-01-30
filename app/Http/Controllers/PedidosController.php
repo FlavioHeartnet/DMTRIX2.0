@@ -65,11 +65,23 @@ class PedidosController extends Controller
 
         $con = $this->con;
 
-        $timeline = $this->con->query("select p.idCompra,h.tipo, h.observacao, u.nome, h.dataObs from dmtrixII.historicoObs h join PedidoDMTRIX p on p.idPedido = h.idPedido 
+        $timeline = $this->con->query("select h.id,p.idCompra,h.tipo, h.observacao, u.nome, h.dataObs,h.lida,p.idPedido from dmtrixII.historicoObs h join PedidoDMTRIX p on p.idPedido = h.idPedido 
   join usuariosDMTRIX u on u.idUsuario = h.idUsusario where p.idCompra = '$idCompra' order by h.dataObs desc");
         $arrayTimeline = array();
         while($rs = odbc_fetch_array($timeline))
         {
+
+
+            $value = session('user');
+            $idUsuario = $value['id'];
+
+            $idHistorico = $rs['id'];
+            $histVerifica = $this->con->query("select idHistorico from dmtrixII.controleMensagens where idHistorico = '$idHistorico' and idUsuario = '$idUsuario' ");
+
+            if(odbc_num_rows($histVerifica) ==0) {
+                
+                $this->con->query("insert into dmtrixII.controleMensagens (idHistorico,idUsuario,lida,dataLida) values ('$idHistorico','$idUsuario',1,GETDATE())"); //marca quem foi o usuario que leu esta mensagem
+            }
 
            if($rs['tipo'] == 1)
            {
@@ -471,6 +483,20 @@ class PedidosController extends Controller
 
         return $this->pedidosService->cancelarPedido($id);
         
+    }
+    
+        public function nortificacao(){
+    
+        return $this->services->nortificacoesMenu();
+    
+    
+         }
+
+    public function msgTopo(){
+
+        return $this->services->mensagensTopo();
+
+
     }
     
     public function teste(){

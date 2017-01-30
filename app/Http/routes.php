@@ -29,6 +29,8 @@ Route::get('/home/analise', function () {
     return view('home.analise');
 });
 
+Route::get('/pedidos/nortificacao','PedidosController@nortificacao');
+Route::get('/pedidos/msgTopo','PedidosController@msgTopo');
 
 Route::get('/pedidos/todos','PedidosController@index');
 Route::get('/pedidos/todos/carregar','PedidosController@Pedidos');

@@ -14,7 +14,7 @@
 
         <div class="container-fluid" >
             <div class="page-header">
-                <h1 id="timeline"><i class="fa fa-refresh"></i> Revisão interna de arte (15)</h1>
+                <h1 id="timeline"><i class="fa fa-refresh"></i> Revisão interna de arte </h1>
             </div>
             <ul class="timeline">
                 <li class="timeline-inverted" ng-repeat="x in revisao">

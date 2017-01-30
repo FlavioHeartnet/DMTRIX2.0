@@ -12,8 +12,8 @@
         <p>Entrada: <% result[0].Data_do_Pedido %></p>
     </div>
     <div class="col-lg-3">
-        <h3>Solicitante: </h3>
-        <p><% result[0].solicitante %></p>
+        <p>Solicitante: </p>
+        <h3><% result[0].solicitante %></h3>
         <p>Forma de Pagamento: <b><% result[0].formaPagamento %></b></p>
         <p>Custeio: <b><% result[0].custeio %></b></p>
     </div>

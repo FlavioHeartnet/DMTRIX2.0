@@ -1,4 +1,4 @@
-
+<div ng-controller="detalhesPedido">
         <div class="container-fluid" >
 
             <div class="col-lg-9">
@@ -246,7 +246,7 @@
                 </div><br><br>
                 <form method="post" ng-submit="submit()">
                     <div class="col-lg-7">
-                        <textarea class="form-control" ng-model="obs" id="text" required placeholder="Digite alguma observação do produto"></textarea>
+                        <textarea name="obs" class="form-control" ng-model="obs" id="text" required placeholder="Digite alguma observação do produto"></textarea>
                     </div>
                     <div class="col-lg-3" style="color: #ffffff">
                         <button class="btn btn-warning backgroundLaranja "  style="width: 100%">Enviar</button>
@@ -260,3 +260,4 @@
         </div>
 
 
+</div>

@@ -56,7 +56,7 @@ if($value['token'] == 1){
 
 <body >
 
-<section id="container" >
+<section id="container"  ng-controller="master">
     <!-- **********************************************************************************************************************************************************
     TOP BAR CONTENT & NOTIFICATIONS
     *********************************************************************************************************************************************************** -->
@@ -75,69 +75,28 @@ if($value['token'] == 1){
                 <li class="dropdown">
                     <a data-toggle="dropdown" class="dropdown-toggle" href="">
                         <i class="fa fa-envelope"></i>
-                        <span class="badge bg-theme04 ">4</span>
+                        <span ng-if="nortificacoes.msg != 0" class="badge bg-theme04 nortifica"><% nortificacoes.msg %></span>
                     </a>
                     <ul class="dropdown-menu extended inbox">
                         <div class="notify-arrow notify-arrow-green"></div>
                         <li>
-                            <p class="green">Voçê tem 4 mensagens</p>
+                            <p class="green">Voçê tem <% nortificacoes.msg %> mensagens</p>
                         </li>
-                        <li>
-                            <a href="#">
+                        <li ng-repeat="a in msg">
+                            <a href="{{url('/pedidos/mensagens')}}">
                                 <span class="photo"><img alt="avatar" src="{{url('img/sem-foto.png')}}"></span>
                                     <span class="subject">
-                                    <span class="from">Flavio Barros</span>
-                                    <span class="time">45 min</span>
+                                    <span class="from"><% a.solicitante %></span>
+                                    <span class="time"><% a.data %></span>
                                     </span>
 
                                     <span class="message" >
-                                        Pedido 785 - Implantação: Atualizado a arte
+                                        Pedido <% a.idCompra %> - <% a.loja %>
                                     </span>
 
                             </a>
                         </li>
-                        <li>
-                            <a href="#">
-                                <span class="photo"><img alt="avatar" src="{{url('img/sem-foto.png')}}"></span>
-                                    <span class="subject">
-                                    <span class="from">Flavio Barros</span>
-                                    <span class="time">45 min</span>
-                                    </span>
 
-                                    <span class="message" >
-                                        Pedido 785 - Implantação: Atualizado a arte
-                                    </span>
-
-                            </a>
-                        </li>
-                        <li>
-                            <a href="#">
-                                <span class="photo"><img alt="avatar" src="{{url('img/sem-foto.png')}}"></span>
-                                    <span class="subject">
-                                    <span class="from">Flavio Barros</span>
-                                    <span class="time">45 min</span>
-                                    </span>
-
-                                    <span class="message" >
-                                        Pedido 785 - Implantação: Atualizado a arte
-                                    </span>
-
-                            </a>
-                        </li>
-                        <li>
-                            <a href="#">
-                                <span class="photo"><img alt="avatar" src="{{url('img/sem-foto.png')}}"></span>
-                                    <span class="subject">
-                                    <span class="from">Flavio Barros</span>
-                                    <span class="time">45 min</span>
-                                    </span>
-
-                                    <span class="message" >
-                                        Pedido 785 - Implantação: Atualizado a arte
-                                    </span>
-
-                            </a>
-                        </li>
                         <li>
                             <a href="{{url('/pedidos/mensagens')}}">Ver todas as mensagens</a>
                         </li>
@@ -148,65 +107,23 @@ if($value['token'] == 1){
                 <li id="header_inbox_bar" class="dropdown">
                     <a data-toggle="dropdown" class="dropdown-toggle" href="index.html#">
                         <i class="fa fa-refresh"></i>
-                        <span class="badge bg-theme04">5</span>
+                        <span ng-if="nortificacoes.numRevisao != 0" class="badge bg-theme04 nortifica"><% nortificacoes.numRevisao %></span>
                     </a>
                     <ul class="dropdown-menu extended inbox">
                         <div class="notify-arrow notify-arrow-green"></div>
                         <li>
-                            <p class="green">Voçê tem 5 itens para revisar</p>
+                            <p class="green">Voçê tem <% nortificacoes.numRevisao %> itens para revisar</p>
                         </li>
-                        <li>
-                            <a href="#">
+                        <li ng-repeat="a in revisao">
+                            <a href="{{url('/producao/revisao')}}">
                                 <span class="photo"><img alt="avatar" src="{{url('img/sem-foto.png')}}"></span>
                                     <span class="subject">
-                                    <span class="from">Flavio Barros</span>
-                                    <span class="time">45 min</span>
+                                    <span class="from"><% a.solicitante %></span>
+                                    <span class="time"><% a.data %></span>
                                     </span>
 
                                     <span class="message" >
-                                        Pedido 785 - Implantação: Atualizado a arte
-                                    </span>
-
-                            </a>
-                        </li>
-                        <li>
-                            <a href="#">
-                                <span class="photo"><img alt="avatar" src="{{url('img/sem-foto.png')}}"></span>
-                                    <span class="subject">
-                                    <span class="from">Flavio Barros</span>
-                                    <span class="time">45 min</span>
-                                    </span>
-
-                                    <span class="message" >
-                                        Pedido 785 - Implantação: Atualizado a arte
-                                    </span>
-
-                            </a>
-                        </li>
-                        <li>
-                            <a href="#">
-                                <span class="photo"><img alt="avatar" src="{{url('img/sem-foto.png')}}"></span>
-                                    <span class="subject">
-                                    <span class="from">Flavio Barros</span>
-                                    <span class="time">45 min</span>
-                                    </span>
-
-                                    <span class="message" >
-                                        Pedido 785 - Implantação: Atualizado a arte
-                                    </span>
-
-                            </a>
-                        </li>
-                        <li>
-                            <a href="#">
-                                <span class="photo"><img alt="avatar" src="{{url('img/sem-foto.png')}}"></span>
-                                    <span class="subject">
-                                    <span class="from">Flavio Barros</span>
-                                    <span class="time">45 min</span>
-                                    </span>
-
-                                    <span class="message" >
-                                        Pedido 785 - Implantação: Atualizado a arte
+                                        Pedido <% a.idCompra %> - <% a.loja %>
                                     </span>
 
                             </a>
@@ -219,58 +136,29 @@ if($value['token'] == 1){
                 <li class="dropdown">
                     <a data-toggle="dropdown" class="dropdown-toggle" href="index.html#">
                         <i class="fa fa-paint-brush"></i>
-                        <span class="badge bg-theme04">5</span>
+                        <span ng-if="nortificacoes.numAprovacao != 0" class="badge bg-theme04 nortifica"><% nortificacoes.numAprovados %></span>
                     </a>
                     <ul class="dropdown-menu extended inbox">
                         <div class="notify-arrow notify-arrow-green"></div>
                         <li>
-                            <p class="green">Voçê tem 5 aprovadas</p>
+                            <p class="green">Voçê tem <% nortificacoes.numAprovados %> aprovadas</p>
                         </li>
-                        <li>
-                            <a href="#">
+                        <li ng-repeat="a in aprovados">
+                            <a href="{{url('/fornecedores/consulta')}}">
                                 <span class="photo"><img alt="avatar" src="{{url('img/sem-foto.png')}}"></span>
                                     <span class="subject">
-                                    <span class="from">Flavio Barros</span>
-                                    <span class="time">45 min</span>
+                                    <span class="from"><% a.solicitante %></span>
+                                    <span class="time"><% a.data %></span>
                                     </span>
 
-                                    <span class="message" >
-                                        Pedido 785 - Implantação: Atualizado a arte
+                                    <span class="message">
+                                        Pedido <% a.idCompra %> - <% a.loja %>
                                     </span>
 
                             </a>
                         </li>
                         <li>
-                            <a href="#">
-                                <span class="photo"><img alt="avatar" src="{{url('img/sem-foto.png')}}"></span>
-                                    <span class="subject">
-                                    <span class="from">Flavio Barros</span>
-                                    <span class="time">45 min</span>
-                                    </span>
-
-                                    <span class="message" >
-                                        Pedido 785 - Implantação: Atualizado a arte
-                                    </span>
-
-                            </a>
-                        </li>
-                        <li>
-                            <a href="#">
-                                <span class="photo"><img alt="avatar" src="{{url('img/sem-foto.png')}}"></span>
-                                    <span class="subject">
-                                    <span class="from">Flavio Barros</span>
-                                    <span class="time">45 min</span>
-                                    </span>
-
-                                    <span class="message" >
-                                        Pedido 785 - Implantação: Atualizado a arte
-                                    </span>
-
-                            </a>
-                        </li>
-
-                        <li>
-                            <a href="{{url('/producao/aprovacao')}}">Ver todas as mensagens</a>
+                            <a href="{{url('/fornecedores/consulta')}}">Ver todas as mensagens</a>
                         </li>
                     </ul>
                 </li>
@@ -313,9 +201,9 @@ if($value['token'] == 1){
 
                 </li>
 
-                <li><a  href="{{ url('/pedidos/atualizacao') }}"><span class="badge bg-theme04 nortifica">4</span><i class="fa fa-star-o"></i> Atualização de Custo</a></li>
+                <li><a  href="{{ url('/pedidos/atualizacao') }}"><span ng-if="nortificacoes.numOrcamento != 0" class="badge bg-theme04 nortifica"><% nortificacoes.numOrcamento %></span><i class="fa fa-star-o"></i> Atualização de Custo </a></li>
                <!-- <li><a  href="{{ url('/pedidos/aprovado/trade')  }}"><i class="li_star"></i>Avaliação de orçamento do Trade</a></li>-->
-                <li><a  href="{{ url('/pedidos/aprovado')  }}"><i class="li_vallet"></i>Triagem de pedidos com custo aprovado</a></li>
+                <li><a  href="{{ url('/pedidos/aprovado')  }}"><span ng-if="nortificacoes.triagem != 0" class="badge bg-theme04 nortifica"><% nortificacoes.triagem %></span><i class="li_vallet"></i>Triagem de pedidos com custo aprovado</a></li>
                 <li><a  href="{{ url('/pedidos/cancelamento')  }}"><i class="fa fa-ban"></i>Pedidos proximo ao cancelemento</a></li>
 
 
@@ -325,8 +213,8 @@ if($value['token'] == 1){
                         <span>Produção</span>
                     </a>
                 </li>
-                <li><a  href="{{  url('/producao/revisao') }}"><span class="badge bg-theme04 nortifica">4</span><i class="fa fa-refresh"></i>Revisão interna de arte</a></li>
-                <li><a  href="{{ url('/producao/aprovacao') }}"><span class="badge bg-theme04 nortifica">3</span><i class="fa fa-warning"></i>Aprovação de arte</a></li>
+                <li><a  href="{{  url('/producao/revisao') }}"><span ng-if="nortificacoes.numRevisao != 0" class="badge bg-theme04 nortifica"><% nortificacoes.numRevisao %></span><i class="fa fa-refresh"></i>Revisão interna de arte</a></li>
+                <li><a  href="{{ url('/producao/aprovacao') }}"><span ng-if="nortificacoes.numAprovacao != 0" class="badge bg-theme04 nortifica"><% nortificacoes.numAprovacao %></span><i class="fa fa-warning"></i>Aprovação de arte</a></li>
                 <li class="">
                     <a href="javascript:;" style="color: #fed77a" >
                         <i class="fa fa-truck"></i>
@@ -335,7 +223,7 @@ if($value['token'] == 1){
 
                 </li>
                 <li><a  href="{{ url('/fornecedores/gestao')  }}"><i class="li_settings"></i>Gestão de fornecedores</a></li>
-                <li><a  href="{{ url('/fornecedores/consulta')  }}"><i class="fa fa-industry"></i>Gestão de desenvolvimento</a></li>
+                <li><a  href="{{ url('/fornecedores/consulta')  }}"><span ng-if="nortificacoes.numFornecedor != 0" class="badge bg-theme04 nortifica"><% nortificacoes.numFornecedor %></span><i class="fa fa-industry"></i>Gestão de desenvolvimento</a></li>
                 <li class="">
                     <a href="javascript:;" style="color: #fed77a"  >
                         <i class="fa fa-users"></i>

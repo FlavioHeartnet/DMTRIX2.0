@@ -14,22 +14,7 @@
         <p class="{{ $resp['class'] }}"><b>{{ $resp['msg'] }}</b></p>
 
     @endif
-    <h1>
 
-        <label>Selecione o filtro
-            <select class="form-control dropdown">
-                <option value="">Selecione</option>
-                <option value="">Disponivel para fabricação</option>
-                <option value="">Envio para fabricação</option>
-                <option value="">Proximo a entrega</option>
-                <option value="">Disponivel para retirada</option>
-                <option value="">Pedidos finalizados</option>
-                <option value="">todos</option>
-
-            </select>
-        </label>
-
-    </h1>
     <label>
         <input type="text" ng-model="busca" class="form-control" placeholder="pesquise aqui">
     </label>
