@@ -567,8 +567,8 @@ app.controller('fornecedor', function($scope,$http,Services, $routeParams, Forne
 app.controller('custoAprovar', function ($scope, Services, AtualizarValorPedidosSrv, $http, $filter) {
 
     $scope.botoes = Services; // funcções do DOM
-    $scope.result = []; // pedidos da Compra
-    $scope.total = [];
+
+
 
 
     $scope.soma = function(id){
@@ -659,6 +659,9 @@ app.controller('custoAprovar', function ($scope, Services, AtualizarValorPedidos
 
     
     $scope.pequisar = function (id) {
+        $scope.total = [];
+        $scope.result = [];
+        $scope.val = 0;
         
         $scope.botoes.mostrarModal();
         $scope.result = AtualizarValorPedidosSrv.consulta({id: id, status: 2});

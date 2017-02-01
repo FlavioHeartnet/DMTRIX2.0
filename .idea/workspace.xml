@@ -1,24 +1,21 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="BookmarkManager">
-    <bookmark url="file://$PROJECT_DIR$/app/Services/PedidosServices.php" line="329" mnemonic="4" />
+    <bookmark url="file://$PROJECT_DIR$/app/Services/PedidosServices.php" line="345" mnemonic="4" />
   </component>
   <component name="ChangeListManager">
     <list default="true" id="c66f8400-741a-4671-83e7-c5189c1d5fee" name="Default" comment="">
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/.idea/vcs.xml" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/Http/Controllers/HistoricoController.php" afterPath="$PROJECT_DIR$/app/Http/Controllers/HistoricoController.php" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/Http/Controllers/PedidosController.php" afterPath="$PROJECT_DIR$/app/Http/Controllers/PedidosController.php" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/Http/routes.php" afterPath="$PROJECT_DIR$/app/Http/routes.php" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/Services/PedidosServices.php" afterPath="$PROJECT_DIR$/app/Services/PedidosServices.php" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/Services/Services.php" afterPath="$PROJECT_DIR$/app/Services/Services.php" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/public/css/style.css" afterPath="$PROJECT_DIR$/public/css/style.css" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/public/js/module.js" afterPath="$PROJECT_DIR$/public/js/module.js" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/resources/views/fornecedores/consulta.blade.php" afterPath="$PROJECT_DIR$/resources/views/fornecedores/consulta.blade.php" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/resources/views/home/home.blade.php" afterPath="$PROJECT_DIR$/resources/views/home/home.blade.php" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/resources/views/master.blade.php" afterPath="$PROJECT_DIR$/resources/views/master.blade.php" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/resources/views/pedidos/atualizacao-custo-detalhes.blade.php" afterPath="$PROJECT_DIR$/resources/views/pedidos/atualizacao-custo-detalhes.blade.php" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/resources/views/pedidos/custo-aprovado.blade.php" afterPath="$PROJECT_DIR$/resources/views/pedidos/custo-aprovado.blade.php" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/resources/views/pedidos/detalhes-pedido.blade.php" afterPath="$PROJECT_DIR$/resources/views/pedidos/detalhes-pedido.blade.php" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/resources/views/pedidos/mensagens.blade.php" afterPath="$PROJECT_DIR$/resources/views/pedidos/mensagens.blade.php" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/resources/views/producao/revisao-interna.blade.php" afterPath="$PROJECT_DIR$/resources/views/producao/revisao-interna.blade.php" />
     </list>
     <ignored path="laravel.iws" />
     <ignored path=".idea/workspace.xml" />
@@ -40,157 +37,22 @@
   </component>
   <component name="FileEditorManager">
     <leaf SIDE_TABS_SIZE_LIMIT_KEY="300">
-      <file leaf-file-name="PedidosController.php" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/app/Http/Controllers/PedidosController.php">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="391">
-              <caret line="74" column="11" selection-start-line="74" selection-start-column="11" selection-end-line="75" selection-end-column="38" />
-              <folding>
-                <element signature="e#505#2863#0#PHP" expanded="false" />
-                <element signature="e#10826#10941#0#PHP" expanded="false" />
-                <element signature="e#11045#11137#0#PHP" expanded="false" />
-                <element signature="e#11147#11264#0#PHP" expanded="false" />
-                <element signature="e#11270#12805#0#PHP" expanded="false" />
-                <element signature="e#12815#15692#0#PHP" expanded="false" />
-                <element signature="e#15702#15911#0#PHP" expanded="false" />
-                <element signature="e#15921#17087#0#PHP" expanded="false" />
-                <element signature="e#17505#17571#0#PHP" expanded="false" />
-                <element signature="e#17581#19014#0#PHP" expanded="false" />
-                <marker date="1485797725122" expanded="true" signature="599:1993" ph="select top 3... ComprasDMTRIX" />
-                <marker date="1485797725122" expanded="true" signature="599:1995" ph="select p.dat... ComprasDMTRIX" />
-                <marker date="1485797725122" expanded="true" signature="884:974" ph="select COUNT... PedidoDMTRIX" />
-                <marker date="1485797725122" expanded="true" signature="1000:1092" ph="select COUNT... PedidoDMTRIX" />
-                <marker date="1485797725122" expanded="true" signature="1118:1209" ph="select COUNT... PedidoDMTRIX" />
-                <marker date="1485797725122" expanded="true" signature="1237:1327" ph="select COUNT... PedidoDMTRIX" />
-                <marker date="1485797725122" expanded="true" signature="1356:1447" ph="select COUNT... PedidoDMTRIX" />
-                <marker date="1485797725122" expanded="true" signature="1476:1567" ph="select COUNT... PedidoDMTRIX" />
-                <marker date="1485797725122" expanded="true" signature="1596:1686" ph="select COUNT... PedidoDMTRIX" />
-                <marker date="1485797725122" expanded="true" signature="1714:1782" ph="select COUNT... PedidoDMTRIX" />
-                <marker date="1485797725122" expanded="true" signature="2981:3223" ph="select h.idC... historicoObsCompras" />
-                <marker date="1485797725122" expanded="true" signature="2981:3247" ph="select p.idC... historicoObs" />
-                <marker date="1485797725122" expanded="true" signature="3509:3559" ph="select idHis... controleMensagens" />
-                <marker date="1485797725122" expanded="true" signature="3509:3594" ph="select idHis... controleMensagens" />
-                <marker date="1485797725122" expanded="true" signature="3509:3623" ph="select idHis... controleMensagens" />
-                <marker date="1485797725122" expanded="true" signature="3732:3857" ph="insert into dmtrixII.controleMensagens... " />
-                <marker date="1485797725122" expanded="true" signature="4540:5252" ph="select disti... ComprasDMTRIX" />
-                <marker date="1485797725122" expanded="true" signature="5296:5430" ph="select u.idU... criacaoDMTRIX" />
-                <marker date="1485797725122" expanded="true" signature="6758:8603" ph="select p.idP... PedidoDMTRIX" />
-                <marker date="1485797725122" expanded="true" signature="6759:8603" ph="select p.idP... PedidoDMTRIX" />
-                <marker date="1485797725122" expanded="true" signature="8063:8148" ph="select obser... historicoObs" />
-                <marker date="1485797725122" expanded="true" signature="8602:8603" ph="select p.idP... PedidoDMTRIX" />
-                <marker date="1485797725122" expanded="true" signature="9101:9157" ph="select * fro... pedidosExpirados" />
-                <marker date="1485797725122" expanded="true" signature="9101:9184" ph="select * fro... pedidosExpirados" />
-                <marker date="1485797725122" expanded="true" signature="11351:11358" ph="select idCom... ComprasDMTRIX" />
-                <marker date="1485797725122" expanded="true" signature="11351:11640" ph="select idCom... ComprasDMTRIX" />
-                <marker date="1485797725122" expanded="true" signature="11351:11682" ph="select disti... ComprasDMTRIX" />
-                <marker date="1485797725122" expanded="true" signature="12899:12900" ph="select p.idC... PedidoDMTRIX" />
-                <marker date="1485797725122" expanded="true" signature="12901:13526" ph="select p.cus... PedidoDMTRIX" />
-                <marker date="1485797725122" expanded="true" signature="16000:16354" ph="select disti... PedidoDMTRIX" />
-                <marker date="1485797725122" expanded="true" signature="16000:16379" ph="select disti... PedidoDMTRIX" />
-                <marker date="1485797725122" expanded="true" signature="17650:18345" ph="select disti... pedidosExpirados" />
-                <marker date="1485797725122" expanded="true" signature="17936:18012" ph="select nome usuariosDMTRIX" />
-              </folding>
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="module.js" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/public/js/module.js">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="9452">
-              <caret line="1051" column="18" selection-start-line="1051" selection-start-column="11" selection-end-line="1051" selection-end-column="18" />
-              <folding>
-                <element signature="e#13063#13590#0" expanded="false" />
-                <element signature="e#13695#15832#0" expanded="false" />
-                <element signature="e#15940#17888#0" expanded="false" />
-                <element signature="e#17956#18876#0" expanded="false" />
-                <element signature="e#18955#19285#0" expanded="false" />
-                <element signature="e#19364#20537#0" expanded="false" />
-                <element signature="e#20621#21908#0" expanded="false" />
-                <element signature="e#21986#22907#0" expanded="false" />
-              </folding>
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="HistoricoController.php" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/app/Http/Controllers/HistoricoController.php">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="510">
-              <caret line="39" column="7" selection-start-line="39" selection-start-column="7" selection-end-line="40" selection-end-column="34" />
-              <folding>
-                <element signature="e#40#66#0#PHP" expanded="true" />
-                <marker date="1485795490305" expanded="true" signature="429:484" ph="select idPed... PedidoDMTRIX" />
-                <marker date="1485795490305" expanded="true" signature="901:1045" ph="insert into dmtrixII.historicoObs... " />
-                <marker date="1485795490305" expanded="true" signature="1454:1604" ph="insert into dmtrixII.historicoObsCompras... " />
-              </folding>
-            </state>
-          </provider>
-        </entry>
-      </file>
       <file leaf-file-name="routes.php" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/app/Http/routes.php">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="459">
-              <caret line="36" column="31" selection-start-line="36" selection-start-column="31" selection-end-line="36" selection-end-column="31" />
+            <state relative-caret-position="503">
+              <caret line="60" column="88" selection-start-line="60" selection-start-column="68" selection-end-line="60" selection-end-column="88" />
               <folding />
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="mensagens.blade.php" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/resources/views/pedidos/mensagens.blade.php">
+      <file leaf-file-name="detalhes-pedido.blade.php" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/resources/views/pedidos/detalhes-pedido.blade.php">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="102">
-              <caret line="12" column="100" selection-start-line="12" selection-start-column="100" selection-end-line="12" selection-end-column="100" />
+            <state relative-caret-position="170">
+              <caret line="10" column="16" selection-start-line="10" selection-start-column="16" selection-end-line="25" selection-end-column="36" />
               <folding />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="todos-pedidos.blade.php" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/resources/views/pedidos/todos-pedidos.blade.php">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="434">
-              <caret line="35" column="16" selection-start-line="35" selection-start-column="16" selection-end-line="35" selection-end-column="109" />
-              <folding />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="Services.php" pinned="false" current-in-tab="true">
-        <entry file="file://$PROJECT_DIR$/app/Services/Services.php">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="556">
-              <caret line="117" column="28" selection-start-line="117" selection-start-column="28" selection-end-line="117" selection-end-column="28" />
-              <folding>
-                <element signature="e#33#78#0#PHP" expanded="true" />
-                <element signature="e#7558#10565#0#PHP" expanded="false" />
-                <marker date="1485800795096" expanded="true" signature="1187:1277" ph="select COUNT... PedidoDMTRIX" />
-                <marker date="1485800795096" expanded="true" signature="1187:1286" ph="select COUNT... PedidoDMTRIX" />
-                <marker date="1485800795096" expanded="true" signature="1355:1424" ph="select COUNT... PedidoDMTRIX" />
-                <marker date="1485800795096" expanded="true" signature="1585:1668" ph="update Compr... " />
-                <marker date="1485800795096" expanded="true" signature="1585:1669" ph="select COUNT... PedidoDMTRIX" />
-                <marker date="1485800795096" expanded="true" signature="2042:2659" ph="select (sele... " />
-                <marker date="1485800795096" expanded="true" signature="2050:2114" ph="select COUNT... PedidoDMTRIX" />
-                <marker date="1485800795096" expanded="true" signature="2138:2204" ph="select COUNT... PedidoDMTRIX" />
-                <marker date="1485800795096" expanded="true" signature="2231:2296" ph="select COUNT... PedidoDMTRIX" />
-                <marker date="1485800795096" expanded="true" signature="2325:2389" ph="select COUNT... PedidoDMTRIX" />
-                <marker date="1485800795096" expanded="true" signature="2418:2503" ph="select COUNT... PedidoDMTRIX" />
-                <marker date="1485800795096" expanded="true" signature="2533:2640" ph="select COUNT... PedidoDMTRIX" />
-                <marker date="1485800795096" expanded="true" signature="2699:2706" ph="select top 1... historicoObs" />
-                <marker date="1485800795096" expanded="true" signature="2699:2998" ph="select top 1... historicoObs" />
-                <marker date="1485800795096" expanded="true" signature="3158:3288" ph="select idHis... " />
-                <marker date="1485800795096" expanded="true" signature="3858:3865" ph="select top 1... ComprasDMTRIX" />
-                <marker date="1485800795096" expanded="true" signature="3858:4311" ph="select top 1... ComprasDMTRIX" />
-                <marker date="1485800795096" expanded="true" signature="4989:5326" ph="select top 1... ComprasDMTRIX" />
-                <marker date="1485800795096" expanded="true" signature="5969:6386" ph="select top 1... historicoObs" />
-                <marker date="1485800795096" expanded="true" signature="5969:6387" ph="select top 1... historicoObs" />
-                <marker date="1485800795096" expanded="true" signature="6642:6772" ph="select idHis... " />
-                <marker date="1485800795096" expanded="true" signature="7691:9483" ph="select COUNT... PedidoDMTRIX" />
-                <marker date="1485800795096" expanded="true" signature="7692:9483" ph="select p.idP... PedidoDMTRIX" />
-                <marker date="1485800795096" expanded="true" signature="8943:9028" ph="select obser... historicoObs" />
-              </folding>
             </state>
           </provider>
         </entry>
@@ -198,29 +60,198 @@
       <file leaf-file-name="master.blade.php" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/resources/views/master.blade.php">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="497">
-              <caret line="93" column="47" selection-start-line="93" selection-start-column="47" selection-end-line="93" selection-end-column="78" />
+            <state relative-caret-position="561">
+              <caret line="198" column="170" selection-start-line="198" selection-start-column="170" selection-end-line="198" selection-end-column="170" />
               <folding />
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="consulta.blade.php" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/resources/views/fornecedores/consulta.blade.php">
+      <file leaf-file-name="module.js" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/public/js/module.js">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="272">
-              <caret line="16" column="0" selection-start-line="16" selection-start-column="0" selection-end-line="16" selection-end-column="0" />
+            <state relative-caret-position="532">
+              <caret line="681" column="37" selection-start-line="681" selection-start-column="37" selection-end-line="681" selection-end-column="65" />
+              <folding>
+                <element signature="e#11032#11944#0" expanded="false" />
+                <element signature="e#12012#12297#0" expanded="false" />
+                <element signature="e#12364#12958#0" expanded="false" />
+                <element signature="e#13063#13590#0" expanded="false" />
+                <element signature="e#13695#15845#0" expanded="false" />
+                <element signature="e#17969#18889#0" expanded="false" />
+                <element signature="e#18968#19298#0" expanded="false" />
+                <element signature="e#19377#20550#0" expanded="false" />
+                <element signature="e#20634#21921#0" expanded="false" />
+                <element signature="e#21999#22920#0" expanded="false" />
+                <element signature="e#22999#23388#0" expanded="false" />
+              </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="PedidosServices.php" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/app/Services/PedidosServices.php">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="321">
+              <caret line="437" column="40" selection-start-line="437" selection-start-column="28" selection-end-line="437" selection-end-column="40" />
+              <folding>
+                <element signature="e#409#3514#0#PHP" expanded="false" />
+                <element signature="e#3524#7929#0#PHP" expanded="false" />
+                <element signature="e#7934#12481#0#PHP" expanded="false" />
+                <element signature="e#12487#16381#0#PHP" expanded="false" />
+                <element signature="e#19685#20563#0#PHP" expanded="false" />
+                <marker date="1485968716464" expanded="true" signature="1013:1174" ph="select m.val... materiaisDMTRIX" />
+                <marker date="1485968716464" expanded="true" signature="1481:1536" ph="update mater... " />
+                <marker date="1485968716464" expanded="true" signature="1481:1542" ph="update mater... " />
+                <marker date="1485968716464" expanded="true" signature="1481:1569" ph="update mater... " />
+                <marker date="1485968716464" expanded="true" signature="1997:2118" ph="insert into " />
+                <marker date="1485968716464" expanded="true" signature="1997:2157" ph="insert into " />
+                <marker date="1485968716464" expanded="true" signature="2284:2539" ph="update Pedid... " />
+                <marker date="1485968716464" expanded="true" signature="2953:3066" ph="update Compr... " />
+                <marker date="1485968716464" expanded="true" signature="3841:3907" ph="select idPed... PedidoDMTRIX" />
+                <marker date="1485968716464" expanded="true" signature="4400:4463" ph="select idPed... tarefasDMTRIX" />
+                <marker date="1485968716464" expanded="true" signature="4938:4976" ph="select nome+... " />
+                <marker date="1485968716464" expanded="true" signature="4938:5024" ph="select nome+... usuariosDMTRIX" />
+                <marker date="1485968716464" expanded="true" signature="5134:5249" ph="update Compr... " />
+                <marker date="1485968716464" expanded="true" signature="5300:5398" ph="update Pedid... " />
+                <marker date="1485968716464" expanded="true" signature="5449:5578" ph="insert into tarefasDMTRIX... " />
+                <marker date="1485968716464" expanded="true" signature="6075:6138" ph="select idPed... tarefasDMTRIX" />
+                <marker date="1485968716464" expanded="true" signature="6527:6642" ph="update Compr... " />
+                <marker date="1485968716464" expanded="true" signature="6689:6785" ph="update Pedid... " />
+                <marker date="1485968716464" expanded="true" signature="6832:6935" ph="insert into tarefasDMTRIX... " />
+                <marker date="1485968716464" expanded="true" signature="8192:8341" ph="select p.idP... PedidoDMTRIX" />
+                <marker date="1485968716464" expanded="true" signature="9060:9123" ph="select idPed... tarefasDMTRIX" />
+                <marker date="1485968716464" expanded="true" signature="9277:9359" ph="select nome+... usuariosDMTRIX" />
+                <marker date="1485968716464" expanded="true" signature="9477:9584" ph="update Compr... " />
+                <marker date="1485968716464" expanded="true" signature="9639:9737" ph="update Pedid... " />
+                <marker date="1485968716464" expanded="true" signature="9792:9830" ph="update taref... " />
+                <marker date="1485968716464" expanded="true" signature="9792:9946" ph="insert into tarefasDMTRIX... " />
+                <marker date="1485968716464" expanded="true" signature="10317:10399" ph="select nome+... usuariosDMTRIX" />
+                <marker date="1485968716464" expanded="true" signature="10518:10542" ph="update Pedid... " />
+                <marker date="1485968716464" expanded="true" signature="10518:10614" ph="update Pedid... " />
+                <marker date="1485968716464" expanded="true" signature="10518:10616" ph="update Pedid... " />
+                <marker date="1485968716464" expanded="true" signature="10518:10668" ph="update Pedid... " />
+                <marker date="1485968716464" expanded="true" signature="10669:10795" ph="insert into tarefasDMTRIX... " />
+                <marker date="1485968716464" expanded="true" signature="10850:10957" ph="update Compr... " />
+                <marker date="1485968716464" expanded="true" signature="12561:12762" ph="select idPed... PedidoDMTRIX" />
+                <marker date="1485968716464" expanded="true" signature="13124:13222" ph="select top 1... historicoObs" />
+                <marker date="1485968716464" expanded="true" signature="13512:13580" ph="select * fro... pedidosExpirados" />
+                <marker date="1485968716464" expanded="true" signature="13677:13789" ph="insert into dmtrixII.pedidosExpirados... " />
+                <marker date="1485968716464" expanded="true" signature="15315:15547" ph="select disti... tarefasDMTRIX" />
+                <marker date="1485968716464" expanded="true" signature="16554:16801" ph="select p.idC... pedidosExpirados" />
+                <marker date="1485968716464" expanded="true" signature="16983:17103" ph="select * fro... PedidoDMTRIX" />
+                <marker date="1485968716464" expanded="true" signature="17139:17190" ph="update Pedid... " />
+                <marker date="1485968716464" expanded="true" signature="17139:17210" ph="update Pedid... " />
+                <marker date="1485968716464" expanded="true" signature="17612:17693" ph="update Compr... " />
+                <marker date="1485968716464" expanded="true" signature="18327:18439" ph="insert into dmtrixII.pedidosExpirados... " />
+                <marker date="1485968716464" expanded="true" signature="19776:19998" ph="select (sele... PedidoDMTRIX" />
+                <marker date="1485968716464" expanded="true" signature="19784:19856" ph="select statu... pedidosExpirados" />
+              </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="atualizacao-custo-detalhes.blade.php" pinned="false" current-in-tab="true">
+        <entry file="file://$PROJECT_DIR$/resources/views/pedidos/atualizacao-custo-detalhes.blade.php">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="714">
+              <caret line="130" column="50" selection-start-line="130" selection-start-column="50" selection-end-line="130" selection-end-column="50" />
               <folding />
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="revisao-interna.blade.php" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/resources/views/producao/revisao-interna.blade.php">
+      <file leaf-file-name="avaliacao-trade.blade.php" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/resources/views/pedidos/avaliacao-trade.blade.php">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="272">
-              <caret line="16" column="88" selection-start-line="16" selection-start-column="88" selection-end-line="16" selection-end-column="88" />
+            <state relative-caret-position="0">
+              <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
               <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="Services.php" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/app/Services/Services.php">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="536">
+              <caret line="275" column="36" selection-start-line="275" selection-start-column="36" selection-end-line="275" selection-end-column="36" />
+              <folding>
+                <marker date="1485967437016" expanded="true" signature="1187:1277" ph="select COUNT... PedidoDMTRIX" />
+                <marker date="1485967437016" expanded="true" signature="1187:1286" ph="select COUNT... PedidoDMTRIX" />
+                <marker date="1485967437016" expanded="true" signature="1355:1424" ph="select COUNT... PedidoDMTRIX" />
+                <marker date="1485967437016" expanded="true" signature="1585:1668" ph="update Compr... " />
+                <marker date="1485967437016" expanded="true" signature="1585:1669" ph="select COUNT... PedidoDMTRIX" />
+                <marker date="1485967437016" expanded="true" signature="2042:2750" ph="select (sele... " />
+                <marker date="1485967437016" expanded="true" signature="2050:2114" ph="select COUNT... PedidoDMTRIX" />
+                <marker date="1485967437016" expanded="true" signature="2138:2204" ph="select COUNT... PedidoDMTRIX" />
+                <marker date="1485967437016" expanded="true" signature="2231:2296" ph="select COUNT... PedidoDMTRIX" />
+                <marker date="1485967437016" expanded="true" signature="2325:2389" ph="select COUNT... PedidoDMTRIX" />
+                <marker date="1485967437016" expanded="true" signature="2418:2503" ph="select COUNT... PedidoDMTRIX" />
+                <marker date="1485967437016" expanded="true" signature="2533:2598" ph="select COUNT... PedidoDMTRIX" />
+                <marker date="1485967437016" expanded="true" signature="2624:2731" ph="select COUNT... PedidoDMTRIX" />
+                <marker date="1485967437016" expanded="true" signature="2790:2797" ph="select top 1... historicoObs" />
+                <marker date="1485967437016" expanded="true" signature="2790:3089" ph="select top 1... historicoObs" />
+                <marker date="1485967437016" expanded="true" signature="3249:3379" ph="select idHis... " />
+                <marker date="1485967437016" expanded="true" signature="3979:3986" ph="select top 1... ComprasDMTRIX" />
+                <marker date="1485967437016" expanded="true" signature="3979:4432" ph="select top 1... ComprasDMTRIX" />
+                <marker date="1485967437016" expanded="true" signature="5110:5447" ph="select top 1... ComprasDMTRIX" />
+                <marker date="1485967437016" expanded="true" signature="6090:6507" ph="select top 1... historicoObs" />
+                <marker date="1485967437016" expanded="true" signature="6090:6508" ph="select top 1... historicoObs" />
+                <marker date="1485967437016" expanded="true" signature="6763:6893" ph="select idHis... " />
+                <marker date="1485967437016" expanded="true" signature="7812:9700" ph="select COUNT... PedidoDMTRIX" />
+                <marker date="1485967437016" expanded="true" signature="7813:9700" ph="select p.idP... PedidoDMTRIX" />
+                <marker date="1485967437016" expanded="true" signature="9097:9182" ph="select obser... historicoObs" />
+              </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="PedidosController.php" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/app/Http/Controllers/PedidosController.php">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="713">
+              <caret line="308" column="17" selection-start-line="308" selection-start-column="17" selection-end-line="308" selection-end-column="17" />
+              <folding>
+                <element signature="e#640#3029#0#PHP" expanded="false" />
+                <element signature="e#3035#11072#0#PHP" expanded="false" />
+                <element signature="e#13522#16572#0#PHP" expanded="false" />
+                <element signature="e#16582#16791#0#PHP" expanded="false" />
+                <element signature="e#16801#18655#0#PHP" expanded="false" />
+                <element signature="e#18665#18861#0#PHP" expanded="false" />
+                <element signature="e#18866#19066#0#PHP" expanded="false" />
+                <element signature="e#19082#20515#0#PHP" expanded="false" />
+                <marker date="1485978796581" expanded="true" signature="735:2130" ph="select top 1... ComprasDMTRIX" />
+                <marker date="1485978796581" expanded="true" signature="1019:1109" ph="select COUNT... PedidoDMTRIX" />
+                <marker date="1485978796581" expanded="true" signature="1135:1227" ph="select COUNT... PedidoDMTRIX" />
+                <marker date="1485978796581" expanded="true" signature="1253:1344" ph="select COUNT... PedidoDMTRIX" />
+                <marker date="1485978796581" expanded="true" signature="1372:1462" ph="select COUNT... PedidoDMTRIX" />
+                <marker date="1485978796581" expanded="true" signature="1491:1582" ph="select COUNT... PedidoDMTRIX" />
+                <marker date="1485978796581" expanded="true" signature="1611:1702" ph="select COUNT... PedidoDMTRIX" />
+                <marker date="1485978796581" expanded="true" signature="1731:1821" ph="select COUNT... PedidoDMTRIX" />
+                <marker date="1485978796581" expanded="true" signature="1849:1917" ph="select COUNT... PedidoDMTRIX" />
+                <marker date="1485978796581" expanded="true" signature="3147:3413" ph="select h.id,... historicoObs" />
+                <marker date="1485978796581" expanded="true" signature="3675:3789" ph="select idHis... controleMensagens" />
+                <marker date="1485978796581" expanded="true" signature="3898:4023" ph="insert into dmtrixII.controleMensagens... " />
+                <marker date="1485978796581" expanded="true" signature="4706:5435" ph="select disti... ComprasDMTRIX" />
+                <marker date="1485978796581" expanded="true" signature="5479:5613" ph="select u.idU... criacaoDMTRIX" />
+                <marker date="1485978796581" expanded="true" signature="7015:8859" ph="select p.idP... PedidoDMTRIX" />
+                <marker date="1485978796581" expanded="true" signature="8319:8404" ph="select obser... historicoObs" />
+                <marker date="1485978796581" expanded="true" signature="9357:9440" ph="select * fro... pedidosExpirados" />
+                <marker date="1485978796581" expanded="true" signature="11754:12097" ph="select disti... ComprasDMTRIX" />
+                <marker date="1485978796581" expanded="true" signature="12589:12673" ph="select idCom... PedidoDMTRIX" />
+                <marker date="1485978796581" expanded="true" signature="13608:14233" ph="select p.cus... PedidoDMTRIX" />
+                <marker date="1485978796581" expanded="true" signature="16879:17345" ph="select disti... PedidoDMTRIX" />
+                <marker date="1485978796581" expanded="true" signature="17567:17689" ph="select m.mat... PedidoDMTRIX" />
+                <marker date="1485978796581" expanded="true" signature="19151:19846" ph="select disti... pedidosExpirados" />
+                <marker date="1485978796581" expanded="true" signature="19437:19513" ph="select nome usuariosDMTRIX" />
+                <marker date="1485978796581" expanded="true" signature="21084:21344" ph="select p.val... ControleAprovacoesDMTRIX" />
+                <marker date="1485978796581" expanded="true" signature="21909:21996" ph="update usuar... " />
+                <marker date="1485978796581" expanded="true" signature="22035:22123" ph="update usuar... " />
+                <marker date="1485978796581" expanded="true" signature="22162:22373" ph="insert into movimentacaoDMTRIX... " />
+                <marker date="1485978796581" expanded="true" signature="22452:22514" ph="select idPed... PedidoDMTRIX" />
+                <marker date="1485978796581" expanded="true" signature="22750:22820" ph="update Pedid... " />
+              </folding>
             </state>
           </provider>
         </entry>
@@ -270,14 +301,12 @@
         <option value="I:/AGENCIA DMTRADE/INSTITUCIONAL/Produtos Financeiros/Eco Fatura - Wallpaper/E-MKT GERAL/Ecofatura Boleto/FATURA-BOLETO ANTIFRAUDE/FATURA BOLETO ANTIFRAUDE.html" />
         <option value="$PROJECT_DIR$/resources/views/pedidos/atualizacao-custo.blade.php" />
         <option value="$PROJECT_DIR$/resources/views/pedidos/custo-delegar.blade.php" />
-        <option value="$PROJECT_DIR$/resources/views/home/home.blade.php" />
         <option value="$PROJECT_DIR$/resources/views/emails/aprovacaoArte.blade.php" />
         <option value="$PROJECT_DIR$/config/filesystems.php" />
         <option value="$PROJECT_DIR$/teste.html" />
         <option value="$PROJECT_DIR$/app/Http/Controllers/FornecedorController.php" />
         <option value="$PROJECT_DIR$/resources/views/fornecedores/detalhesCompra.blade.php" />
         <option value="I:/AGENCIA DMTRADE/INSTITUCIONAL/Sites e Hotsites/Aplicativo DMCard/Comunicação APP/Email marketing/Código de ativação/EMKT_código-de-ativação.html" />
-        <option value="$PROJECT_DIR$/resources/views/pedidos/custo-aprovado.blade.php" />
         <option value="$PROJECT_DIR$/config/config.php" />
         <option value="$PROJECT_DIR$/app/Http/Controllers/ProducaoController.php" />
         <option value="$PROJECT_DIR$/resources/views/producao/aprovacao-arte.blade.php" />
@@ -285,19 +314,21 @@
         <option value="$PROJECT_DIR$/resources/views/pedidos/todos-pedidos.blade.php" />
         <option value="$PROJECT_DIR$/app/Services/ProducaoServices.php" />
         <option value="$PROJECT_DIR$/app/Services/FornecedorServices.php" />
-        <option value="$PROJECT_DIR$/app/Services/PedidosServices.php" />
         <option value="$PROJECT_DIR$/public/css/style.css" />
-        <option value="$PROJECT_DIR$/resources/views/pedidos/detalhes-pedido.blade.php" />
-        <option value="$PROJECT_DIR$/app/Http/routes.php" />
-        <option value="$PROJECT_DIR$/resources/views/pedidos/atualizacao-custo-detalhes.blade.php" />
-        <option value="$PROJECT_DIR$/resources/views/master.blade.php" />
         <option value="$PROJECT_DIR$/resources/views/fornecedores/consulta.blade.php" />
         <option value="$PROJECT_DIR$/resources/views/producao/revisao-interna.blade.php" />
-        <option value="$PROJECT_DIR$/public/js/module.js" />
         <option value="$PROJECT_DIR$/app/Http/Controllers/HistoricoController.php" />
-        <option value="$PROJECT_DIR$/app/Http/Controllers/PedidosController.php" />
         <option value="$PROJECT_DIR$/resources/views/pedidos/mensagens.blade.php" />
+        <option value="$PROJECT_DIR$/resources/views/home/home.blade.php" />
+        <option value="$PROJECT_DIR$/resources/views/pedidos/custo-aprovado.blade.php" />
+        <option value="$PROJECT_DIR$/public/js/module.js" />
+        <option value="$PROJECT_DIR$/resources/views/pedidos/detalhes-pedido.blade.php" />
+        <option value="$PROJECT_DIR$/resources/views/master.blade.php" />
         <option value="$PROJECT_DIR$/app/Services/Services.php" />
+        <option value="$PROJECT_DIR$/app/Services/PedidosServices.php" />
+        <option value="$PROJECT_DIR$/app/Http/routes.php" />
+        <option value="$PROJECT_DIR$/resources/views/pedidos/atualizacao-custo-detalhes.blade.php" />
+        <option value="$PROJECT_DIR$/app/Http/Controllers/PedidosController.php" />
       </list>
     </option>
   </component>
@@ -348,8 +379,8 @@
       <foldersAlwaysOnTop value="true" />
     </navigator>
     <panes>
-      <pane id="Scratches" />
       <pane id="Scope" />
+      <pane id="Scratches" />
       <pane id="ProjectPane">
         <subPane>
           <PATH>
@@ -421,18 +452,12 @@
               <option name="myItemId" value="resources" />
               <option name="myItemType" value="com.jetbrains.php.projectView.PhpTreeStructureProvider$1" />
             </PATH_ELEMENT>
-          </PATH>
-          <PATH>
             <PATH_ELEMENT>
-              <option name="myItemId" value="laravel" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="DMTRIX2.0" />
+              <option name="myItemId" value="views" />
               <option name="myItemType" value="com.jetbrains.php.projectView.PhpTreeStructureProvider$1" />
             </PATH_ELEMENT>
             <PATH_ELEMENT>
-              <option name="myItemId" value="app" />
+              <option name="myItemId" value="emails" />
               <option name="myItemType" value="com.jetbrains.php.projectView.PhpTreeStructureProvider$1" />
             </PATH_ELEMENT>
           </PATH>
@@ -446,11 +471,21 @@
               <option name="myItemType" value="com.jetbrains.php.projectView.PhpTreeStructureProvider$1" />
             </PATH_ELEMENT>
             <PATH_ELEMENT>
-              <option name="myItemId" value="app" />
+              <option name="myItemId" value="resources" />
+              <option name="myItemType" value="com.jetbrains.php.projectView.PhpTreeStructureProvider$1" />
+            </PATH_ELEMENT>
+          </PATH>
+          <PATH>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="laravel" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="DMTRIX2.0" />
               <option name="myItemType" value="com.jetbrains.php.projectView.PhpTreeStructureProvider$1" />
             </PATH_ELEMENT>
             <PATH_ELEMENT>
-              <option name="myItemId" value="Services" />
+              <option name="myItemId" value="app" />
               <option name="myItemType" value="com.jetbrains.php.projectView.PhpTreeStructureProvider$1" />
             </PATH_ELEMENT>
           </PATH>
@@ -499,11 +534,11 @@
     </panes>
   </component>
   <component name="PropertiesComponent">
-    <property name="last_opened_file_path" value="$PROJECT_DIR$/../dmtrix" />
+    <property name="last_opened_file_path" value="$PROJECT_DIR$/../gerador-assinatura" />
     <property name="WebServerToolWindowFactoryState" value="true" />
     <property name="settings.editor.selected.configurable" value="reference.webide.settings.project.settings.php" />
     <property name="settings.editor.splitter.proportion" value="0.2" />
-    <property name="SearchEverywhereHistoryKey" value="modu&#9;FILE&#9;file://C:/wamp64/www/DMTRIX2.0/public/js/module.js&#10;FORNE&#9;FILE&#9;file://C:/wamp64/www/DMTRIX2.0/app/Http/Controllers/FornecedorController.php&#10;pedi&#9;FILE&#9;file://C:/wamp64/www/DMTRIX2.0/app/Services/PedidosServices.php&#10;forn&#9;FILE&#9;file://C:/wamp64/www/DMTRIX2.0/app/Services/FornecedorServices.php&#10;ed&#9;FILE&#9;file://C:/wamp64/www/DMTRIX2.0/resources/views/fornecedores/editFornecedor.blade.php&#10;produ&#9;FILE&#9;file://C:/wamp64/www/DMTRIX2.0/app/Http/Controllers/ProducaoController.php&#10;pro&#9;FILE&#9;file://C:/wamp64/www/DMTRIX2.0/app/Services/ProducaoServices.php&#10;sty&#9;FILE&#9;file://C:/wamp64/www/DMTRIX2.0/public/css/style.css&#10;ter&#9;ACTION&#9;ActivateTerminalToolWindow&#10;route.php&#9;FILE&#9;file://C:/wamp64/www/DMTRIX2.0/app/Http/routes.php&#10;terminal&#9;ACTION&#9;ActivateTerminalToolWindow&#10;termi&#9;ACTION&#9;ActivateTerminalToolWindow&#10;show li&#9;null&#9;null&#10;line&#9;ACTION&#9;EditorToggleShowLineNumbers" />
+    <property name="SearchEverywhereHistoryKey" value="route&#9;FILE&#9;file://C:/wamp64/www/DMTRIX2.0/app/Http/routes.php&#10;modu&#9;FILE&#9;file://C:/wamp64/www/DMTRIX2.0/public/js/module.js&#10;FORNE&#9;FILE&#9;file://C:/wamp64/www/DMTRIX2.0/app/Http/Controllers/FornecedorController.php&#10;pedi&#9;FILE&#9;file://C:/wamp64/www/DMTRIX2.0/app/Services/PedidosServices.php&#10;forn&#9;FILE&#9;file://C:/wamp64/www/DMTRIX2.0/app/Services/FornecedorServices.php&#10;ed&#9;FILE&#9;file://C:/wamp64/www/DMTRIX2.0/resources/views/fornecedores/editFornecedor.blade.php&#10;produ&#9;FILE&#9;file://C:/wamp64/www/DMTRIX2.0/app/Http/Controllers/ProducaoController.php&#10;pro&#9;FILE&#9;file://C:/wamp64/www/DMTRIX2.0/app/Services/ProducaoServices.php&#10;sty&#9;FILE&#9;file://C:/wamp64/www/DMTRIX2.0/public/css/style.css&#10;ter&#9;ACTION&#9;ActivateTerminalToolWindow&#10;route.php&#9;FILE&#9;file://C:/wamp64/www/DMTRIX2.0/app/Http/routes.php&#10;terminal&#9;ACTION&#9;ActivateTerminalToolWindow&#10;termi&#9;ACTION&#9;ActivateTerminalToolWindow&#10;show li&#9;null&#9;null&#10;line&#9;ACTION&#9;EditorToggleShowLineNumbers" />
     <property name="list.type.of.created.stylesheet" value="CSS" />
     <property name="js-jscs-nodeInterpreter" value="C:\Program Files\nodejs\node.exe" />
     <property name="DefaultHtmlFileTemplate" value="HTML File" />
@@ -692,12 +727,14 @@
       <workItem from="1485338530523" duration="13521000" />
       <workItem from="1485425200261" duration="17199000" />
       <workItem from="1485510778293" duration="21856000" />
-      <workItem from="1485769653648" duration="16912000" />
+      <workItem from="1485769653648" duration="18943000" />
+      <workItem from="1485855871433" duration="17997000" />
+      <workItem from="1485943919864" duration="18615000" />
     </task>
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="1207661000" />
+    <option name="totallyTimeSpent" value="1246304000" />
   </component>
   <component name="ToolWindowManager">
     <frame x="0" y="0" width="1920" height="1040" extended-state="0" />
@@ -763,32 +800,11 @@
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
-      <option name="time" value="58" />
+      <option name="time" value="63" />
     </breakpoint-manager>
     <watches-manager />
   </component>
   <component name="editorHistoryManager">
-    <entry file="file://$PROJECT_DIR$/public/css/estilo.css">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="-1250">
-          <caret line="8" column="9" selection-start-line="8" selection-start-column="7" selection-end-line="8" selection-end-column="9" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/public/css/timeline.css">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="-1896">
-          <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/public/css/to-do.css">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="-1063">
-          <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/public/js/common-scripts.js">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="527">
@@ -821,13 +837,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="408">
           <caret line="64" column="55" selection-start-line="64" selection-start-column="55" selection-end-line="64" selection-end-column="55" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/resources/views/home/home.blade.php">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="238">
-          <caret line="14" column="32" selection-start-line="14" selection-start-column="32" selection-end-line="14" selection-end-column="32" />
         </state>
       </provider>
     </entry>
@@ -873,13 +882,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="723">
           <caret line="84" column="0" selection-start-line="84" selection-start-column="0" selection-end-line="84" selection-end-column="20" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/resources/views/emails/aprovacaoArte.blade.php">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="102">
-          <caret line="6" column="203" selection-start-line="6" selection-start-column="203" selection-end-line="6" selection-end-column="203" />
         </state>
       </provider>
     </entry>
@@ -955,56 +957,10 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/resources/views/pedidos/custo-aprovado.blade.php">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="119">
-          <caret line="7" column="4" selection-start-line="7" selection-start-column="4" selection-end-line="11" selection-end-column="10" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/app/Http/Controllers/FornecedorController.php">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="460">
-          <caret line="376" column="96" selection-start-line="376" selection-start-column="96" selection-end-line="376" selection-end-column="96" />
-          <folding>
-            <element signature="e#408#494#0#PHP" expanded="false" />
-            <element signature="e#500#2758#0#PHP" expanded="false" />
-            <element signature="e#2768#3300#0#PHP" expanded="false" />
-            <element signature="e#3306#3945#0#PHP" expanded="false" />
-            <element signature="e#3952#4038#0#PHP" expanded="false" />
-            <element signature="e#4045#6010#0#PHP" expanded="false" />
-            <element signature="e#6017#6582#0#PHP" expanded="false" />
-            <element signature="e#6588#8543#0#PHP" expanded="false" />
-            <marker date="1485353111995" expanded="true" signature="1529:1588" ph="select cnpj fornecedores" />
-            <marker date="1485353111995" expanded="true" signature="1656:2034" ph="insert into dmtrixII.fornecedores... " />
-            <marker date="1485353111995" expanded="true" signature="2844:3094" ph="select id,[f... " />
-            <marker date="1485353111995" expanded="true" signature="3367:3457" ph="select id,[f... " />
-            <marker date="1485353111995" expanded="true" signature="5063:5131" ph="update dmtri... " />
-            <marker date="1485353111995" expanded="true" signature="5181:5540" ph="update dmtri... " />
-            <marker date="1485353111995" expanded="true" signature="6088:6138" ph="delete from " />
-            <marker date="1485353111995" expanded="false" signature="6661:7446" ph="select disti... PedidoDMTRIX" />
-            <marker date="1485353111995" expanded="true" signature="6779:6869" ph="select nome+... usuariosDMTRIX" />
-            <marker date="1485353111995" expanded="true" signature="6926:7045" ph="select top 1... historicoObs" />
-            <marker date="1485353111995" expanded="true" signature="8622:9501" ph="select (sele... PedidoDMTRIX" />
-            <marker date="1485353111995" expanded="true" signature="8622:9506" ph="select c.dat... PedidoDMTRIX" />
-            <marker date="1485353111995" expanded="true" signature="9552:9594" ph="select razao... fornecedores" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/resources/views/producao/aprovacao-arte.blade.php">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="714">
           <caret line="105" column="40" selection-start-line="105" selection-start-column="40" selection-end-line="105" selection-end-column="40" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/app/Http/Controllers/ProducaoController.php">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="255">
-          <caret line="55" column="57" selection-start-line="55" selection-start-column="57" selection-end-line="55" selection-end-column="57" />
-          <folding />
         </state>
       </provider>
     </entry>
@@ -1081,68 +1037,83 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/app/Services/PedidosServices.php">
+    <entry file="file://$PROJECT_DIR$/resources/views/fornecedores/consulta.blade.php">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="731">
-          <caret line="546" column="5" selection-start-line="546" selection-start-column="5" selection-end-line="546" selection-end-column="5" />
+        <state relative-caret-position="272">
+          <caret line="16" column="0" selection-start-line="16" selection-start-column="0" selection-end-line="16" selection-end-column="0" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/resources/views/pedidos/todos-pedidos.blade.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="595">
+          <caret line="35" column="16" selection-start-line="35" selection-start-column="16" selection-end-line="35" selection-end-column="109" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/resources/views/pedidos/mensagens.blade.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="204">
+          <caret line="12" column="100" selection-start-line="12" selection-start-column="100" selection-end-line="12" selection-end-column="100" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/app/Http/Controllers/HistoricoController.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="595">
+          <caret line="39" column="7" selection-start-line="39" selection-start-column="7" selection-end-line="40" selection-end-column="34" />
           <folding>
-            <element signature="e#33#78#0#PHP" expanded="false" />
-            <element signature="e#409#2896#0#PHP" expanded="false" />
-            <element signature="e#2906#7364#0#PHP" expanded="false" />
-            <element signature="e#7369#11916#0#PHP" expanded="false" />
-            <element signature="e#11922#15816#0#PHP" expanded="false" />
-            <element signature="e#15822#18746#0#PHP" expanded="false" />
-            <element signature="e#18756#19634#0#PHP" expanded="false" />
-            <marker date="1485536514481" expanded="true" signature="1013:1149" ph="select m.val... materiaisDMTRIX" />
-            <marker date="1485536514481" expanded="true" signature="1666:1921" ph="update Pedid... " />
-            <marker date="1485536514481" expanded="true" signature="2335:2448" ph="update Compr... " />
-            <marker date="1485536514481" expanded="true" signature="3219:3285" ph="select idPed... PedidoDMTRIX" />
-            <marker date="1485536514481" expanded="true" signature="3698:3761" ph="select idPed... tarefasDMTRIX" />
-            <marker date="1485536514481" expanded="true" signature="4236:4274" ph="select nome+... " />
-            <marker date="1485536514481" expanded="true" signature="4236:4322" ph="select nome+... usuariosDMTRIX" />
-            <marker date="1485536514481" expanded="true" signature="4432:4547" ph="update Compr... " />
-            <marker date="1485536514481" expanded="true" signature="4598:4700" ph="update Pedid... " />
-            <marker date="1485536514481" expanded="true" signature="4751:4880" ph="insert into tarefasDMTRIX... " />
-            <marker date="1485536514481" expanded="true" signature="5377:5440" ph="select idPed... tarefasDMTRIX" />
-            <marker date="1485536514481" expanded="true" signature="5829:5944" ph="update Compr... " />
-            <marker date="1485536514481" expanded="true" signature="5991:6091" ph="update Pedid... " />
-            <marker date="1485536514481" expanded="true" signature="6138:6241" ph="insert into tarefasDMTRIX... " />
-            <marker date="1485536514481" expanded="true" signature="7627:7776" ph="select p.idP... PedidoDMTRIX" />
-            <marker date="1485536514481" expanded="true" signature="8495:8558" ph="select idPed... tarefasDMTRIX" />
-            <marker date="1485536514481" expanded="true" signature="8712:8794" ph="select nome+... usuariosDMTRIX" />
-            <marker date="1485536514481" expanded="true" signature="8912:9019" ph="update Compr... " />
-            <marker date="1485536514481" expanded="true" signature="9074:9172" ph="update Pedid... " />
-            <marker date="1485536514481" expanded="true" signature="9227:9265" ph="update taref... " />
-            <marker date="1485536514481" expanded="true" signature="9227:9381" ph="insert into tarefasDMTRIX... " />
-            <marker date="1485536514481" expanded="true" signature="9752:9834" ph="select nome+... usuariosDMTRIX" />
-            <marker date="1485536514481" expanded="true" signature="9953:9977" ph="update Pedid... " />
-            <marker date="1485536514481" expanded="true" signature="9953:10049" ph="update Pedid... " />
-            <marker date="1485536514481" expanded="true" signature="9953:10051" ph="update Pedid... " />
-            <marker date="1485536514481" expanded="true" signature="9953:10103" ph="update Pedid... " />
-            <marker date="1485536514481" expanded="true" signature="10104:10230" ph="insert into tarefasDMTRIX... " />
-            <marker date="1485536514481" expanded="true" signature="10285:10392" ph="update Compr... " />
-            <marker date="1485536514481" expanded="true" signature="11996:12197" ph="select idPed... PedidoDMTRIX" />
-            <marker date="1485536514481" expanded="true" signature="12559:12657" ph="select top 1... historicoObs" />
-            <marker date="1485536514481" expanded="true" signature="12947:13015" ph="select * fro... pedidosExpirados" />
-            <marker date="1485536514481" expanded="true" signature="13112:13224" ph="insert into dmtrixII.pedidosExpirados... " />
-            <marker date="1485536514481" expanded="true" signature="14750:14982" ph="select disti... tarefasDMTRIX" />
-            <marker date="1485536514481" expanded="true" signature="15906:16153" ph="select p.idC... pedidosExpirados" />
-            <marker date="1485536514481" expanded="true" signature="16335:16455" ph="select * fro... PedidoDMTRIX" />
-            <marker date="1485536514481" expanded="true" signature="16858:16939" ph="update Compr... " />
-            <marker date="1485536514481" expanded="true" signature="17347:17459" ph="insert into dmtrixII.pedidosExpirados... " />
-            <marker date="1485536514481" expanded="true" signature="18847:19069" ph="select (sele... PedidoDMTRIX" />
-            <marker date="1485536514481" expanded="true" signature="18855:18927" ph="select statu... pedidosExpirados" />
+            <element signature="e#40#66#0#PHP" expanded="false" />
+            <marker date="1485795490305" expanded="true" signature="429:484" ph="select idPed... PedidoDMTRIX" />
+            <marker date="1485795490305" expanded="true" signature="901:1045" ph="insert into dmtrixII.historicoObs... " />
+            <marker date="1485795490305" expanded="true" signature="1454:1604" ph="insert into dmtrixII.historicoObsCompras... " />
           </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/app/Http/Controllers/FornecedorController.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="403">
+          <caret line="376" column="96" selection-start-line="376" selection-start-column="96" selection-end-line="376" selection-end-column="96" />
+          <folding>
+            <element signature="e#408#494#0#PHP" expanded="false" />
+            <element signature="e#500#2758#0#PHP" expanded="false" />
+            <element signature="e#2768#3300#0#PHP" expanded="false" />
+            <element signature="e#3306#3945#0#PHP" expanded="false" />
+            <element signature="e#3952#4038#0#PHP" expanded="false" />
+            <element signature="e#4045#6010#0#PHP" expanded="false" />
+            <element signature="e#6017#6582#0#PHP" expanded="false" />
+            <element signature="e#6588#8543#0#PHP" expanded="false" />
+            <marker date="1485353111995" expanded="true" signature="1529:1588" ph="select cnpj fornecedores" />
+            <marker date="1485353111995" expanded="true" signature="1656:2034" ph="insert into dmtrixII.fornecedores... " />
+            <marker date="1485353111995" expanded="true" signature="2844:3094" ph="select id,[f... " />
+            <marker date="1485353111995" expanded="true" signature="3367:3457" ph="select id,[f... " />
+            <marker date="1485353111995" expanded="true" signature="5063:5131" ph="update dmtri... " />
+            <marker date="1485353111995" expanded="true" signature="5181:5540" ph="update dmtri... " />
+            <marker date="1485353111995" expanded="true" signature="6088:6138" ph="delete from " />
+            <marker date="1485353111995" expanded="false" signature="6661:7446" ph="select disti... PedidoDMTRIX" />
+            <marker date="1485353111995" expanded="true" signature="6779:6869" ph="select nome+... usuariosDMTRIX" />
+            <marker date="1485353111995" expanded="true" signature="6926:7045" ph="select top 1... historicoObs" />
+            <marker date="1485353111995" expanded="true" signature="8622:9501" ph="select (sele... PedidoDMTRIX" />
+            <marker date="1485353111995" expanded="true" signature="8622:9506" ph="select c.dat... PedidoDMTRIX" />
+            <marker date="1485353111995" expanded="true" signature="9552:9594" ph="select razao... fornecedores" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/app/Http/Controllers/ProducaoController.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="468">
+          <caret line="55" column="57" selection-start-line="55" selection-start-column="57" selection-end-line="55" selection-end-column="57" />
+          <folding />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/app/Services/FornecedorServices.php">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="1207">
-          <caret line="74" column="43" selection-start-line="74" selection-start-column="43" selection-end-line="74" selection-end-column="43" />
+        <state relative-caret-position="425">
+          <caret line="205" column="44" selection-start-line="205" selection-start-column="44" selection-end-line="205" selection-end-column="44" />
           <folding>
-            <element signature="e#2831#5366#0#PHP" expanded="false" />
-            <element signature="e#5372#7235#0#PHP" expanded="false" />
             <marker date="1485535919229" expanded="true" signature="1279:1359" ph="select idPed... dmtrixII." />
             <marker date="1485535919229" expanded="true" signature="1441:1556" ph="insert into dmtrixII.... " />
             <marker date="1485535919229" expanded="true" signature="1607:1743" ph="insert into dmtrixII.... " />
@@ -1163,71 +1134,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/resources/views/pedidos/detalhes-pedido.blade.php">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="4182">
-          <caret line="246" column="34" selection-start-line="246" selection-start-column="34" selection-end-line="246" selection-end-column="34" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/resources/views/pedidos/atualizacao-custo-detalhes.blade.php">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="221">
-          <caret line="13" column="26" selection-start-line="13" selection-start-column="26" selection-end-line="13" selection-end-column="26" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/resources/views/fornecedores/consulta.blade.php">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="272">
-          <caret line="16" column="0" selection-start-line="16" selection-start-column="0" selection-end-line="16" selection-end-column="0" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/resources/views/master.blade.php">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="497">
-          <caret line="93" column="47" selection-start-line="93" selection-start-column="47" selection-end-line="93" selection-end-column="78" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/app/Http/routes.php">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="459">
-          <caret line="36" column="31" selection-start-line="36" selection-start-column="31" selection-end-line="36" selection-end-column="31" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/public/js/module.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="9452">
-          <caret line="1051" column="18" selection-start-line="1051" selection-start-column="11" selection-end-line="1051" selection-end-column="18" />
-          <folding>
-            <element signature="e#13063#13590#0" expanded="false" />
-            <element signature="e#13695#15832#0" expanded="false" />
-            <element signature="e#15940#17888#0" expanded="false" />
-            <element signature="e#17956#18876#0" expanded="false" />
-            <element signature="e#18955#19285#0" expanded="false" />
-            <element signature="e#19364#20537#0" expanded="false" />
-            <element signature="e#20621#21908#0" expanded="false" />
-            <element signature="e#21986#22907#0" expanded="false" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/resources/views/pedidos/todos-pedidos.blade.php">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="434">
-          <caret line="35" column="16" selection-start-line="35" selection-start-column="16" selection-end-line="35" selection-end-column="109" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/resources/views/producao/revisao-interna.blade.php">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="272">
@@ -1236,111 +1142,244 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/resources/views/pedidos/mensagens.blade.php">
+    <entry file="file://$PROJECT_DIR$/public/js/morris-conf.js">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="102">
-          <caret line="12" column="100" selection-start-line="12" selection-start-column="100" selection-end-line="12" selection-end-column="100" />
+        <state relative-caret-position="459">
+          <caret line="27" column="24" selection-start-line="27" selection-start-column="24" selection-end-line="27" selection-end-column="24" />
           <folding />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/app/Http/Controllers/HistoricoController.php">
+    <entry file="file://$PROJECT_DIR$/resources/views/pedidos/custo-aprovado.blade.php">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="510">
-          <caret line="39" column="7" selection-start-line="39" selection-start-column="7" selection-end-line="40" selection-end-column="34" />
+        <state relative-caret-position="476">
+          <caret line="28" column="29" selection-start-line="28" selection-start-column="29" selection-end-line="28" selection-end-column="29" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/resources/views/home/home.blade.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="782">
+          <caret line="46" column="24" selection-start-line="46" selection-start-column="24" selection-end-line="46" selection-end-column="63" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/public/js/module.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="532">
+          <caret line="681" column="37" selection-start-line="681" selection-start-column="37" selection-end-line="681" selection-end-column="65" />
           <folding>
-            <element signature="e#40#66#0#PHP" expanded="true" />
-            <marker date="1485795490305" expanded="true" signature="429:484" ph="select idPed... PedidoDMTRIX" />
-            <marker date="1485795490305" expanded="true" signature="901:1045" ph="insert into dmtrixII.historicoObs... " />
-            <marker date="1485795490305" expanded="true" signature="1454:1604" ph="insert into dmtrixII.historicoObsCompras... " />
+            <element signature="e#11032#11944#0" expanded="false" />
+            <element signature="e#12012#12297#0" expanded="false" />
+            <element signature="e#12364#12958#0" expanded="false" />
+            <element signature="e#13063#13590#0" expanded="false" />
+            <element signature="e#13695#15845#0" expanded="false" />
+            <element signature="e#17969#18889#0" expanded="false" />
+            <element signature="e#18968#19298#0" expanded="false" />
+            <element signature="e#19377#20550#0" expanded="false" />
+            <element signature="e#20634#21921#0" expanded="false" />
+            <element signature="e#21999#22920#0" expanded="false" />
+            <element signature="e#22999#23388#0" expanded="false" />
           </folding>
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/app/Http/Controllers/PedidosController.php">
+    <entry file="file://$PROJECT_DIR$/resources/views/master.blade.php">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="391">
-          <caret line="74" column="11" selection-start-line="74" selection-start-column="11" selection-end-line="75" selection-end-column="38" />
-          <folding>
-            <element signature="e#505#2863#0#PHP" expanded="false" />
-            <element signature="e#10826#10941#0#PHP" expanded="false" />
-            <element signature="e#11045#11137#0#PHP" expanded="false" />
-            <element signature="e#11147#11264#0#PHP" expanded="false" />
-            <element signature="e#11270#12805#0#PHP" expanded="false" />
-            <element signature="e#12815#15692#0#PHP" expanded="false" />
-            <element signature="e#15702#15911#0#PHP" expanded="false" />
-            <element signature="e#15921#17087#0#PHP" expanded="false" />
-            <element signature="e#17505#17571#0#PHP" expanded="false" />
-            <element signature="e#17581#19014#0#PHP" expanded="false" />
-            <marker date="1485797725122" expanded="true" signature="599:1993" ph="select top 3... ComprasDMTRIX" />
-            <marker date="1485797725122" expanded="true" signature="599:1995" ph="select p.dat... ComprasDMTRIX" />
-            <marker date="1485797725122" expanded="true" signature="884:974" ph="select COUNT... PedidoDMTRIX" />
-            <marker date="1485797725122" expanded="true" signature="1000:1092" ph="select COUNT... PedidoDMTRIX" />
-            <marker date="1485797725122" expanded="true" signature="1118:1209" ph="select COUNT... PedidoDMTRIX" />
-            <marker date="1485797725122" expanded="true" signature="1237:1327" ph="select COUNT... PedidoDMTRIX" />
-            <marker date="1485797725122" expanded="true" signature="1356:1447" ph="select COUNT... PedidoDMTRIX" />
-            <marker date="1485797725122" expanded="true" signature="1476:1567" ph="select COUNT... PedidoDMTRIX" />
-            <marker date="1485797725122" expanded="true" signature="1596:1686" ph="select COUNT... PedidoDMTRIX" />
-            <marker date="1485797725122" expanded="true" signature="1714:1782" ph="select COUNT... PedidoDMTRIX" />
-            <marker date="1485797725122" expanded="true" signature="2981:3223" ph="select h.idC... historicoObsCompras" />
-            <marker date="1485797725122" expanded="true" signature="2981:3247" ph="select p.idC... historicoObs" />
-            <marker date="1485797725122" expanded="true" signature="3509:3559" ph="select idHis... controleMensagens" />
-            <marker date="1485797725122" expanded="true" signature="3509:3594" ph="select idHis... controleMensagens" />
-            <marker date="1485797725122" expanded="true" signature="3509:3623" ph="select idHis... controleMensagens" />
-            <marker date="1485797725122" expanded="true" signature="3732:3857" ph="insert into dmtrixII.controleMensagens... " />
-            <marker date="1485797725122" expanded="true" signature="4540:5252" ph="select disti... ComprasDMTRIX" />
-            <marker date="1485797725122" expanded="true" signature="5296:5430" ph="select u.idU... criacaoDMTRIX" />
-            <marker date="1485797725122" expanded="true" signature="6758:8603" ph="select p.idP... PedidoDMTRIX" />
-            <marker date="1485797725122" expanded="true" signature="6759:8603" ph="select p.idP... PedidoDMTRIX" />
-            <marker date="1485797725122" expanded="true" signature="8063:8148" ph="select obser... historicoObs" />
-            <marker date="1485797725122" expanded="true" signature="8602:8603" ph="select p.idP... PedidoDMTRIX" />
-            <marker date="1485797725122" expanded="true" signature="9101:9157" ph="select * fro... pedidosExpirados" />
-            <marker date="1485797725122" expanded="true" signature="9101:9184" ph="select * fro... pedidosExpirados" />
-            <marker date="1485797725122" expanded="true" signature="11351:11358" ph="select idCom... ComprasDMTRIX" />
-            <marker date="1485797725122" expanded="true" signature="11351:11640" ph="select idCom... ComprasDMTRIX" />
-            <marker date="1485797725122" expanded="true" signature="11351:11682" ph="select disti... ComprasDMTRIX" />
-            <marker date="1485797725122" expanded="true" signature="12899:12900" ph="select p.idC... PedidoDMTRIX" />
-            <marker date="1485797725122" expanded="true" signature="12901:13526" ph="select p.cus... PedidoDMTRIX" />
-            <marker date="1485797725122" expanded="true" signature="16000:16354" ph="select disti... PedidoDMTRIX" />
-            <marker date="1485797725122" expanded="true" signature="16000:16379" ph="select disti... PedidoDMTRIX" />
-            <marker date="1485797725122" expanded="true" signature="17650:18345" ph="select disti... pedidosExpirados" />
-            <marker date="1485797725122" expanded="true" signature="17936:18012" ph="select nome usuariosDMTRIX" />
-          </folding>
+        <state relative-caret-position="561">
+          <caret line="198" column="170" selection-start-line="198" selection-start-column="170" selection-end-line="198" selection-end-column="170" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/resources/views/emails/avisoCancelado.blade.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="0">
+          <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/resources/views/emails/aprovacaoArte.blade.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="102">
+          <caret line="6" column="203" selection-start-line="6" selection-start-column="203" selection-end-line="6" selection-end-column="203" />
+          <folding />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/app/Services/Services.php">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="556">
-          <caret line="117" column="28" selection-start-line="117" selection-start-column="28" selection-end-line="117" selection-end-column="28" />
+        <state relative-caret-position="536">
+          <caret line="275" column="36" selection-start-line="275" selection-start-column="36" selection-end-line="275" selection-end-column="36" />
           <folding>
-            <element signature="e#33#78#0#PHP" expanded="true" />
-            <element signature="e#7558#10565#0#PHP" expanded="false" />
-            <marker date="1485800795096" expanded="true" signature="1187:1277" ph="select COUNT... PedidoDMTRIX" />
-            <marker date="1485800795096" expanded="true" signature="1187:1286" ph="select COUNT... PedidoDMTRIX" />
-            <marker date="1485800795096" expanded="true" signature="1355:1424" ph="select COUNT... PedidoDMTRIX" />
-            <marker date="1485800795096" expanded="true" signature="1585:1668" ph="update Compr... " />
-            <marker date="1485800795096" expanded="true" signature="1585:1669" ph="select COUNT... PedidoDMTRIX" />
-            <marker date="1485800795096" expanded="true" signature="2042:2659" ph="select (sele... " />
-            <marker date="1485800795096" expanded="true" signature="2050:2114" ph="select COUNT... PedidoDMTRIX" />
-            <marker date="1485800795096" expanded="true" signature="2138:2204" ph="select COUNT... PedidoDMTRIX" />
-            <marker date="1485800795096" expanded="true" signature="2231:2296" ph="select COUNT... PedidoDMTRIX" />
-            <marker date="1485800795096" expanded="true" signature="2325:2389" ph="select COUNT... PedidoDMTRIX" />
-            <marker date="1485800795096" expanded="true" signature="2418:2503" ph="select COUNT... PedidoDMTRIX" />
-            <marker date="1485800795096" expanded="true" signature="2533:2640" ph="select COUNT... PedidoDMTRIX" />
-            <marker date="1485800795096" expanded="true" signature="2699:2706" ph="select top 1... historicoObs" />
-            <marker date="1485800795096" expanded="true" signature="2699:2998" ph="select top 1... historicoObs" />
-            <marker date="1485800795096" expanded="true" signature="3158:3288" ph="select idHis... " />
-            <marker date="1485800795096" expanded="true" signature="3858:3865" ph="select top 1... ComprasDMTRIX" />
-            <marker date="1485800795096" expanded="true" signature="3858:4311" ph="select top 1... ComprasDMTRIX" />
-            <marker date="1485800795096" expanded="true" signature="4989:5326" ph="select top 1... ComprasDMTRIX" />
-            <marker date="1485800795096" expanded="true" signature="5969:6386" ph="select top 1... historicoObs" />
-            <marker date="1485800795096" expanded="true" signature="5969:6387" ph="select top 1... historicoObs" />
-            <marker date="1485800795096" expanded="true" signature="6642:6772" ph="select idHis... " />
-            <marker date="1485800795096" expanded="true" signature="7691:9483" ph="select COUNT... PedidoDMTRIX" />
-            <marker date="1485800795096" expanded="true" signature="7692:9483" ph="select p.idP... PedidoDMTRIX" />
-            <marker date="1485800795096" expanded="true" signature="8943:9028" ph="select obser... historicoObs" />
+            <marker date="1485967437016" expanded="true" signature="1187:1277" ph="select COUNT... PedidoDMTRIX" />
+            <marker date="1485967437016" expanded="true" signature="1187:1286" ph="select COUNT... PedidoDMTRIX" />
+            <marker date="1485967437016" expanded="true" signature="1355:1424" ph="select COUNT... PedidoDMTRIX" />
+            <marker date="1485967437016" expanded="true" signature="1585:1668" ph="update Compr... " />
+            <marker date="1485967437016" expanded="true" signature="1585:1669" ph="select COUNT... PedidoDMTRIX" />
+            <marker date="1485967437016" expanded="true" signature="2042:2750" ph="select (sele... " />
+            <marker date="1485967437016" expanded="true" signature="2050:2114" ph="select COUNT... PedidoDMTRIX" />
+            <marker date="1485967437016" expanded="true" signature="2138:2204" ph="select COUNT... PedidoDMTRIX" />
+            <marker date="1485967437016" expanded="true" signature="2231:2296" ph="select COUNT... PedidoDMTRIX" />
+            <marker date="1485967437016" expanded="true" signature="2325:2389" ph="select COUNT... PedidoDMTRIX" />
+            <marker date="1485967437016" expanded="true" signature="2418:2503" ph="select COUNT... PedidoDMTRIX" />
+            <marker date="1485967437016" expanded="true" signature="2533:2598" ph="select COUNT... PedidoDMTRIX" />
+            <marker date="1485967437016" expanded="true" signature="2624:2731" ph="select COUNT... PedidoDMTRIX" />
+            <marker date="1485967437016" expanded="true" signature="2790:2797" ph="select top 1... historicoObs" />
+            <marker date="1485967437016" expanded="true" signature="2790:3089" ph="select top 1... historicoObs" />
+            <marker date="1485967437016" expanded="true" signature="3249:3379" ph="select idHis... " />
+            <marker date="1485967437016" expanded="true" signature="3979:3986" ph="select top 1... ComprasDMTRIX" />
+            <marker date="1485967437016" expanded="true" signature="3979:4432" ph="select top 1... ComprasDMTRIX" />
+            <marker date="1485967437016" expanded="true" signature="5110:5447" ph="select top 1... ComprasDMTRIX" />
+            <marker date="1485967437016" expanded="true" signature="6090:6507" ph="select top 1... historicoObs" />
+            <marker date="1485967437016" expanded="true" signature="6090:6508" ph="select top 1... historicoObs" />
+            <marker date="1485967437016" expanded="true" signature="6763:6893" ph="select idHis... " />
+            <marker date="1485967437016" expanded="true" signature="7812:9700" ph="select COUNT... PedidoDMTRIX" />
+            <marker date="1485967437016" expanded="true" signature="7813:9700" ph="select p.idP... PedidoDMTRIX" />
+            <marker date="1485967437016" expanded="true" signature="9097:9182" ph="select obser... historicoObs" />
           </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/resources/views/pedidos/detalhes-pedido.blade.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="170">
+          <caret line="10" column="16" selection-start-line="10" selection-start-column="16" selection-end-line="25" selection-end-column="36" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/app/Services/PedidosServices.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="321">
+          <caret line="437" column="40" selection-start-line="437" selection-start-column="28" selection-end-line="437" selection-end-column="40" />
+          <folding>
+            <element signature="e#409#3514#0#PHP" expanded="false" />
+            <element signature="e#3524#7929#0#PHP" expanded="false" />
+            <element signature="e#7934#12481#0#PHP" expanded="false" />
+            <element signature="e#12487#16381#0#PHP" expanded="false" />
+            <element signature="e#19685#20563#0#PHP" expanded="false" />
+            <marker date="1485968716464" expanded="true" signature="1013:1174" ph="select m.val... materiaisDMTRIX" />
+            <marker date="1485968716464" expanded="true" signature="1481:1536" ph="update mater... " />
+            <marker date="1485968716464" expanded="true" signature="1481:1542" ph="update mater... " />
+            <marker date="1485968716464" expanded="true" signature="1481:1569" ph="update mater... " />
+            <marker date="1485968716464" expanded="true" signature="1997:2118" ph="insert into " />
+            <marker date="1485968716464" expanded="true" signature="1997:2157" ph="insert into " />
+            <marker date="1485968716464" expanded="true" signature="2284:2539" ph="update Pedid... " />
+            <marker date="1485968716464" expanded="true" signature="2953:3066" ph="update Compr... " />
+            <marker date="1485968716464" expanded="true" signature="3841:3907" ph="select idPed... PedidoDMTRIX" />
+            <marker date="1485968716464" expanded="true" signature="4400:4463" ph="select idPed... tarefasDMTRIX" />
+            <marker date="1485968716464" expanded="true" signature="4938:4976" ph="select nome+... " />
+            <marker date="1485968716464" expanded="true" signature="4938:5024" ph="select nome+... usuariosDMTRIX" />
+            <marker date="1485968716464" expanded="true" signature="5134:5249" ph="update Compr... " />
+            <marker date="1485968716464" expanded="true" signature="5300:5398" ph="update Pedid... " />
+            <marker date="1485968716464" expanded="true" signature="5449:5578" ph="insert into tarefasDMTRIX... " />
+            <marker date="1485968716464" expanded="true" signature="6075:6138" ph="select idPed... tarefasDMTRIX" />
+            <marker date="1485968716464" expanded="true" signature="6527:6642" ph="update Compr... " />
+            <marker date="1485968716464" expanded="true" signature="6689:6785" ph="update Pedid... " />
+            <marker date="1485968716464" expanded="true" signature="6832:6935" ph="insert into tarefasDMTRIX... " />
+            <marker date="1485968716464" expanded="true" signature="8192:8341" ph="select p.idP... PedidoDMTRIX" />
+            <marker date="1485968716464" expanded="true" signature="9060:9123" ph="select idPed... tarefasDMTRIX" />
+            <marker date="1485968716464" expanded="true" signature="9277:9359" ph="select nome+... usuariosDMTRIX" />
+            <marker date="1485968716464" expanded="true" signature="9477:9584" ph="update Compr... " />
+            <marker date="1485968716464" expanded="true" signature="9639:9737" ph="update Pedid... " />
+            <marker date="1485968716464" expanded="true" signature="9792:9830" ph="update taref... " />
+            <marker date="1485968716464" expanded="true" signature="9792:9946" ph="insert into tarefasDMTRIX... " />
+            <marker date="1485968716464" expanded="true" signature="10317:10399" ph="select nome+... usuariosDMTRIX" />
+            <marker date="1485968716464" expanded="true" signature="10518:10542" ph="update Pedid... " />
+            <marker date="1485968716464" expanded="true" signature="10518:10614" ph="update Pedid... " />
+            <marker date="1485968716464" expanded="true" signature="10518:10616" ph="update Pedid... " />
+            <marker date="1485968716464" expanded="true" signature="10518:10668" ph="update Pedid... " />
+            <marker date="1485968716464" expanded="true" signature="10669:10795" ph="insert into tarefasDMTRIX... " />
+            <marker date="1485968716464" expanded="true" signature="10850:10957" ph="update Compr... " />
+            <marker date="1485968716464" expanded="true" signature="12561:12762" ph="select idPed... PedidoDMTRIX" />
+            <marker date="1485968716464" expanded="true" signature="13124:13222" ph="select top 1... historicoObs" />
+            <marker date="1485968716464" expanded="true" signature="13512:13580" ph="select * fro... pedidosExpirados" />
+            <marker date="1485968716464" expanded="true" signature="13677:13789" ph="insert into dmtrixII.pedidosExpirados... " />
+            <marker date="1485968716464" expanded="true" signature="15315:15547" ph="select disti... tarefasDMTRIX" />
+            <marker date="1485968716464" expanded="true" signature="16554:16801" ph="select p.idC... pedidosExpirados" />
+            <marker date="1485968716464" expanded="true" signature="16983:17103" ph="select * fro... PedidoDMTRIX" />
+            <marker date="1485968716464" expanded="true" signature="17139:17190" ph="update Pedid... " />
+            <marker date="1485968716464" expanded="true" signature="17139:17210" ph="update Pedid... " />
+            <marker date="1485968716464" expanded="true" signature="17612:17693" ph="update Compr... " />
+            <marker date="1485968716464" expanded="true" signature="18327:18439" ph="insert into dmtrixII.pedidosExpirados... " />
+            <marker date="1485968716464" expanded="true" signature="19776:19998" ph="select (sele... PedidoDMTRIX" />
+            <marker date="1485968716464" expanded="true" signature="19784:19856" ph="select statu... pedidosExpirados" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/app/Http/routes.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="503">
+          <caret line="60" column="88" selection-start-line="60" selection-start-column="68" selection-end-line="60" selection-end-column="88" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/app/Http/Controllers/PedidosController.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="713">
+          <caret line="308" column="17" selection-start-line="308" selection-start-column="17" selection-end-line="308" selection-end-column="17" />
+          <folding>
+            <element signature="e#640#3029#0#PHP" expanded="false" />
+            <element signature="e#3035#11072#0#PHP" expanded="false" />
+            <element signature="e#13522#16572#0#PHP" expanded="false" />
+            <element signature="e#16582#16791#0#PHP" expanded="false" />
+            <element signature="e#16801#18655#0#PHP" expanded="false" />
+            <element signature="e#18665#18861#0#PHP" expanded="false" />
+            <element signature="e#18866#19066#0#PHP" expanded="false" />
+            <element signature="e#19082#20515#0#PHP" expanded="false" />
+            <marker date="1485978796581" expanded="true" signature="735:2130" ph="select top 1... ComprasDMTRIX" />
+            <marker date="1485978796581" expanded="true" signature="1019:1109" ph="select COUNT... PedidoDMTRIX" />
+            <marker date="1485978796581" expanded="true" signature="1135:1227" ph="select COUNT... PedidoDMTRIX" />
+            <marker date="1485978796581" expanded="true" signature="1253:1344" ph="select COUNT... PedidoDMTRIX" />
+            <marker date="1485978796581" expanded="true" signature="1372:1462" ph="select COUNT... PedidoDMTRIX" />
+            <marker date="1485978796581" expanded="true" signature="1491:1582" ph="select COUNT... PedidoDMTRIX" />
+            <marker date="1485978796581" expanded="true" signature="1611:1702" ph="select COUNT... PedidoDMTRIX" />
+            <marker date="1485978796581" expanded="true" signature="1731:1821" ph="select COUNT... PedidoDMTRIX" />
+            <marker date="1485978796581" expanded="true" signature="1849:1917" ph="select COUNT... PedidoDMTRIX" />
+            <marker date="1485978796581" expanded="true" signature="3147:3413" ph="select h.id,... historicoObs" />
+            <marker date="1485978796581" expanded="true" signature="3675:3789" ph="select idHis... controleMensagens" />
+            <marker date="1485978796581" expanded="true" signature="3898:4023" ph="insert into dmtrixII.controleMensagens... " />
+            <marker date="1485978796581" expanded="true" signature="4706:5435" ph="select disti... ComprasDMTRIX" />
+            <marker date="1485978796581" expanded="true" signature="5479:5613" ph="select u.idU... criacaoDMTRIX" />
+            <marker date="1485978796581" expanded="true" signature="7015:8859" ph="select p.idP... PedidoDMTRIX" />
+            <marker date="1485978796581" expanded="true" signature="8319:8404" ph="select obser... historicoObs" />
+            <marker date="1485978796581" expanded="true" signature="9357:9440" ph="select * fro... pedidosExpirados" />
+            <marker date="1485978796581" expanded="true" signature="11754:12097" ph="select disti... ComprasDMTRIX" />
+            <marker date="1485978796581" expanded="true" signature="12589:12673" ph="select idCom... PedidoDMTRIX" />
+            <marker date="1485978796581" expanded="true" signature="13608:14233" ph="select p.cus... PedidoDMTRIX" />
+            <marker date="1485978796581" expanded="true" signature="16879:17345" ph="select disti... PedidoDMTRIX" />
+            <marker date="1485978796581" expanded="true" signature="17567:17689" ph="select m.mat... PedidoDMTRIX" />
+            <marker date="1485978796581" expanded="true" signature="19151:19846" ph="select disti... pedidosExpirados" />
+            <marker date="1485978796581" expanded="true" signature="19437:19513" ph="select nome usuariosDMTRIX" />
+            <marker date="1485978796581" expanded="true" signature="21084:21344" ph="select p.val... ControleAprovacoesDMTRIX" />
+            <marker date="1485978796581" expanded="true" signature="21909:21996" ph="update usuar... " />
+            <marker date="1485978796581" expanded="true" signature="22035:22123" ph="update usuar... " />
+            <marker date="1485978796581" expanded="true" signature="22162:22373" ph="insert into movimentacaoDMTRIX... " />
+            <marker date="1485978796581" expanded="true" signature="22452:22514" ph="select idPed... PedidoDMTRIX" />
+            <marker date="1485978796581" expanded="true" signature="22750:22820" ph="update Pedid... " />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/resources/views/pedidos/avaliacao-trade.blade.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="0">
+          <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/resources/views/pedidos/atualizacao-custo-detalhes.blade.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="714">
+          <caret line="130" column="50" selection-start-line="130" selection-start-column="50" selection-end-line="130" selection-end-column="50" />
+          <folding />
         </state>
       </provider>
     </entry>

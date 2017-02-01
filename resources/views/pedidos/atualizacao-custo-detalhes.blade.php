@@ -17,6 +17,25 @@
         <p>Forma de Pagamento: <b><% result[0].formaPagamento %></b></p>
         <p>Custeio: <b><% result[0].custeio %></b></p>
     </div>
+    <div class="col-lg-4">
+
+    {!! Form::open(array( 'method' => 'post', 'action' => 'PedidosController@finalizarCompra')) !!}
+
+        {!! Form::hidden('token','<% result[0].idCompra %>') !!}
+        <div class="panel panel-danger">
+            <div class="panel-heading">Deseja finalizar a compra?</div>
+            <div class="panel-body">
+                <textarea class="form-control" name="motivoFinalizar" placeholder="Motivo de finalizar"></textarea><br>
+                <label > Cancelar compra?
+                    <input  type="checkbox" class="checkbox" name="cancelar" value="1">
+                </label><br>
+                <button  class="btn btn-danger"><i class="fa fa-check"></i> Finalizar Pedido</button>
+            </div>
+        </div>
+
+
+    {!! Form::close()!!}
+    </div>
 
 </div>
     <img src="{{url('img/divider.png')}}" class=" img-responsive"><br><br>
@@ -43,7 +62,7 @@
 
                                             <div class="col-lg-12">
                                                 <p style="font-size: 20px; color: deepskyblue"><b>Situação do Pedido: <% x.situacao %></b></p>
-                                                <button class="btn btn-primary"><i class="fa fa-trash-o"></i></button><p></p>
+
                                                 <table class="table table-responsive" cellpadding="1" cellspacing="1" border="0" style="text-align: left">
 
                                                     <tr>
@@ -98,6 +117,17 @@
 
                                                 </table>
 
+
+                                                {!! Form::open(array( 'method' => 'post', 'action' => 'PedidosController@cancelarPedido')) !!}
+
+                                                    {!! Form::hidden('token', '<% x.idPedido %>') !!}
+                                                    <textarea class="form-control" name="pedidoMotivo" placeholder="Motivo do cancelamento"></textarea><br>
+                                                    <input type="submit" class="btn btn-danger" value="Cancelar este item?"><p></p>
+
+
+                                                {!! Form::close()!!}
+
+
                                             </div>
 
                                         </div>
@@ -109,12 +139,24 @@
 
                             <div class="form-group">
 
-                                <div class="col-lg-5">
+                                <div class="col-lg-5" ng-if="result[0].status_pedido != 25">
                                     <label for="tipo">Enviar para aprovação do Trade.
                                         <input id="tipo" type="checkbox" class="checkbox checkbox-inline" name="tipoAprovacao" value="1">
                                     </label>
                                 </div>
+
+                                <div class="col-lg-3" ng-if="result[0].status_pedido == 25">
+                                    <label>
+                                        <textarea placeholder="Motivo da reprova" name="orcReprovado" class="form-control"></textarea>
+                                    </label>
+                                    <label for="tipo">
+                                        <input  type="submit" class="btn btn-danger" name="reprovar" value="reprovar">
+                                    </label>
+                                </div>
+
+
                                 <div class="col-lg-3">
+
                                     <input type="submit" class="btn btn-warning backgroundLaranja" value="Atualizar">
                                 </div>
                                 <div class="col-lg-4">

@@ -46,13 +46,16 @@ class PedidosServices
         for($i=0;$i<count($idPedidos); $i++)
         {
 
-            $sql =  $this->con->query("select m.valor,p.idCompra from materiaisDMTRIX m join PedidoDMTRIX p on p.idMaterial = m.idMaterial  where p.idPedido = '$idPedidos[$i]'");
+            $sql =  $this->con->query("select m.valor,p.idCompra,m.material, m.idMaterial from materiaisDMTRIX m join PedidoDMTRIX p on p.idMaterial = m.idMaterial  where p.idPedido = '$idPedidos[$i]'");
 
             $material = $this->con->fetch_array($sql);
             $custoUnitarioReal = $material['valor'];
             $idCompra =  $material['idCompra'];
+            $idMaterial = $material['idMaterial'];
 
             if($custoUnitarioReal != $custoUnitario[$i]){
+
+                $this->con->query("update materiaisDMTRIX set valor = '$custoUnitario[$i]' where idMaterial = '$idMaterial'");
 
                 $observacao[$i] .= ' - Custo unitario neste pedido: '.$custoUnitario[$i];
 
@@ -61,15 +64,24 @@ class PedidosServices
             if(isset($request['tipoAprovacao']))
             {
 
-                $status = 25;
+                    $status = 25;
 
             }else{
 
+                if(isset($request['reprovar']))
+                {
 
-                $status = 9;
+                    $status = 4;
+                    $motivoOrc = $request['orcReprovado'];
+                    $this->con->query("insert into [MARKETING].[dbo].[ControleReprovacoesDMTRIX] (idCompra, idPedido,data_reprovado,Motivo) values('$idCompra','$idPedidos[$i]',GETDATE(),'$motivoOrc')");
+
+                }else {
+                    $status = 9;
+                }
+
 
             }
-           $this->con->query("update PedidoDMTRIX set largura = '$largura[$i]', altura='$altura[$i]', quantidade='$quantidade[$i]',observacao='$observacao[$i]', status_pedido = '$status', valorProduto='$custoTotal[$i]'
+            $this->con->query("update PedidoDMTRIX set largura = '$largura[$i]', altura='$altura[$i]', quantidade='$quantidade[$i]',observacao='$observacao[$i]', status_pedido = '$status', valorProduto='$custoTotal[$i]'
             ,valorTotal='$total' where idPedido = '$idPedidos[$i]'");
 
                 $info = ['idPedido' => $idPedidos[$i], 'texto'=> 'Valor do pedido foi atualizado', 'tipo' => 1];
@@ -116,8 +128,12 @@ class PedidosServices
         $criacao = $request['criacao'];
         $dataIdeal = $request['dataEstimada'];
 
+
+
         for($i=0;$i<count($idCompra);$i++)
         {
+
+
 
            $sql =  $this->con->query("select idPedido from PedidoDMTRIX where idCompra = '$idCompra[$i]'");
 
@@ -125,6 +141,7 @@ class PedidosServices
             {
                 if(odbc_num_rows($sql) > 1)//se houver mais de uma linha gera um array dinamico
                 {
+                    $dataIdeal = $this->services->formatarData($dataIdeal[$i]);
 
                     while($rs = $this->con->fetch_array($sql))
                     {
@@ -145,7 +162,7 @@ class PedidosServices
                             $usuario = $usuario['nome'];
 
                             $this->con->query("update ComprasDMTRIX set prioridade = '$prioridade[$i]', status_compra = 'criacao' where idCompra = '$idCompra[$i]'");
-                            $this->con->query("update PedidoDMTRIX set status_pedido = '5', dataIdeal = '$dataIdeal[$i]' where idPedido = '$idPedido'");
+                            $this->con->query("update PedidoDMTRIX set status_pedido = '5', dataIdeal = '$dataIdeal' where idPedido = '$idPedido'");
                             $this->con->query("insert into tarefasDMTRIX(idUsuario,idPedido,ativo,iniciado, dataDelegado) values('$criacao[$i]','$idPedido','nao',0, getdate()))");
                             $info = ['idPedido' => $idPedido, 'texto'=> 'Foi criado uma tarefa e o pedido foi delegado para usuario: '.$usuario.'.', 'tipo' => 3];
                             $this->historico->create($info);
@@ -176,7 +193,7 @@ class PedidosServices
                     }else{
 
                         $this->con->query("update ComprasDMTRIX set prioridade = '$prioridade[$i]', status_compra = 'criacao' where idCompra = '$idCompra[$i]'");
-                        $this->con->query("update PedidoDMTRIX set status_pedido = 5, dataIdeal = '$dataIdeal[$i]' where idPedido = '$idPedido'");
+                        $this->con->query("update PedidoDMTRIX set status_pedido = 5, dataIdeal = '$dataIdeal' where idPedido = '$idPedido'");
                         $this->con->query("insert into tarefasDMTRIX(idUsuario,idPedido,ativo,iniciado) values('$criacao[$i]','$idPedido','nao',0)");
 
                         $info = ['idPedido' => $idPedido, 'texto'=> 'Foi criado uma tarefa e o pedido foi delegado para usuario: '.$criacao[$i].'.', 'tipo' => 3];
@@ -190,36 +207,35 @@ class PedidosServices
                 }
 
 
-                if(odbc_error() == '')
-                {
-
-                    for($i=0;$i<count($idCompra);$i++) {
-                        $info = ['idCompra' => $idCompra[$i], 'texto' => 'Foi criado uma tarefa para esta compra', 'tipo' => 1];
-                        $this->historico->historicoCompras($info);
-                    }
-
-
-
-                    $class = 'bg-success text-center text-success';
-                    $msg = 'Delegado com sucesso';
-
-                    $resp = ['class'=>$class, 'msg'=> $msg];
-                    return $resp;
-
-                }else{
-
-                    $class = 'bg-danger text-center';
-                    $msg = 'Falha: '.odbc_errormsg();
-
-                    $resp = ['class'=>$class, 'msg'=> $msg];
-
-                    return $resp;
-
-                }
-
-
             }
 
+
+        }
+
+        if(odbc_error() == '')
+        {
+
+            for($i=0;$i<count($idCompra);$i++) {
+                $info = ['idCompra' => $idCompra[$i], 'texto' => 'Foi criado uma tarefa para esta compra', 'tipo' => 1];
+                $this->historico->historicoCompras($info);
+            }
+
+
+
+            $class = 'bg-success text-center text-success';
+            $msg = 'Delegado com sucesso';
+
+            $resp = ['class'=>$class, 'msg'=> $msg];
+            return $resp;
+
+        }else{
+
+            $class = 'bg-danger text-center';
+            $msg = 'Falha: '.odbc_errormsg();
+
+            $resp = ['class'=>$class, 'msg'=> $msg];
+
+            return $resp;
 
         }
         
@@ -415,8 +431,11 @@ class PedidosServices
 
     }
 
-    public function cancelarPedido($idPedido)
+    public function cancelarPedido($request)
     {
+
+        $idPedido = $request['token'];
+        $motivo = $request['pedidoMotivo'];
 
 
         $sql = $this->con->query("select p.idCompra, e.email as tipo, u.email, u.nome + ' '+u.sobrenome as nome from dmtrixII.pedidosExpirados e join PedidoDMTRIX p on p.idPedido = e.idPedido
@@ -428,6 +447,7 @@ class PedidosServices
             $idCompra = $sql['idCompra'];
             $buscaCompra = $this->con->query("select * from PedidoDMTRIX p join dmtrixII.pedidosExpirados e on e.idPedido = p.idPedido  where p.idCompra = '$idCompra'");
 
+            $this->con->query("update PedidoDMTRIX set status_pedido = 11 where idPedido = '$idPedido'");
             $count = odbc_num_rows($buscaCompra);
             $x=0;
             while($RsbuscaCompra = odbc_fetch_array($buscaCompra))
@@ -445,18 +465,35 @@ class PedidosServices
                 $this->con->query("update ComprasDMTRIX set status_compra = 'Cancelado' where idCompra = '$idCompra'");
 
             }
-
-
             
+            $infos = $this->services->infoPedido($idPedido);
+
+            $mensagem = 'Caro(a) '.$infos['solicitante'].' o material: '.$infos['Material'].' foi cancelado pelo seguinte motivo: '.$motivo;
 
 
-            Mail::send('emails.avisoCancelado', compact('x'), function ($m) use ($x) {
+            Mail::send('emails.aprovacaoArte', compact('mensagem'), function ($m) use ($infos) {
                 $m->from('faqdmtrade@dmcard.com.br', 'DMTRIX');
                 $m->cc('flavio.barros@dmcard.com.br', 'Flavio');
-                $m->to($x['email'], $x['nome'])->subject('Aviso de cancelamento de pedido');
+                $m->to($infos['email'], $infos['solicitante'])->subject('Aviso de cancelamento de pedido');
                
             });
             $this->con->query("insert into dmtrixII.pedidosExpirados (idPedido, dataExpirado,email, status) values ('$idPedido',GETDATE(),1, 0)");
+
+            if(odbc_error() == ''){
+
+                $info = ['idPedido' => $idPedido, 'texto'=> 'Pedido cancelado', 'tipo' => 2];
+                $this->historico->create($info);
+                $info = ['idCompra' => $idCompra, 'texto'=> 'o Pedido: '.$idPedido.' foi cancelado, pelo usuario', 'tipo' => 2];
+                $this->historico->historicoCompras($info);
+
+
+                return 'Cancelado com sucesso, um email foi enviado para o solcitante';
+
+            }else{
+
+                return 'Ocorreu um erro ao cancelar, tente novamente mais tarde';
+
+            }
             
 
         }else{
@@ -464,7 +501,7 @@ class PedidosServices
             $x = $this->con->fetch_array($sql);
             if($x['tipo'] == 0)
             {
-                Mail::send('emails.avisoCancelado', compact('x'), function ($m) use ($x) {
+                Mail::send('emails.aprovacaoArte', compact('mensagem'), function ($m) use ($x) {
                     $m->from('faqdmtrade@dmcard.com.br', 'DMTRIX');
                     $m->cc('flavio.barros@dmcard.com.br', 'Flavio');
                     $m->to($x['email'], $x['nome'])->subject('Aviso de cancelamento de pedido');
@@ -479,23 +516,9 @@ class PedidosServices
             
         }
         
-        $idCompra = $x['idCompra'];
-        
-        if(odbc_error() == ''){
 
-            $info = ['idPedido' => $idPedido, 'texto'=> 'Pedido cancelado', 'tipo' => 2];
-            $this->historico->create($info);
-            $info = ['idCompra' => $idCompra, 'texto'=> 'o Pedido: '.$idPedido.' foi cancelado, pelo usuario', 'tipo' => 1];
-            $this->historico->historicoCompras($info);
-            
-            
-            return 'Cancelado com sucesso, um email foi enviado para o solcitante';
-            
-        }else{
-            
-            return 'Ocorreu um erro ao cancelar, tente novamente mais tarde';
-            
-        }
+        
+
 
     }
     

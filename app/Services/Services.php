@@ -103,6 +103,7 @@ class Services
         (select COUNT(*) as num from PedidoDMTRIX where status_pedido = 10 ) as numAprovacao,
         (select COUNT(*) as num from PedidoDMTRIX where status_pedido = 6 ) as numAprovados,
         (select COUNT(*) as num from PedidoDMTRIX where status_pedido = 2 or status_pedido = 4  ) as numOrcamento,
+        (select COUNT(*) as num from PedidoDMTRIX where status_pedido = 25  ) as numTrade,
         (select COUNT(*) as num from PedidoDMTRIX where status_pedido = 6 or status_pedido = 81 or status_pedido = 8 ) as numFornecedor"));
 
         $sql = $this->con->query("select top 10  h.id
@@ -128,7 +129,7 @@ class Services
        }
         
         
-        return ['msg'=>$msg, 'triagem' => $rs['triagem'],'numRevisao' => $rs['numRevisao'],'numAprovacao' => $rs['numAprovacao'],'numOrcamento' => $rs['numOrcamento'],'numFornecedor' => $rs['numFornecedor'],'numAprovados' => $rs['numAprovados'] ];
+        return ['msg'=>$msg, 'triagem' => $rs['triagem'],'numTrade' => $rs['numTrade'],'numRevisao' => $rs['numRevisao'],'numAprovacao' => $rs['numAprovacao'],'numOrcamento' => $rs['numOrcamento'],'numFornecedor' => $rs['numFornecedor'],'numAprovados' => $rs['numAprovados'] ];
         
         
     }
@@ -245,7 +246,7 @@ class Services
 
         $rs = $this->con->fetch_array($this->con->query(" select p.idPedido,p.idCompra,m.material as Material, l.nomeLoja,l.numeroLoja,p.altura,p.largura,p.observacao, p.quantidade, u.nome+ ' '+u.sobrenome as criacao,p.valorProduto, 
          p.valorTotal, case when m.formaCalculo = 1 then 'Produto sem custo' when m.formaCalculo = 3 then 'Item com medida padrão' else 'Medida Obrigatoria' end as tipo,
-         p.data_entrega,p.dataIdeal,p.fotoArte,m.valor as precoUnitario, t.tempoEstimado,p.status_pedido, f.razao, cf.dataPrevista, cf.dataSaida,
+         p.data_entrega,p.dataIdeal,p.fotoArte,m.valor as precoUnitario, t.tempoEstimado,p.status_pedido, f.razao, cf.dataPrevista, cf.dataSaida,us.nome as solicitante, us.email,
          case when p.status_pedido = 11 then 'Finalizado'
 			when p.status_pedido = 8 then 'Com  Fornecedor'
 			when p.status_pedido = 9 then 'Aguardando Aprovação de Orçamento'
@@ -262,6 +263,7 @@ class Services
          (select observacao from dmtrixII.historicoObs where idPedido = p.idPedido and tipo = 5) as entrega
          from PedidoDMTRIX p join materiaisDMTRIX m on m.idMaterial = p.idMaterial 
          join lojasDMTRIX l on l.idLoja = p.idLoja 
+         join usuariosDMTRIX us on us.idUsuario = p.idUsusario
          left join tarefasDMTRIX t on t.idPedido = p.idPedido
          left join usuariosDMTRIX u on u.idUsuario = t.idUsuario
          left join dmtrixII.[controle-fornecedor] cf on cf.idPedido = p.idPedido
@@ -270,6 +272,8 @@ class Services
         $array1 = [ 'idPedido' => $rs['idPedido'],
             'idCompra' => $rs['idCompra'],
             'Material' => $rs['Material'],
+            'solicitante' => $rs['solicitante'],
+            'email' => $rs['email'],
             'nomeLoja' => $rs['nomeLoja'],
             'numeroLoja' => $rs['numeroLoja'],
             'altura' => $rs['altura'],

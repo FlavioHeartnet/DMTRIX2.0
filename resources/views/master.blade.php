@@ -162,13 +162,7 @@ if($value['token'] == 1){
                         </li>
                     </ul>
                 </li>
-                <li>
-                    <div class="form-group">
-                    <label>
-                        <input style="width: 600px; opacity: 0.5"  class="form-control pesquisa" name="search" value="" type="text" placeholder="Pesquise aqui o numero do Pedido">
-                    </label>
-                    </div>
-                </li>
+
                 <!-- inbox dropdown end -->
             </ul>
             <!--  notification end -->
@@ -202,7 +196,7 @@ if($value['token'] == 1){
                 </li>
 
                 <li><a  href="{{ url('/pedidos/atualizacao') }}"><span ng-if="nortificacoes.numOrcamento != 0" class="badge bg-theme04 nortifica"><% nortificacoes.numOrcamento %></span><i class="fa fa-star-o"></i> Atualização de Custo </a></li>
-               <!-- <li><a  href="{{ url('/pedidos/aprovado/trade')  }}"><i class="li_star"></i>Avaliação de orçamento do Trade</a></li>-->
+               <li><a  href="{{ url('/pedidos/aprovado/trade')  }}"><span ng-if="nortificacoes.numTrade != 0" class="badge bg-theme04 nortifica"><% nortificacoes.numTrade %></span><i class="li_star"></i>Avaliação de orçamento do Trade</a></li>
                 <li><a  href="{{ url('/pedidos/aprovado')  }}"><span ng-if="nortificacoes.triagem != 0" class="badge bg-theme04 nortifica"><% nortificacoes.triagem %></span><i class="li_vallet"></i>Triagem de pedidos com custo aprovado</a></li>
                 <li><a  href="{{ url('/pedidos/cancelamento')  }}"><i class="fa fa-ban"></i>Pedidos proximo ao cancelemento</a></li>
 

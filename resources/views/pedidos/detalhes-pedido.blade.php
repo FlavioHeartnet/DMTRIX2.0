@@ -8,9 +8,22 @@
                 <div class="col-lg-3"><% array.Titulo %></div>
             </div>
             <div class="col-lg-4">
-                <button class="btn btn-primary"><i class="fa fa-trash-o"></i></button>
+                {!! Form::open(array( 'method' => 'post', 'action' => 'PedidosController@finalizarCompra')) !!}
+                <div class="form-group" ng-if="array.status_compra != 'Finalizado'">
 
+                    <div class="panel panel-danger">
+                        <div class="panel-heading">Deseja finalizar a compra?</div>
+                        <div class="panel-body">
+                            <textarea class="form-control" name="motivoFinalizar" placeholder="Motivo de finalizar"></textarea><br>
+                            <label > Cancelar compra?
+                                <input  type="checkbox" class="checkbox" name="cancelar" value="1">
+                            </label><br>
+                            <button  class="btn btn-danger"><i class="fa fa-check"></i> Finalizar Pedido</button>
+                        </div>
+                    </div>
 
+                </div>
+                {!! Form::close()!!}
             </div>
                 </div>
 

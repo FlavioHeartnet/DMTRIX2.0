@@ -5,9 +5,9 @@
 
 @section('content')
 <div ng-controller="home">
-        <div class="col-lg-8">
+        <div class="col-lg-12">
 
-        <div class="col-lg-5">
+        <div class="col-lg-3">
         <span class="colorLaranja">05 de julho de 2016</span>
         <h2>Processos da agencia</h2>
                 <canvas class="center-block" id="chartGeral" height="300" width="300"></canvas><br>
@@ -20,7 +20,7 @@
 
         </div>
 
-        <div CLASS="col-lg-7">
+        <div CLASS="col-lg-6">
 
             <table class="table table-responsive">
                 <tr>
@@ -31,7 +31,7 @@
                 </tr>
                 <tr ng-repeat="x in criacao" on-finish-render="ngRepeatFinished">
                     <td><p><b><% x.criacao %></b></p></td>
-                    <td><canvas id="chart<% x.idUsuario %>" height="80" width="80"></canvas></td>
+                    <td><canvas style="max-width: 300px" id="chart<% x.idUsuario %>" height="80" width="80"></canvas></td>
                     <td><a ng-href="#/criacao/mostrar" class="btn btn-warning center-block  backgroundLaranja perfil" ng-click="mostrarFila(x.idUsuario)">Perfil Completo</a></td>
                 </tr>
 
@@ -39,20 +39,23 @@
 
 
         </div>
-        </div>
+            <div class="col-lg-4">
 
-    <div class="col-lg-4">
+                <div id="morris">
+                    <h2><i class="fa fa-bar-chart"></i> Pedidos em Fase de Orçamentação</h2>
+                    <div class="panel-body">
+                        <div id="hero-bar" class="graph"></div>
+                    </div>
 
-        <div id="morris">
-            <h2><i class="fa fa-bar-chart"></i> Pedidos em Fase de Orçamentação</h2>
-            <div class="panel-body">
-                <div id="hero-bar" class="graph"></div>
+                </div>
+
+
             </div>
 
+
         </div>
 
 
-    </div>
 
 
 

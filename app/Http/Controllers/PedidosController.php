@@ -6,6 +6,7 @@ use App\Services\PedidosServices;
 use App\Services\Services;
 use Illuminate\Http\Request;
 use App\Http\Requests;
+use Illuminate\Support\Facades\Session;
 
 class PedidosController extends Controller
 {
@@ -13,13 +14,15 @@ class PedidosController extends Controller
     private $con;
     private $pedidosService;
     private $services;
+    private $historico;
 
 
-    public function __construct(PedidosServices $pedidosService, Services $services)
+    public function __construct(PedidosServices $pedidosService, Services $services, HistoricoController $historico)
     {
         $this->con = new \config();
         $this->pedidosService = $pedidosService;
         $this->services = $services;
+        $this->historico = $historico;
         
     }
 
@@ -49,7 +52,7 @@ class PedidosController extends Controller
         {
 
             $situacao = $this->pedidosService->situacaoCompra($rs['idCompra']);
-            $array = ['situacao'=>$situacao,'dataCompra' => $rs['dataCompra'], 'valorTotal' => $rs['valorTotal'], 'loja' => utf8_encode($rs['loja']), 'idCompra' => $rs['idCompra'], 'nome' => ($rs['nome']), 'prioridade' => $rs['prioridade'],'status_compra' => $rs['status_compra']
+            $array = ['situacao'=>$situacao,'dataCompra' => $this->services->formatarData($rs['dataCompra']), 'valorTotal' => $rs['valorTotal'], 'loja' => utf8_encode($rs['loja']), 'idCompra' => $rs['idCompra'], 'nome' => ($rs['nome']), 'prioridade' => $rs['prioridade'],'status_compra' => $rs['status_compra']
             , 'criacao' => $rs['numCriacao'], 'numRevisao' => $rs['numRevisao'], 'numAprovacao' => $rs['numAprovacao'], 'numFornecedor' => $rs['numFornecedor'],'numDisponivel' => $rs['numDisponivel'],'numFinalizado' => $rs['numFinalizado'],'total'=>$rs['total'],'numAprovados'=>$rs['numAprovados']];
             array_push($response,$array);
 
@@ -107,7 +110,7 @@ class PedidosController extends Controller
         $infoCompra = $con->fetch_array($con->query("select distinct p.dataCompra,p.valorTotal,
 			case when p.titulo is null then 'Sem Titulo' else p.titulo end as Titulo ,p.idCompra,u.nome,case when p.idLoja = 0 then 'DMCard' else l.numeroLoja+' - '+l.nomeLoja end as Loja, 
 			case when p.Prioridade is null then 0 
-			else p.Prioridade end as prioridade, p1.segmento,p1.formaPagamento,p1.custeio, cf.dataEntrada,cf.dataSaida,p1.dataIdeal from ComprasDMTRIX p 
+			else p.Prioridade end as prioridade, p1.segmento,p1.formaPagamento,p1.custeio, cf.dataEntrada,cf.dataSaida,p1.dataIdeal, p.status_compra from ComprasDMTRIX p 
 			inner join usuariosDMTRIX u on u.idUsuario = p.idUsuario left join lojasDMTRIX l on l.numeroLoja = p.idLoja
 			join PedidoDMTRIX p1 on p1.idCompra = p.idCompra
 			left join dmtrixII.[controle-fornecedor] cf on cf.idPedido = p1.idPedido 
@@ -129,6 +132,7 @@ class PedidosController extends Controller
                         'Loja' => $infoCompra['Loja'],
                         'prioridade' => $infoCompra['prioridade'],
                         'segmento' => $infoCompra['segmento'],
+                        'status_compra' => $infoCompra['status_compra'],
                         'formaPagamento' => $infoCompra['formaPagamento'],
                         'custeio' => $infoCompra['custeio'],
                         'idCompra' => $infoCompra['idCompra'],
@@ -263,15 +267,29 @@ class PedidosController extends Controller
 
     public function showAtualizarValores($status){
 
+        if($status == 2){
+
+            $sts1 = 9;
+            $sts2 = 4;
+
+        }else{
+            $sts1 = 0;
+            $sts2 = 0;
+
+        }
+
       $sql =  $this->con->query("select distinct c.idCompra,dataCompra, status_compra, c.idLoja as numeroLoja, u.nome +' '+ u.sobrenome as solicitante, c.titulo  
    from ComprasDMTRIX c join usuariosDMTRIX u on u.idUsuario = c.idUsuario join PedidoDMTRIX p on p.idCompra = c.idCompra 
-   where p.status_pedido = '$status' or status_pedido = 9 or status_pedido = 4");
+   where p.status_pedido = '$status' or status_pedido = '$sts1' or status_pedido = '$sts2'");
 
         if(odbc_num_rows($sql) > 0) {
 
             $pedido = array();
             while($rs = $this->con->fetch_array($sql))
             {
+
+                $idCompra = $rs['idCompra'];
+
 
                 if($rs['status_compra'] == 'Em analise'){
                     
@@ -282,6 +300,14 @@ class PedidosController extends Controller
                     $color ='';
                     
                 }
+
+                $reprovado = $this->con->query("select idCompra from PedidoDMTRIX where status_pedido = 4 and idCompra = '$idCompra'");
+
+                if(odbc_num_rows($reprovado) >0 ){
+
+                    $color = 'red';
+                }
+
 
                 $situacao = $this->pedidosService->situacaoCompra($rs['idCompra']);
                 $array1 = [
@@ -331,6 +357,8 @@ class PedidosController extends Controller
                             break;
                         case 4: $situacao = 'Reprovado o orçamento: '.$rs['Motivo'];
                             break;
+                        case 25: $situacao = 'Aguardando avaliação trade';
+                            break;
                         default: $situacao = 'Erro no pedido';
 
 
@@ -341,6 +369,7 @@ class PedidosController extends Controller
                     $array1 = [
                         'idCompra' => $rs['idCompra'],
                         'formaCalculo' => $rs['formaCalculo'],
+                        'status_pedido'=>$rs['status_pedido'],
                         'custeio' => $rs['custeio'],
                         'idMaterial' => $rs['idMaterial'],
                         'titulo' => utf8_encode($rs['titulo']),
@@ -386,21 +415,37 @@ class PedidosController extends Controller
     public function showTriagemPedidos()
     {
 
-        $sql = $this->con->query(" select distinct c.idCompra,c.titulo,c.dataCompra,c.dataOrcAtualizado,u.nome +' '+u.sobrenome as solicitante, a.data_aprovado, c.status_compra
+        $sql = $this->con->query("select distinct c.idCompra,c.titulo,c.dataCompra,c.dataOrcAtualizado,u.nome +' '+u.sobrenome as solicitante, a.data_aprovado, c.status_compra, l.numeroLoja+' - '+l.nomeLoja as loja
   from PedidoDMTRIX p join ComprasDMTRIX c on c.idCompra = p.idCompra join usuariosDMTRIX u on p.idUsuario = u.idUsuario
-  left join ControleAprovacoesDMTRIX a on a.idPedido = p.idPedido where p.status_pedido = 3 order by c.idCompra desc");
+  left join ControleAprovacoesDMTRIX a on a.idPedido = p.idPedido join lojasDMTRIX l on l.numeroLoja = c.idLoja where p.status_pedido = '3' order by c.idCompra desc");
         if(odbc_num_rows($sql) > 0) {
             $triagem = array();
             while ($rs = $this->con->fetch_array($sql)) {
+
+                $idCompra = $rs['idCompra'];
+                $itens = $this->con->query("select m.material from PedidoDMTRIX p join materiaisDMTRIX m on m.idMaterial = p.idMaterial where p.idCompra = '$idCompra'");
+                
+                $compras = array();
+                while($item = $this->con->fetch_array($itens))
+                {
+                    
+                    array_push($compras,
+                        [
+                            'material' => $item['material']
+                            
+                        ]);
+                    
+                    
+                }
 
                 $array = [
 
                     'idCompra' => $rs['idCompra'],
                     'titulo' => utf8_encode($rs['titulo']),
-                    'dataCompra' => $rs['dataCompra'],
-                    'dataOrcAtualizado' => $rs['dataOrcAtualizado'],
+                    'dataCompra' => $this->services->formatarData($rs['dataCompra']),
                     'solicitante' => $rs['solicitante'],
-                    'data_aprovado' => $rs['data_aprovado']
+                    'loja' => $rs['loja'],
+                    'compras' => $compras
 
                 ];
 
@@ -439,13 +484,7 @@ class PedidosController extends Controller
 
     }
 
-
-    public function tradeShow()
-    {
-        
-        
-        
-    }
+    
     
     public function cancelados()
     {
@@ -479,9 +518,10 @@ class PedidosController extends Controller
 
     }
     
-    public function cancelarPedido($id){
+    public function cancelarPedido(Request $request)
+    {
 
-        return $this->pedidosService->cancelarPedido($id);
+        return $this->pedidosService->cancelarPedido($request->all());
         
     }
     
@@ -496,6 +536,72 @@ class PedidosController extends Controller
 
         return $this->services->mensagensTopo();
 
+
+    }
+
+    public function finalizarCompra(Request $request)
+    {
+        $rs = $request->all();
+        $idCompra = $rs['token'];
+        $motivo = $rs['motivoFinalizar'];
+
+       $sql =  $this->con->query("select p.valorTotal, u.budgetMerchandising, u.supervisor, p.idPedido, u.idUsuario as solicitante from ControleAprovacoesDMTRIX ca join PedidoDMTRIX p on p.idCompra = ca.idCompra 
+join usuariosDMTRIX u on u.idUsuario = p.idUsuario where p.idCompra = '$idCompra'");
+
+        if(odbc_num_rows($sql) > 0){
+
+           $item = odbc_fetch_array($sql);
+
+                $valorTotal = $item['valorTotal'];
+                $budget = $item['budgetMerchandising'];
+                $idUsuario = $item['supervisor'];
+                $idPedido = $item['idPedido'];
+                $solicitante = $item['solicitante'];
+
+                $value = session('user');
+                $controle = $value['id'];
+
+                $total = ($budget) - ($valorTotal);
+                $valorTotal = abs($valorTotal);
+                $this->con->query("update usuariosDMTRIX set budgetMerchandising = '$total' where idUsuario = '$idUsuario'");
+                $this->con->query("update usuariosDMTRIX set budgetMerchandising = '$total' where supervisor = '$idUsuario'");
+                $this->con->query("insert into movimentacaoDMTRIX (dataMov, tipoMov,observacao,valor,budgetMerchan,idUsuario,controle,idPedido) values (GETDATE(),1,'Compra finalizada','$valorTotal','$total','$solicitante','$controle','$idPedido')");
+
+        }
+
+        $idPedido = $this->con->fetch_array($this->con->query("select idPedido from PedidoDMTRIX where idCompra = '$idCompra'"));
+        $idPedido = $idPedido['idPedido'];
+
+        $info = ['idPedido' => $idPedido, 'texto'=> 'Usuario finalizou a compra, observação: '.$motivo, 'tipo' => 2];
+        $this->historico->create($info);
+
+        $this->con->query("update PedidoDMTRIX set status_pedido = 11 where idCompra ='$idCompra'");
+
+        if(odbc_error() == '')
+        {
+
+
+                $info = ['idCompra' => $idCompra, 'texto' => 'Usuario finalizou a compra, observação: '.$motivo, 'tipo' => 2];
+                $this->historico->historicoCompras($info);
+
+
+            $class = 'bg-success text-center text-success';
+            $msg = 'Finalizado com sucesso';
+
+            $resp = ['class'=>$class, 'msg'=> $msg];
+
+
+        }else{
+
+            $class = 'bg-danger text-center';
+            $msg = 'Falha: '.odbc_errormsg();
+
+            $resp = ['class'=>$class, 'msg'=> $msg];
+
+
+        }
+
+        return view('pedidos.todos-pedidos', compact('resp'));
 
     }
     
