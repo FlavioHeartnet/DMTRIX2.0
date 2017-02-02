@@ -263,7 +263,7 @@ class Services
          (select observacao from dmtrixII.historicoObs where idPedido = p.idPedido and tipo = 5) as entrega
          from PedidoDMTRIX p join materiaisDMTRIX m on m.idMaterial = p.idMaterial 
          join lojasDMTRIX l on l.idLoja = p.idLoja 
-         join usuariosDMTRIX us on us.idUsuario = p.idUsusario
+         join usuariosDMTRIX us on us.idUsuario = p.idUsuario
          left join tarefasDMTRIX t on t.idPedido = p.idPedido
          left join usuariosDMTRIX u on u.idUsuario = t.idUsuario
          left join dmtrixII.[controle-fornecedor] cf on cf.idPedido = p.idPedido

@@ -2,6 +2,10 @@
 $(function() {
 
     $("#cnpj").mask("99.999.999/9999-99");
+
+    $('#myModal').on('shown.bs.modal', function () {
+        $('#myInput').focus()
+    })
     
     
 });

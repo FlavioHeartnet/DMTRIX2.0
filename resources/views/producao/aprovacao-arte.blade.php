@@ -49,8 +49,13 @@
                                         <td><% sub.observacao %></td>
                                         <td><% sub.quantidade %></td>
                                         <td>
-                                            <a ng-if="sub.fotoArte != ''" class="btn btn-primary"  ng-href="{{ url('http://dmcard.com.br/dmtrade/img/brindes/<% sub.fotoArte %>') }}">Foto</a><br><br>
-                                            <a ng-if="sub.fotoArte != ''" class="btn btn-primary"  ng-href="{{ url('img/fotos/<% sub.fotoArte %>') }}">Foto - Opção 2</a>
+                                            <div ng-if=" sub.fotoArte != 'Sem Arte' ">
+                                                <a ng-if="sub.fotoArte != ''" data-toggle="modal" data-target="#myModal" ng-click="modal(sub.fotoArte)" class="btn btn-primary"  ng-href="{{ url('http://dmcard.com.br/dmtrade/img/brindes/<% sub.fotoArte %>') }}">Foto</a><br><br>
+                                                <a ng-if="sub.fotoArte != ''" data-toggle="modal" data-target="#myModal" ng-click="modal(sub.fotoArte)" class="btn btn-primary"  ng-href="{{ url('img/fotos/<% sub.fotoArte %>') }}">Foto - Opção 2</a>
+                                            </div>
+                                            <div ng-if=" sub.fotoArte == 'Sem Arte' ">
+                                                <h3>Sem arte</h3>
+                                            </div>
                                         </td>
                                         <td style="font-size: 20px"><b><% sub.criacao %></b></td>
                                         <td>
@@ -84,6 +89,22 @@
         </ul>
 
     </div>
+
+        <!-- Modal -->
+        <div class="modal fade bs-example-modal-lg" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+            <div class="modal-dialog modal-lg" role="document">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                        <h4 class="modal-title" id="myModalLabel">Foto</h4>
+                    </div>
+                    <div class="modal-body">
+                       <img src="{{ url('http://mkt.dmcardweb.com.br/img/fotos/<% foto %>') }}" class="img-responsive">
+                        <!-- <img src="{{ url('http://dmcard.com.br/dmtrade/img/brindes/<% foto %>') }}" class="img-responsive"> -->
+                    </div>
+                </div>
+            </div>
+        </div>
 
 
         <div id="drop-area" class="drop-area detailsPedido">

@@ -118,14 +118,11 @@
                                                 </table>
 
 
-                                                {!! Form::open(array( 'method' => 'post', 'action' => 'PedidosController@cancelarPedido')) !!}
-
-                                                    {!! Form::hidden('token', '<% x.idPedido %>') !!}
-                                                    <textarea class="form-control" name="pedidoMotivo" placeholder="Motivo do cancelamento"></textarea><br>
-                                                    <input type="submit" class="btn btn-danger" value="Cancelar este item?"><p></p>
+                                                    <textarea class="form-control" name="motivo<% x.idPedido %>" placeholder="Motivo do cancelamento"></textarea><br>
+                                                    <input type="button" ng-click="cancelarItem(x.idPedido, result[0].idCompra )" class="btn btn-danger" value="Cancelar este item?"><p></p>
 
 
-                                                {!! Form::close()!!}
+
 
 
                                             </div>

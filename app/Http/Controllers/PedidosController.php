@@ -518,10 +518,14 @@ class PedidosController extends Controller
 
     }
     
-    public function cancelarPedido(Request $request)
+    public function cancelarPedido($id, $obs)
     {
+        
+        $request = ['token' => $id, 'motivo' => $obs];
 
-        return $this->pedidosService->cancelarPedido($request->all());
+        $resp = $this->pedidosService->cancelarPedido($request);
+
+        return $resp;
         
     }
     
@@ -544,6 +548,7 @@ class PedidosController extends Controller
         $rs = $request->all();
         $idCompra = $rs['token'];
         $motivo = $rs['motivoFinalizar'];
+        $cancelar = $rs['cancelar'];
 
        $sql =  $this->con->query("select p.valorTotal, u.budgetMerchandising, u.supervisor, p.idPedido, u.idUsuario as solicitante from ControleAprovacoesDMTRIX ca join PedidoDMTRIX p on p.idCompra = ca.idCompra 
 join usuariosDMTRIX u on u.idUsuario = p.idUsuario where p.idCompra = '$idCompra'");
@@ -572,13 +577,26 @@ join usuariosDMTRIX u on u.idUsuario = p.idUsuario where p.idCompra = '$idCompra
         $idPedido = $this->con->fetch_array($this->con->query("select idPedido from PedidoDMTRIX where idCompra = '$idCompra'"));
         $idPedido = $idPedido['idPedido'];
 
-        $info = ['idPedido' => $idPedido, 'texto'=> 'Usuario finalizou a compra, observação: '.$motivo, 'tipo' => 2];
+        if($cancelar == 1){
+
+            $this->con->query("update ComprasDMTRIX set status_compra = 'Cancelado' where idCompra = '$idCompra'");
+            $texto = 'Usuario cancelou a compra, motivo: '.$motivo;
+
+        }else{
+
+            $this->con->query("update ComprasDMTRIX set status_compra = 'Finalizado' where idCompra = '$idCompra'");
+            $texto = 'Usuario finalizou a compra, observação: '.$motivo;
+
+        }
+
+        $info = ['idPedido' => $idPedido, 'texto'=> $texto, 'tipo' => 2];
         $this->historico->create($info);
 
         $this->con->query("update PedidoDMTRIX set status_pedido = 11 where idCompra ='$idCompra'");
 
         if(odbc_error() == '')
         {
+
 
 
                 $info = ['idCompra' => $idCompra, 'texto' => 'Usuario finalizou a compra, observação: '.$motivo, 'tipo' => 2];

@@ -139,11 +139,10 @@ class PedidosServices
 
             if(odbc_num_rows($sql) > 0) //se estiver vazio a consulta sai da instrução
             {
-                if(odbc_num_rows($sql) > 1)//se houver mais de uma linha gera um array dinamico
-                {
-                    $dataIdeal = $this->services->formatarData($dataIdeal[$i]);
 
-                    while($rs = $this->con->fetch_array($sql))
+                
+                    $dataIdealFormatada = $this->services->formatarData($dataIdeal[$i]);
+                   while($rs = $this->con->fetch_array($sql))
                     {
                         $idPedido = $rs['idPedido'];
                         $tarefas = $this->con->query("select idPedido from tarefasDMTRIX where idPedido = '$idPedido'");
@@ -162,50 +161,14 @@ class PedidosServices
                             $usuario = $usuario['nome'];
 
                             $this->con->query("update ComprasDMTRIX set prioridade = '$prioridade[$i]', status_compra = 'criacao' where idCompra = '$idCompra[$i]'");
-                            $this->con->query("update PedidoDMTRIX set status_pedido = '5', dataIdeal = '$dataIdeal' where idPedido = '$idPedido'");
-                            $this->con->query("insert into tarefasDMTRIX(idUsuario,idPedido,ativo,iniciado, dataDelegado) values('$criacao[$i]','$idPedido','nao',0, getdate()))");
+                            $this->con->query("update PedidoDMTRIX set status_pedido = '5', dataIdeal = '$dataIdealFormatada' where idPedido = '$idPedido'");
+                            $this->con->query("insert into tarefasDMTRIX(idUsuario,idPedido,ativo,iniciado, dataDelegado) values('$criacao[$i]','$idPedido','nao',0, getdate())");
                             $info = ['idPedido' => $idPedido, 'texto'=> 'Foi criado uma tarefa e o pedido foi delegado para usuario: '.$usuario.'.', 'tipo' => 3];
                             $this->historico->create($info);
 
                         }
 
                     }
-
-
-
-
-                }else{ // se não apenas um array simples
-
-                    $rs = $this->con->fetch_array($sql);
-                    $idPedido = $rs['idPedido'];
-
-                    $tarefas = $this->con->query("select idPedido from tarefasDMTRIX where idPedido = '$idPedido'");
-                    if(odbc_num_rows($tarefas) > 0){
-
-
-
-                        $class = 'bg-warning text-center text-warning';
-                        $msg = 'Já existe uma tarefa delegada para esta compra';
-
-                        $resp = ['class'=>$class, 'msg'=> $msg];
-                        return $resp;
-
-                    }else{
-
-                        $this->con->query("update ComprasDMTRIX set prioridade = '$prioridade[$i]', status_compra = 'criacao' where idCompra = '$idCompra[$i]'");
-                        $this->con->query("update PedidoDMTRIX set status_pedido = 5, dataIdeal = '$dataIdeal' where idPedido = '$idPedido'");
-                        $this->con->query("insert into tarefasDMTRIX(idUsuario,idPedido,ativo,iniciado) values('$criacao[$i]','$idPedido','nao',0)");
-
-                        $info = ['idPedido' => $idPedido, 'texto'=> 'Foi criado uma tarefa e o pedido foi delegado para usuario: '.$criacao[$i].'.', 'tipo' => 3];
-                        $this->historico->create($info);
-
-                    }
-
-
-
-
-                }
-
 
             }
 
@@ -435,7 +398,7 @@ class PedidosServices
     {
 
         $idPedido = $request['token'];
-        $motivo = $request['pedidoMotivo'];
+        $motivo = $request['motivo'];
 
 
         $sql = $this->con->query("select p.idCompra, e.email as tipo, u.email, u.nome + ' '+u.sobrenome as nome from dmtrixII.pedidosExpirados e join PedidoDMTRIX p on p.idPedido = e.idPedido
@@ -443,31 +406,38 @@ class PedidosServices
 
         if(odbc_num_rows($sql) == 0){
 
-            $sql = $this->con->fetch_array($sql);
-            $idCompra = $sql['idCompra'];
-            $buscaCompra = $this->con->query("select * from PedidoDMTRIX p join dmtrixII.pedidosExpirados e on e.idPedido = p.idPedido  where p.idCompra = '$idCompra'");
+
+            $idCompra = $this->con->fetch_array($this->con->query("select idCompra from PedidoDMTRIX  where idPedido = '$idPedido'"));
+            $idCompra = $idCompra['idCompra'];
+
+            $buscaCompra = $this->con->query("select status_pedido from PedidoDMTRIX  where idCompra = '$idCompra'");
 
             $this->con->query("update PedidoDMTRIX set status_pedido = 11 where idPedido = '$idPedido'");
             $count = odbc_num_rows($buscaCompra);
             $x=0;
-            while($RsbuscaCompra = odbc_fetch_array($buscaCompra))
+
+            if($count == 1)
             {
-                $status = $RsbuscaCompra['status_pedido'];
-                if($status == 11)
-                {
-                    $x++;
+
+               $this->con->query("update ComprasDMTRIX set status_compra = 'Cancelado' where idCompra = '$idCompra'");
+
+            }else {
+                while ($RsbuscaCompra = odbc_fetch_array($buscaCompra)) {
+                    $status = $RsbuscaCompra['status_pedido'];
+                    if ($status == 11) {
+                        $x++;
+                    }
                 }
-            }
 
-            if($count == $x)
-            {
+                if ($count == $x) {
 
-                $this->con->query("update ComprasDMTRIX set status_compra = 'Cancelado' where idCompra = '$idCompra'");
+                   $this->con->query("update ComprasDMTRIX set status_compra = 'Cancelado' where idCompra = '$idCompra'");
 
+                }
             }
             
             $infos = $this->services->infoPedido($idPedido);
-
+            $this->con->query("insert into dmtrixII.pedidosExpirados (idPedido, dataExpirado,email, status) values ('$idPedido',GETDATE(),1, 0)");
             $mensagem = 'Caro(a) '.$infos['solicitante'].' o material: '.$infos['Material'].' foi cancelado pelo seguinte motivo: '.$motivo;
 
 
@@ -477,7 +447,7 @@ class PedidosServices
                 $m->to($infos['email'], $infos['solicitante'])->subject('Aviso de cancelamento de pedido');
                
             });
-            $this->con->query("insert into dmtrixII.pedidosExpirados (idPedido, dataExpirado,email, status) values ('$idPedido',GETDATE(),1, 0)");
+
 
             if(odbc_error() == ''){
 
@@ -485,13 +455,22 @@ class PedidosServices
                 $this->historico->create($info);
                 $info = ['idCompra' => $idCompra, 'texto'=> 'o Pedido: '.$idPedido.' foi cancelado, pelo usuario', 'tipo' => 2];
                 $this->historico->historicoCompras($info);
+                
+                $class = 'bg-success text-center text-success';
+                $msg = 'Cancelado com sucesso, um email foi enviado para o solicitante';
 
-
-                return 'Cancelado com sucesso, um email foi enviado para o solcitante';
+                $resp = ['class'=>$class, 'msg'=> $msg];
+                return $msg = ['resp'=>'Cancelado com sucesso, um email foi enviado para o solicitante'];
 
             }else{
 
-                return 'Ocorreu um erro ao cancelar, tente novamente mais tarde';
+                $class = 'bg-danger text-center text-danger';
+                $msg = 'Ocorreu um erro ao cancelar, tente novamente mais tarde';
+
+                $resp = ['class'=>$class, 'msg'=> $msg];
+                return $msg = ['resp'=>'Ocorreu um erro ao cancelar, tente novamente mais tarde'];
+
+             
 
             }
             
@@ -510,7 +489,11 @@ class PedidosServices
 
             }else{
                 
-                return 'Pedido já cancelado';
+                $class = 'bg-warning text-center text-warning';
+                $msg = 'Pedido já cancelado';
+
+                $resp = ['class'=>$class, 'msg'=> $msg];
+                return  $msg = ['resp'=>'Pedido já cancelado'];
                 
             }
             

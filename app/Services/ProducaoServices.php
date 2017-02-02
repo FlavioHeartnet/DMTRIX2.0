@@ -30,7 +30,7 @@ class ProducaoServices
   join usuariosDMTRIX u on u.idUsuario = c.idUsuario,
   (select nome+' '+sobrenome as criacao, email from usuariosDMTRIX  where idUsuario = '$idUsuario' ) as ut 
   where t.idUsuario = '$idUsuario' and p.status_pedido != '11' and p.status_pedido != '8' 
-  group by ut.criacao, p.idCompra, c.titulo,ut.email, l.nomeLoja,l.numeroLoja,u.nome,u.sobrenome");
+  group by ut.criacao, p.idCompra, c.titulo,ut.email, l.nomeLoja,l.numeroLoja,u.nome,u.sobrenome order by p.idCompra desc");
 
         if(odbc_num_rows($sql) > 0)
         {

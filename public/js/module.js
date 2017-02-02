@@ -74,6 +74,12 @@ app.factory('AtualizarValorPedidosSrv', function($resource) {
                 method: 'GET',
                 isArray:true,
                 url: '/pedidos/atualizacao/detalhes/:id/:status'
+            },
+            cancelarPedido:{
+
+                method: 'get',
+                url: '/pedidos/atualizacao/cancelar/:id/:obs'
+
             }
 
         }
@@ -151,6 +157,7 @@ app.factory('criacao', function($resource){
             aprovar:{
 
                 method: 'GET',
+                isArray: true,
                 url: '/producao/fila/aprovar/:id'
 
             }
@@ -568,8 +575,29 @@ app.controller('custoAprovar', function ($scope, Services, AtualizarValorPedidos
 
     $scope.botoes = Services; // funcções do DOM
 
+    $scope.cancelarItem = function(id, idCompra)
+    {
+        jQuery(function($) {
+            var motivo = 'motivo' + id;
+            motivo = $("textarea[name="+motivo+"]").val();
+            
 
+        var resp = AtualizarValorPedidosSrv.cancelarPedido({ id: id, obs: motivo}).$promise.then(function (data) {
 
+            return data;
+
+        });
+
+            resp.then(function (d) {
+                $scope.resp = d;
+                alert($scope.resp.resp);
+            });
+
+        $scope.pequisar(idCompra);
+
+        });
+
+    };
 
     $scope.soma = function(id){
 
@@ -578,12 +606,14 @@ app.controller('custoAprovar', function ($scope, Services, AtualizarValorPedidos
         var altura =0;
         var valor =0;
         var quantidade =0;
+        
 
         jQuery(function($) {
             largura = $('#Largura' + id).val() / 100;
             altura = $('#Altura' + id).val() / 100;
             valor = $('#custo' + id).val();
             quantidade = $('#Quantidade' + id).val();
+
 
 
             total = (largura * altura) * valor * quantidade;
@@ -686,6 +716,8 @@ app.controller('avaliacaoPedidos', function ($scope,$http,Services, AtualizarVal
     });
 
     $scope.total = [];
+
+
 
 
     $scope.soma = function(id){
@@ -883,6 +915,12 @@ app.controller('aprovacao-arte', function ($scope,$http,Services, criacao) {
     };
 
     $scope.init();
+    
+    $scope.modal = function (img) {
+        $scope.foto = '';
+        $scope.foto = img;
+        
+    };
     
     $scope.aprovar = function(id){
         

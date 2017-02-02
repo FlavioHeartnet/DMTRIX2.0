@@ -34,7 +34,7 @@ Route::get('/pedidos/msgTopo','PedidosController@msgTopo');
 
 Route::get('/pedidos/todos','PedidosController@index');
 Route::get('/pedidos/todos/carregar','PedidosController@Pedidos');
-Route::get('/pedidos/detalhes/finalizar','PedidosController@finalizarCompra');
+Route::post('/pedidos/detalhes/finalizar','PedidosController@finalizarCompra');
 Route::get('/pedidos/todos/detalhes/{id}',['as' => 'pedidos.detalhes','uses'=>'PedidosController@detalhesPedidos']);
 Route::post('/pedidos/todos/detalhes/{id}/add/{obs}',['as' => 'pedidos.detalhes.addObs','uses'=>'HistoricoController@addObs']);
 Route::get('/pedidos/detalhes/mostrar','PedidosController@showDetalhesPedidos');
@@ -60,7 +60,7 @@ Route::get('/pedidos/atualizacao', function () {
 });
 Route::get('/pedidos/atualizacao/show/{status}', 'PedidosController@showAtualizarValores');
 Route::post('/pedidos/atualizacao/update/', 'PedidosController@updateStatus');
-Route::post('/pedidos/atualizacao/cancelar/', 'PedidosController@cancelarPedido');
+Route::get('/pedidos/atualizacao/cancelar/{id}/{obs}', 'PedidosController@cancelarPedido');
 
 Route::get('/pedidos/atualizacao/detalhes', function () {
     return view('pedidos.atualizacao-custo-detalhes');
