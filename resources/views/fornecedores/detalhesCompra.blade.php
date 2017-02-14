@@ -1,7 +1,7 @@
 
 
 
-<div class="container-fluid col-lg-9" >
+<div class="container-fluid col-lg-12" >
     <div class="page-header">
         <h1 id="timeline">Dados da Compra</h1>
     </div>
@@ -134,18 +134,18 @@
 
 
                                 </td>
-                                <td ng-if="d.status_pedido == '8'">
+                                <td ng-if="d.status_pedido == '8' || d.status_pedido == '82'">
 
-                                    {!! Form::open(array( 'method' => 'post', 'action' => 'FornecedorController@EntregaPedido')) !!}
-                                    {!! Form::hidden('token','<% d.idPedido %>') !!}
+
+
                                             <i style="font-size: 30px" class="li_stack colorVerde"></i>
 
                                             <div class="form-group">
 
-                                                <input type="submit" class="btn btn-warning backgroundLaranja" name="data" value="Produto chegou?">
+                                                <input type="button" ng-click="entrega(d.idPedido)" class="btn btn-warning backgroundLaranja" name="data" value="Produto chegou?">
 
                                             </div>
-                                    {!! Form::close()!!}
+
 
 
                                 </td>

@@ -6,11 +6,7 @@
 @section('content')
 
     <div ng-controller="producao-revisao">
-        @if(isset($resp))
 
-            <p class="{{ $resp['class'] }}"><b>{{ $resp['msg'] }}</b></p>
-
-        @endif
 
         <div class="container-fluid" >
             <div class="page-header">
@@ -24,9 +20,13 @@
 
                             <div class="col-lg-12">
                                 <div class="col-lg-2">
-                                    <img ng-if="x.fotoArte != ''" class="img-responsive"  ng-src="{{ url('http://dmcard.com.br/dmtrade/img/brindes/<% x.fotoArte %>') }}"><br><br>
-                                    <img ng-if="x.fotoArte != ''" class="img-responsive"  ng-src="{{ url('img/fotos/<% x.fotoArte %>') }}">
-                                    <p ng-if="x.fotoArte == ''" >Sem arte</p>
+                                    <div ng-if=" sub.fotoArte != 'Sem Arte' ">
+                                        <a ng-if="sub.fotoArte != ''" data-toggle="modal" data-target="#myModal" ng-click="modal(x.fotoArte)" class="btn btn-primary"  >Foto</a><br><br>
+                                        <a ng-if="sub.fotoArte != ''" data-toggle="modal" data-target="#myModal" ng-click="modal(x.fotoArte)" class="btn btn-primary"  >Foto - Opção 2</a>
+                                    </div>
+                                    <div ng-if=" sub.fotoArte == 'Sem Arte' ">
+                                        <h3>Sem arte</h3>
+                                    </div>
                                 </div>
                                 <div class="col-lg-2">
                                     <p>Pedido:
@@ -77,8 +77,23 @@
 
         </div>
 
+            <div class="modal fade bs-example-modal-lg" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+                <div class="modal-dialog modal-lg" role="document">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                            <h4 class="modal-title" id="myModalLabel">Foto</h4>
+                        </div>
+                        <div class="modal-body">
+                            <img src="{{ url('http://mkt.dmcardweb.com.br/img/fotos/<% foto %>') }}" class="img-responsive">
+                        <!-- <img src="{{ url('http://dmcard.com.br/dmtrade/img/brindes/<% foto %>') }}" class="img-responsive"> -->
+                        </div>
+                    </div>
+                </div>
+            </div>
 
-    </div>
+
+
 
     <div id="drop-area" class="drop-area detailsPedido">
 
@@ -100,7 +115,7 @@
     </div>
     <div class="drop-overlay"></div>
 
-
+    </div>
     <script src="{{ asset('js/jquery.js')  }}"></script>
     <script type="text/javascript">
 

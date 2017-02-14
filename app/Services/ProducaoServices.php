@@ -25,12 +25,12 @@ class ProducaoServices
 
     public function filaIndividual($idUsuario){
 
-       $sql = $this->con->query("  select distinct count(*)as pedidos, ut.criacao, p.idCompra, c.titulo, ut.email, l.numeroLoja+' '+ l.nomeLoja as loja, u.nome+' '+u.sobrenome as solicitante  from tarefasDMTRIX t  
+       $sql = $this->con->query("  select distinct count(*)as pedidos, ut.criacao, p.idCompra, c.titulo, ut.email, l.numeroLoja+' '+ l.nomeLoja as loja, u.nome+' '+u.sobrenome as solicitante,ut.foto from tarefasDMTRIX t  
   inner join PedidoDMTRIX p on p.idPedido = t.idPedido join ComprasDMTRIX c on c.idCompra = p.idCompra join lojasDMTRIX l on l.idLoja = p.idLoja
   join usuariosDMTRIX u on u.idUsuario = c.idUsuario,
-  (select nome+' '+sobrenome as criacao, email from usuariosDMTRIX  where idUsuario = '$idUsuario' ) as ut 
+  (select nome+' '+sobrenome as criacao, email,foto from usuariosDMTRIX  where idUsuario = '$idUsuario' ) as ut 
   where t.idUsuario = '$idUsuario' and p.status_pedido != '11' and p.status_pedido != '8' 
-  group by ut.criacao, p.idCompra, c.titulo,ut.email, l.nomeLoja,l.numeroLoja,u.nome,u.sobrenome order by p.idCompra desc");
+  group by ut.criacao, p.idCompra, c.titulo,ut.email, l.nomeLoja,l.numeroLoja,u.nome,u.sobrenome,ut.foto order by p.idCompra desc");
 
         if(odbc_num_rows($sql) > 0)
         {
@@ -120,10 +120,21 @@ class ProducaoServices
    (select count(*) as fila from PedidoDMTRIX where idCompra = '$idCompra' and status_pedido = 5) as fila
    ,(select count(*) as fila from PedidoDMTRIX where idCompra = '$idCompra' and status_pedido = 7) as reprovados
    ,(select count(*) as fila from PedidoDMTRIX where idCompra = '$idCompra' and status_pedido = 10) as pendente
-    ,(select count(*) as fila from PedidoDMTRIX where idCompra = '$idCompra' and status_pedido = 101) as revisao"));
+    ,(select count(*) as fila from PedidoDMTRIX where idCompra = '$idCompra' and status_pedido = 101) as revisao
+    ,(select count(*) as fila from PedidoDMTRIX where idCompra = '$idCompra' ) as total"));
 
                 $total += $graph['aprovados'] + $graph['fila'] + $graph['reprovados'] + $graph['pendente']+ $graph['revisao'];
                 $aprovados += $graph['aprovados'];
+                
+                if($graph['total'] == $graph['fila']){
+                    
+                    $fila = 1;
+                    
+                }else{
+                    
+                    
+                    $fila = 0;
+                }
 
                 array_push($response, [
 
@@ -131,6 +142,7 @@ class ProducaoServices
                     'criacao' => $rs['criacao'],
                     'idCompra' => $rs['idCompra'],
                     'titulo' => $rs['titulo'],
+                    'foto' => $rs['foto'],
                     'email' => $rs['email'],
                     'loja' => $rs['loja'],
                     'aprovados' => $graph['aprovados'],
@@ -139,7 +151,8 @@ class ProducaoServices
                     'pendente' => $graph['pendente'],
                     'detalhes' => $texto,
                     'revisao' =>$graph['revisao'],
-                    'solicitante' =>$rs['solicitante']
+                    'solicitante' =>$rs['solicitante'],
+                    'filaEnviar' => $fila //esta variavel define se o botão para enviar artes irá aparecer, se for 1, o botão de enviar arte aparecerá.
 
                 ]);
 
@@ -176,7 +189,9 @@ class ProducaoServices
   ,(select COUNT(*) as aprovados from PedidoDMTRIX where status_pedido = 6 ) as aprovados,
   (select COUNT(*) as reprovados from PedidoDMTRIX where status_pedido = 7) as reprovados,
   (select COUNT(*) as pendente from PedidoDMTRIX where status_pedido = 10) as pendente
-  ,(select count(*) as fila from PedidoDMTRIX where status_pedido = 101) as revisao"));
+  ,(select count(*) as fila from PedidoDMTRIX where status_pedido = 101) as revisao
+  ,(select count(*) as fila from PedidoDMTRIX where status_pedido = 9) as aprovacaoOrc
+  ,(select count(*) as fila from PedidoDMTRIX where status_pedido = 2) as atualizacao"));
         
         $total = $geral['reprovados']+$geral['criacao']+$geral['aprovados']+$geral['pendente']+$geral['revisao'];
         $aprovados = $geral['aprovados'];
@@ -207,7 +222,9 @@ class ProducaoServices
                     'total' => $total,
                     'revisaoGeral'=>$geral['revisao'],
                     'porcentagem' => round($porcentagem,2),
-                    'pendenteGeral' => $geral['pendente']
+                    'pendenteGeral' => $geral['pendente'],
+                    'atualizacaoGeral' => $geral['atualizacao'],
+                    'aprovacaoOrc' => $geral['aprovacaoOrc'],
 
                 ]);
 
@@ -258,12 +275,20 @@ class ProducaoServices
 
         if(odbc_error() == ''){
             
+            $class = 'bg-sucess text-center text-sucess';
+            $msg = 'Aprovado com sucesso';
 
-            return ['resp' => 'sucesso'];
+            $resp = ['class'=>$class, 'msg'=> $msg];
+            return $resp;
 
         }else{
 
-            return ['resp'=>'falha: '.odbc_errormsg()];
+             ['resp'=>'falha: '.odbc_errormsg()];
+            $class = 'bg-danger text-center text-danger';
+            $msg = 'Falha: '.odbc_errormsg();
+
+            $resp = ['class'=>$class, 'msg'=> $msg];
+            return $resp;
 
         }
 

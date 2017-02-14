@@ -1,4 +1,4 @@
-var app = angular.module('app', ["xeditable", "checklist-model","ngRoute", "ngResource"], function($interpolateProvider) {
+var app = angular.module('app', ["xeditable", "checklist-model","ngRoute", "ngResource","ngMessages"], function($interpolateProvider) {
     $interpolateProvider.startSymbol('<%');
     $interpolateProvider.endSymbol('%>');
 });
@@ -14,6 +14,10 @@ app.config(['$routeProvider', function($routeProvider){
         .when('/criacao/mostrar', { templateUrl: '/producao/fila/criacao/mostrar'})
         .when('/delegar/detalhes', { templateUrl: '/pedidos/aprovado/delegar/detalhes'})
         .when('/detalhes/pedidos/fornecedor', { templateUrl: '/fornecedores/gestao/pedidos/mostrar'})
+        .when('/usuario/cad', { templateUrl: '/usuarios/gestao/cad'})
+        .when('/usuario/edit/:id', { templateUrl: '/usuarios/gestao/edit/'})
+        .when('/usuario/consulta', { templateUrl: '/usuarios/gestao/consulta/mostrar'})
+
 }]);
 //serviço que conecta com o back
 app.factory('FornecedorSrv', function($resource) {
@@ -42,19 +46,19 @@ app.factory('FornecedorSrv', function($resource) {
                     ,EnviarFornecedor:
                         {
                             method: 'POST',
-                            isArray: true,
+
                             url: '/fornecedores/gestao/pedidos/detalhes/enviar/:id'
                         }
                     ,PedidoEntregue:
                             {
-                                method: 'get',
-                                isArray: true,
+                                method: 'post',
+
                                 url: '/fornecedores/gestao/pedidos/detalhes/entregue/:id'
                             }
                     ,finalizar:
                             {
-                                method: 'get',
-                                isArray: true,
+                                method: 'post',
+
                                 url: '/fornecedores/gestao/pedidos/detalhes/finalizar/:id'
                             }
 
@@ -79,6 +83,49 @@ app.factory('AtualizarValorPedidosSrv', function($resource) {
 
                 method: 'get',
                 url: '/pedidos/atualizacao/cancelar/:id/:obs'
+
+            }
+
+        }
+
+
+    );
+});
+app.factory('UsuariosSrv', function($resource) {
+    return $resource(
+        '/usuarios/gestao/users', {
+            id: '@id'
+
+        },
+        {
+            consulta: {
+                method: 'GET',
+                url: '/usuarios/gestao/consulta/:id'
+            },
+            index:{
+
+                method: 'get',
+                isArray:true,
+                url: '/usuarios/gestao/users'
+
+            },
+            edit:{
+
+                method: 'get',
+                url: '/usuarios/gestao/edit/:id'
+
+            },
+            create:{
+
+                method: 'get',
+                url: '/usuarios/gestao/cad'
+
+            },
+            supervisores:{
+
+                method: 'get',
+                isArray:true,
+                url:'/usuarios/gestao/consulta/supervisores'
 
             }
 
@@ -157,7 +204,6 @@ app.factory('criacao', function($resource){
             aprovar:{
 
                 method: 'GET',
-                isArray: true,
                 url: '/producao/fila/aprovar/:id'
 
             }
@@ -169,12 +215,12 @@ app.factory('criacao', function($resource){
 });
 
 //serviço de funcções genericas usadas no sistema
-app.service('Services', function ($http, $location, detalhesPedidos, criacao) {
+app.service('Services', function ($http, $location, detalhesPedidos, criacao, AtualizarValorPedidosSrv) {
 
    this.aprovar = function (idPedido) {
 
        return criacao.aprovar({ id: idPedido }).$promise.then(function(data) {
-           return data.resp;
+           return data;
 
        });
        
@@ -279,15 +325,25 @@ app.service('Services', function ($http, $location, detalhesPedidos, criacao) {
 
     this.cancelarPedido = function(id){
 
-       var resp = this.requestHTTP('/pedidos/cancelar/'+id);
+        jQuery(function($) {
+            var motivo = 'motivo' + id;
+            motivo = $("textarea[name=" + motivo + "]").val();
+
+        });
+
+       var resp = AtualizarValorPedidosSrv.cancelarPedido({id:id, obs:obs}).$promise.then(function (data) {
+
+           return data;
+
+       });
 
 
-        resp.then(function(d) {
-            alert(d);
+      return resp.then(function(d) {
+            return d
         });
 
 
-    }
+    };
 
     this.gerarCharts = function(id, aprovados, pedidos,reprovados, pendente,revisao){
 
@@ -351,6 +407,24 @@ app.service('Services', function ($http, $location, detalhesPedidos, criacao) {
 
 
     }
+    this.gerarChartBar = function (atualizacao,aprovacao) {
+        Morris.Bar({
+            element: 'hero-bar',
+            data: [
+                {device: 'Atualização', Pedidos: atualizacao},
+                {device: 'Aprovação', Pedidos: aprovacao}
+
+            ],
+            xkey: 'device',
+            ykeys: ['Pedidos'],
+            labels: ['Pedidos'],
+            barRatio: 0.4,
+            xLabelAngle: 35,
+            hideHover: 'auto',
+            barColors: ['#f68660']
+        });
+
+    }
 
 
 
@@ -392,6 +466,8 @@ app.controller('home', function($scope, $http, Services)
 
     });
 
+
+
     $scope.$on('ngRepeatFinished', function() {
 
         angular.forEach($scope.criacao, function(value){
@@ -401,6 +477,7 @@ app.controller('home', function($scope, $http, Services)
         });
 
         $scope.servico.gerarCharts("chartGeral", $scope.criacao[0].aprovadosGeral, $scope.criacao[0].criacaoGeral,$scope.criacao[0].reprovadosGeral, $scope.criacao[0].pendenteGeral, $scope.criacao[0].revisaoGeral );
+        $scope.servico.gerarChartBar($scope.criacao[0].atualizacaoGeral,$scope.criacao[0].aprovacaoOrc)
     });
 
     $scope.$on('ngRepeatFinishedDetails', function() {
@@ -491,6 +568,17 @@ app.controller('mainCusto', function($scope, $http, Services)
 app.controller('detalhesPedido',function($scope,$http,Services){
 
     $scope.botoes = Services;
+
+    $scope.cancelarPedido = function(id){
+
+        $scope.botoes.cancelarPedido(id);
+
+        $scope.pesquisar($scope.idCompra);
+    };
+
+
+
+
 
     $scope.submit = function() {
 
@@ -866,7 +954,7 @@ app.controller('producao-revisao', function($scope,$http,Services, criacao){
 
     var resp = $scope.criacao.revisao().$promise.then(function(data) {
 
-        return data[0];
+        return data;
 
     });
 
@@ -876,6 +964,9 @@ app.controller('producao-revisao', function($scope,$http,Services, criacao){
 
         }else{
             $scope.revisao.push(d);
+            $scope.revisao = $scope.revisao[0];
+
+
 
         }
 
@@ -1029,6 +1120,23 @@ app.controller('filaFornecedor',function ($scope,$http,Services, FornecedorSrv)
         });
 
     };
+    
+    $scope.entrega = function (id) {
+        
+        var resp = $scope.fornecedor.PedidoEntregue({ id: id}).$promise.then(function (data) {
+
+            return data;
+
+        });
+
+        resp.then(function (d) {
+
+            alert(d.msg);
+            $scope.init();
+
+        });
+          
+    };
 
     $scope.init();
 
@@ -1036,10 +1144,76 @@ app.controller('filaFornecedor',function ($scope,$http,Services, FornecedorSrv)
 
 });
 
+app.controller('users', function ($scope,$http,Services,UsuariosSrv) {
+
+    $scope.service = Services;
+    $scope.usuario = [];
+    $scope.init = function(){
+        $scope.supervisor = [];
+
+        var supervisor = UsuariosSrv.supervisores().$promise.then(function(data){
+
+            return data;
+        });
+        supervisor.then(function(d){
+
+            $scope.supervisor.push(d);
+            $scope.supervisor = $scope.supervisor[0];
+            console.log($scope.supervisor);
+
+        });
+
+       var resp =  UsuariosSrv.index().$promise.then(function (data) {
+
+            return data;
+
+        });
+
+        resp.then(function (d) {
+            
+            $scope.usuario.push(d);
+            $scope.usuario = $scope.usuario[0];
+
+
+        });
+
+    };
+
+
+
+    $scope.consulta = function(id){
+
+
+        var resp = UsuariosSrv.consulta({id:id}).$promise.then(function (data) {
+
+            return data;
+
+        });
+
+        resp.then(function (d) {
+            $scope.user = [];
+            $scope.user.push(d);
+            $scope.user = $scope.user[0];
+            
+
+        });
+
+
+    };
+    
+    $scope.init();
+
+});
+
 app.controller('master', function ($scope,$http,Services, detalhesPedidos){
 
     $scope.service = Services;
-    
+
+    $scope.modal = function (img) {
+        $scope.foto = '';
+        $scope.foto = img;
+
+    };
     
     $scope.init = function() {
         $scope.nortificacoes = [];

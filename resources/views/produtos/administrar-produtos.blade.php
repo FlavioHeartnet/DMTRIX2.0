@@ -36,6 +36,30 @@
                     <td><a onclick="exibir(2,0)" href="">Balcão</a></td>
                     <td>100</td>
                 </tr>
+                <tr>
+                    <td><a onclick="exibir(2,0)" href="">Entrada de Loja</a></td>
+                    <td>100</td>
+                </tr>
+                <tr>
+                    <td><a onclick="exibir(2,0)" href="">Gôndola</a></td>
+                    <td>100</td>
+                </tr>
+                <tr>
+                    <td><a onclick="exibir(2,0)" href="">Apresentações e Treinamentos</a></td>
+                    <td>100</td>
+                </tr>
+                <tr>
+                    <td><a onclick="exibir(2,0)" href="">Campanhas</a></td>
+                    <td>100</td>
+                </tr>
+                <tr>
+                    <td><a onclick="exibir(2,0)" href="">Digital</a></td>
+                    <td>100</td>
+                </tr>
+                <tr>
+                    <td><a onclick="exibir(2,0)" href="">Outros</a></td>
+                    <td>100</td>
+                </tr>
 
             </table>
 

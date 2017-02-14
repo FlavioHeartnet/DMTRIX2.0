@@ -113,15 +113,15 @@ Route::post('/fornecedores/gestao/pedidos/detalhes/finalizar/{id}', 'FornecedorC
 Route::get('/usuarios/gestao', function () {
     return view('users.gestaoUsuarios');
 });
-Route::get('/usuarios/gestao/consulta', function () {
-    return view('users.consultarUsuario');
-});
-Route::get('/usuarios/gestao/edit/{id}', function ($id) {
-    return view('users.editUsuario');
-});
-Route::get('/usuarios/gestao/cad', function () {
-    return view('users.cadUsuario');
-});
+
+Route::get('/usuarios/gestao/consulta/mostrar', 'UsuarioController@mostrar');
+Route::get('/usuarios/gestao/consulta/supervisores', 'UsuarioController@supervisores');
+Route::get('/usuarios/gestao/consulta/{id}', 'UsuarioController@show');
+Route::get('/usuarios/gestao/edit/{id}', 'UsuarioController@edit');
+Route::get('/usuarios/gestao/cad', 'UsuarioController@create');
+Route::get('/usuarios/gestao/users', 'UsuarioController@index');
+Route::post('/usuarios/gestao/update/', 'UsuarioController@update');
+Route::post('/usuarios/gestao/store/', 'UsuarioController@store');
 
 
 Route::get('/producao/revisao', function () {
@@ -142,18 +142,12 @@ Route::get('/producao/fila/criacao/mostrar', 'ProducaoController@index' );
 
 
 
-Route::get('/produtos/administrar', function () {
-    return view('produtos.administrar-produtos');
-});
-Route::get('/produtos/cad', function () {
-    return view('produtos.cadProdutos');
-});
-Route::get('/produtos/consulta', function () {
-    return view('produtos.consulta');
-});
-Route::get('/produtos/edit/{id}', function ($id) {
-    return view('produtos.editProduto');
-});
+Route::get('/produtos/administrar', 'ProdutoController@index' );
+Route::get('/produtos/cad','ProdutoController@create' );
+Route::get('/produtos/consulta/mostrar','ProdutoController@consultar' );
+Route::get('/produtos/consulta', 'ProdutoController@pedidos');
+
+Route::get('/produtos/edit/{id}', 'ProdutoController@edit');
 
 
 //loader

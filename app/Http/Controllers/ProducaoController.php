@@ -59,7 +59,7 @@ class ProducaoController extends Controller
 
             $resp = $this->producaoService->reprovarArte($request['token'], $request['motivo']);
         }
-        
+
         return view('producao.revisao-interna', compact('resp'));
         
     }
@@ -69,23 +69,63 @@ class ProducaoController extends Controller
     {
 
         $rs = $request->all();
+
         $idPedido = $rs['token'];
-        if($request->hasFile('foto'))
-        {
+        $erro = 0;
 
-            $data['foto'] = $request->file('foto');
-            $data['extension'] = $request->file('foto')->getClientOriginalExtension();
-            $data['nome'] = "arte".$idPedido;
-            $this->fornecedor->createFile($data);
-            $nomeFoto = trim($data['nome']) . '.' . $data['extension'];
+        for($i=0;$i<count($idPedido);$i++) {
 
-            return $this->producaoService->revisao($idPedido, $nomeFoto);
-        }else{
+            
+            if ($request->hasFile('foto')) {
+
+                $foto = $request->file('foto');
 
 
-            return 'Erro ao enviar o arquivo, tente novamente mais tarde!';
+                if($foto[$i] != '') {
+
+                    $data['foto'] = $foto[$i];
+                    $data['extension'] = $foto[$i]->getClientOriginalExtension();
+                    $data['nome'] = "arte" . $idPedido[$i];
+                    $this->fornecedor->createFile($data);
+                    $nomeFoto = trim($data['nome']) . '.' . $data['extension'];
+                   $resp = $this->producaoService->revisao($idPedido[$i], $nomeFoto);
+                    $class = 'bg-sucess text-center text-sucess';
+
+                    $resp = ['class' => $class, 'msg' => $resp];
+                }else{
+
+                    $erro++;
+
+                }
+
+
+
+
+
+            }else {
+
+
+                $class = 'bg-warning text-center text-warning';
+                $msg = 'Erro ao enviar o arquivo, tente novamente mais tarde!';
+
+                $resp = ['class' => $class, 'msg' => $msg];
+
+
+            }
+        }
+
+        if($erro > 0){
+
+            $class = 'bg-danger text-center text-danger';
+            $resp = $erro.' itens não foram feitos o upload, o caminho esta vazio!';
+
+            $resp = ['class' => $class, 'msg' => $resp];
+
 
         }
+
+
+      return view('home.home', compact('resp'));
 
 
         
@@ -109,6 +149,7 @@ class ProducaoController extends Controller
 
 
          $resp = $this->producaoService->aprovar($id);
+
 
         return $resp;
 

@@ -110,14 +110,14 @@
                                         <div class="timeline-badge"><i class="fa fa-check"></i></div>
                                         <div class="timeline-panel">
                                             <div class="timeline-body">
-                                                <div class="col-lg-4">
-                                                        <img class="img-responsive" src="{{url('<% x.fotoArte %>')}}" alt="">
+                                                <div class="col-lg-2">
+                                                    <a ng-if="x.fotoArte != ''" data-toggle="modal" data-target="#myModal" ng-click="modal(x.fotoArte)" class="btn btn-primary"  >Foto</a><br><br>
                                                 </div>
-                                                <div class="col-lg-8">
+                                                <div class="col-lg-10">
 
+                                                    <textarea class="form-control" name="motivo<% x.idPedido %>" placeholder="Motivo do cancelamento"></textarea><br>
 
-                                                    <button ng-if="x.status == 13" class="btn btn-primary" ng-click=""><i class="fa fa-tasks"></i> Restaurar pedido</button><p></p>
-                                                    <button ng-if="x.status != 13" class="btn btn-primary" ng-click="botoes.cancelarPedido(x.idPedido)"><i class="fa fa-trash-o"></i> Cancelar Pedido</button><p></p>
+                                                    <button ng-if="x.status != 11" class="btn btn-primary" ng-click="botoes.cancelarPedido(x.idPedido)"><i class="fa fa-trash-o"></i> Cancelar Pedido</button><p></p>
                                                     <table  class="table-responsive table-bordered" cellpadding="0" cellspacing="0" border="0" style="text-align: center">
                                                         <tr>
                                                             <td colspan="4">
@@ -259,7 +259,7 @@
                 </div><br><br>
                 <form method="post" ng-submit="submit()">
                     <div class="col-lg-7">
-                        <textarea name="obs" class="form-control" ng-model="obs" id="text" required placeholder="Digite alguma observação do produto"></textarea>
+                        <textarea name="obs" class="form-control" ng-model="obs" id="text" required placeholder="Digite alguma observação do produto"></textarea><br>
                     </div>
                     <div class="col-lg-3" style="color: #ffffff">
                         <button class="btn btn-warning backgroundLaranja "  style="width: 100%">Enviar</button>
@@ -272,5 +272,5 @@
             </div>
         </div>
 
-
 </div>
+

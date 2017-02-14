@@ -28,7 +28,7 @@ class Services
 
         if($data != '') {
             $data = new \DateTime($data);
-            return $data->format('d/m/Y');
+            return $data->format('d/m/Y H:i');
         }else{
 
             return 'Sem data no momento!';

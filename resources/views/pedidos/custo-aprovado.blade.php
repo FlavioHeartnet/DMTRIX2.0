@@ -5,11 +5,7 @@
 
 @section('content')
 <div ng-controller="mainCusto">
-    @if(isset($resp))
 
-        <p class="{{ $resp['class'] }}"><b>{{ $resp['msg'] }}</b></p>
-
-    @endif
     <div class="form-group">
         <input type="text" ng-model="busca" placeholder="pesquise aqui" class="form-control">
     </div>

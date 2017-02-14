@@ -135,7 +135,7 @@ class PedidosServices
 
 
 
-           $sql =  $this->con->query("select idPedido from PedidoDMTRIX where idCompra = '$idCompra[$i]'");
+           $sql =  $this->con->query("select idPedido, status_pedido from PedidoDMTRIX where idCompra = '$idCompra[$i]'");
 
             if(odbc_num_rows($sql) > 0) //se estiver vazio a consulta sai da instrução
             {
@@ -145,6 +145,7 @@ class PedidosServices
                    while($rs = $this->con->fetch_array($sql))
                     {
                         $idPedido = $rs['idPedido'];
+                        $status_pedido = $rs['status_pedido'];
                         $tarefas = $this->con->query("select idPedido from tarefasDMTRIX where idPedido = '$idPedido'");
                         if(odbc_num_rows($tarefas) > 0)
                         {
@@ -153,18 +154,21 @@ class PedidosServices
                             $msg = 'Já existe uma tarefa delegada para esta compra';
 
                             $resp = ['class'=>$class, 'msg'=> $msg];
-                            return $resp;
+
 
                         }else{
 
-                            $usuario = $this->con->fetch_array($this->con->query("select nome+' '+sobrenome as nome from usuariosDMTRIX where idUsuario = '$criacao[$i]'"));
-                            $usuario = $usuario['nome'];
+                            if($status_pedido == 3) {
 
-                            $this->con->query("update ComprasDMTRIX set prioridade = '$prioridade[$i]', status_compra = 'criacao' where idCompra = '$idCompra[$i]'");
-                            $this->con->query("update PedidoDMTRIX set status_pedido = '5', dataIdeal = '$dataIdealFormatada' where idPedido = '$idPedido'");
-                            $this->con->query("insert into tarefasDMTRIX(idUsuario,idPedido,ativo,iniciado, dataDelegado) values('$criacao[$i]','$idPedido','nao',0, getdate())");
-                            $info = ['idPedido' => $idPedido, 'texto'=> 'Foi criado uma tarefa e o pedido foi delegado para usuario: '.$usuario.'.', 'tipo' => 3];
-                            $this->historico->create($info);
+                                $usuario = $this->con->fetch_array($this->con->query("select nome+' '+sobrenome as nome from usuariosDMTRIX where idUsuario = '$criacao[$i]'"));
+                                $usuario = $usuario['nome'];
+
+                                $this->con->query("update ComprasDMTRIX set prioridade = '$prioridade[$i]', status_compra = 'criacao' where idCompra = '$idCompra[$i]'");
+                                $this->con->query("update PedidoDMTRIX set status_pedido = '5', dataIdeal = '$dataIdealFormatada' where idPedido = '$idPedido'");
+                                $this->con->query("insert into tarefasDMTRIX(idUsuario,idPedido,ativo,iniciado, dataDelegado) values('$criacao[$i]','$idPedido','nao',0, getdate())");
+                                $info = ['idPedido' => $idPedido, 'texto' => 'Foi criado uma tarefa e o pedido foi delegado para usuario: ' . $usuario . '.', 'tipo' => 3];
+                                $this->historico->create($info);
+                            }
 
                         }
 

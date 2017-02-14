@@ -9,11 +9,6 @@
 
     <div ng-controller="fornecedor" >
 
-        @if($msg == '')
-
-            @else
-            <p class="{{ $class }}"><b>{{ $msg }}</b></p>
-            @endif
         <div class="col-lg-5 detailsPedido">
 
             <div class="form-group">

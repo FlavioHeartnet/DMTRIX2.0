@@ -5,21 +5,7 @@ var Script = function () {
     $(function () {
       // data stolen from http://howmanyleft.co.uk/vehicle/jaguar_'e'_type
 
-      Morris.Bar({
-        element: 'hero-bar',
-        data: [
-          {device: 'Atualização', Pedidos: 136},
-          {device: 'Aprovação', Pedidos: 200}
 
-        ],
-        xkey: 'device',
-        ykeys: ['Pedidos'],
-        labels: ['Pedidos'],
-        barRatio: 0.4,
-        xLabelAngle: 35,
-        hideHover: 'auto',
-        barColors: ['#f68660']
-      });
 
       Morris.Area({
         element: 'hero-area',

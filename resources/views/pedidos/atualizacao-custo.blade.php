@@ -7,13 +7,6 @@
 
     <h1><i class="fa fa-star-o"></i> Atualização de Custo</h1>
 
-    @if(isset($resp))
-
-        <p class="{{ $resp['class'] }}"><b>{{ $resp['msg'] }}</b></p>
-
-        @endif
-
-
     <div ng-controller="custoAprovar">
 
         <table class="table table-responsive">

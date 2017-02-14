@@ -9,11 +9,7 @@
 
 
 <div ng-controller="filaFornecedor">
-    @if(isset($resp))
 
-        <p class="{{ $resp['class'] }}"><b>{{ $resp['msg'] }}</b></p>
-
-    @endif
 
     <label>
         <input type="text" ng-model="busca" class="form-control" placeholder="pesquise aqui">

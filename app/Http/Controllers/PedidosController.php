@@ -179,9 +179,10 @@ class PedidosController extends Controller
             
             if($rs['fotoArte'] == '' or $rs['fotoArte'] == 'Sem Arte' or $rs['fotoArte'] == 'Pedido cancelado')
             {
-                $foto = 'img/sem-arte.png';
+                $foto = '';
             }else{
-                $foto = 'http://dmcard.com.br/dmtrade/img/brindes/'.$rs['fotoArte'];
+
+                $foto = $rs['fotoArte'];
 
             }
 

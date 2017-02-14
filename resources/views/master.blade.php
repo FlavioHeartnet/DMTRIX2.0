@@ -84,7 +84,8 @@ if($value['token'] == 1){
                         </li>
                         <li ng-repeat="a in msg">
                             <a href="{{url('/pedidos/mensagens')}}">
-                                <span class="photo"><img alt="avatar" src="{{url('img/sem-foto.png')}}"></span>
+                                <span class="photo"><img ng-if="a.foto != null"  class="img-circle img-thumbnail img-responsive" src="{{ url('img/fotos/<% a.foto %>') }}">
+                                    <img ng-if="a.foto == null" class="img-circle img-thumbnail img-responsive" src="{{ url('/img/sem-foto.png') }}"></span>
                                     <span class="subject">
                                     <span class="from"><% a.solicitante %></span>
                                     <span class="time"><% a.data %></span>
@@ -116,7 +117,8 @@ if($value['token'] == 1){
                         </li>
                         <li ng-repeat="a in revisao">
                             <a href="{{url('/producao/revisao')}}">
-                                <span class="photo"><img alt="avatar" src="{{url('img/sem-foto.png')}}"></span>
+                                <span class="photo"><img ng-if="a.foto != null"  class="img-circle img-thumbnail img-responsive" src="{{ url('img/fotos/<% a.foto %>') }}">
+                                    <img ng-if="a.foto == null" class="img-circle img-thumbnail img-responsive" src="{{ url('/img/sem-foto.png') }}"></span>
                                     <span class="subject">
                                     <span class="from"><% a.solicitante %></span>
                                     <span class="time"><% a.data %></span>
@@ -145,7 +147,8 @@ if($value['token'] == 1){
                         </li>
                         <li ng-repeat="a in aprovados">
                             <a href="{{url('/fornecedores/consulta')}}">
-                                <span class="photo"><img alt="avatar" src="{{url('img/sem-foto.png')}}"></span>
+                                <span class="photo"><img ng-if="a.foto != null"  class="img-circle  img-responsive" src="{{ url('img/fotos/<% a.foto %>') }}">
+                                    <img ng-if="a.foto == null" class="img-circle img-responsive" src="{{ url('/img/sem-foto.png') }}"></span>
                                     <span class="subject">
                                     <span class="from"><% a.solicitante %></span>
                                     <span class="time"><% a.data %></span>
@@ -253,6 +256,12 @@ if($value['token'] == 1){
 
                 <div style="margin-top: 50px">
 
+                    @if(isset($resp))
+
+                        <p class="{{ $resp['class'] }}"><b>{{ $resp['msg'] }}</b></p>
+
+                    @endif
+
                 @yield('content')
 
                     </div>
@@ -261,6 +270,22 @@ if($value['token'] == 1){
 
         </section>
     </section>
+
+    <!-- Modal -->
+    <div class="modal fade bs-example-modal-lg" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+        <div class="modal-dialog modal-lg" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                    <h4 class="modal-title" id="myModalLabel">Foto</h4>
+                </div>
+                <div class="modal-body">
+                    <img src="{{ url('http://mkt.dmcardweb.com.br/img/fotos/<% foto %>') }}" class="img-responsive">
+                <!-- <img src="{{ url('http://dmcard.com.br/dmtrade/img/brindes/<% foto %>') }}" class="img-responsive"> -->
+                </div>
+            </div>
+        </div>
+    </div>
 
     <!--main content end-->
     <!--footer start-->

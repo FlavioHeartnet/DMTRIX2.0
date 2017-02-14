@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Services\FornecedorServices;
+use App\Services\Services;
 use Illuminate\Http\Request;
 use App\Http\Requests;
 use App\Http\Controllers\Controller;
@@ -12,12 +13,14 @@ class FornecedorController extends Controller
 {
 
     private $con;
+    private $fornecedor;
     private $service;
 
-    public function __construct(FornecedorServices $service)
+    public function __construct(FornecedorServices $fornecedor, Services $services)
     {
         $this->con = new \config();
-        $this->service = $service;
+        $this->fornecedor = $fornecedor;
+        $this->service = $services;
 
     }
 
@@ -55,7 +58,7 @@ class FornecedorController extends Controller
             $data['foto'] = $request->file('foto');
             $data['extension'] = $request->file('foto')->getClientOriginalExtension();
             $data['nome'] = $nome;
-            $this->service->createFile($data);
+            $this->fornecedor->createFile($data);
             $nomeFoto = trim($nome) . '.' . $data['extension'];
         }
 
@@ -173,7 +176,7 @@ class FornecedorController extends Controller
             $data['foto'] = $request->file('foto');
             $data['extension'] = $request->file('foto')->getClientOriginalExtension();
             $data['nome'] = $nome;
-            $this->service->createFile($data);
+            $this->fornecedor->createFile($data);
             $nomeFoto = trim($nome) . '.' . $data['extension'];
             $this->con->query("update dmtrixII.fornecedores set foto = '$nomeFoto' where id = '$id'");
 
@@ -230,7 +233,7 @@ class FornecedorController extends Controller
 
         $sql =  $this->con->query("select distinct p.idCompra, u.nome+' '+u.sobrenome as solicitante, c.Prioridade,c.dataOrcAtualizado, c.valorTotal,
   (select nome+' '+sobrenome as solicitante from usuariosDMTRIX where idUsuario = t.idUsuario) as criacao, l.numeroLoja+' - '+l.nomeLoja as loja,
-  ( select top 1 dataObs from dmtrixII.historicoObs where observacao like '%Pedido enviado para%' and idPedido = p.idPedido) as dataRevisao, p.status_pedido  from 
+   p.status_pedido  from 
   PedidoDMTRIX p  join ComprasDMTRIX c on c.idCompra = p.idCompra join lojasDMTRIX l on l.numeroLoja = c.idLoja
   left join ControleAprovacoesDMTRIX ca on ca.idPedido = p.idPedido
   join usuariosDMTRIX u on u.idUsuario = p.idUsuario
@@ -260,7 +263,6 @@ class FornecedorController extends Controller
                 'solicitante' => $rs['solicitante'],
                 'Prioridade' => $rs['Prioridade'],
                 'status' => $status,
-                'dataRevisao' => $rs['dataRevisao'],
                 'loja' => $rs['loja'],
                 'criacao' =>$rs['criacao'],
                 'dataOrcAtualizado' =>$rs['dataOrcAtualizado'],
@@ -308,7 +310,7 @@ class FornecedorController extends Controller
                 $dias = $diff->days;
 
 
-                if($dias <= 2)
+                if($dias <= 2 && $status_pedido != 81)
                 {
 
                     $status_pedido = 82; //pedido proximo a data de entrega
@@ -338,20 +340,20 @@ class FornecedorController extends Controller
                 'idPedido' => $rs['idPedido'],
                 'material' => $rs['material'],
                 'status' => $status,
-                'dataRevisao' => $rs['dataRevisao'],
+                'dataRevisao' => $this->service->formatarData($rs['dataRevisao']),
                 'loja' => $rs['loja'],
                 'largura' =>$rs['largura'],
                 'altura' =>$rs['altura'],
                 'quantidade' =>$rs['quantidade'],
                 'formaCalculo' =>$rs['formaCalculo'],
-                'data_aprovado' =>$rs['data_aprovado'],
-                'dataOrcAtualizado' =>$rs['dataOrcAtualizado'],
-                'data_aprovado_arte' =>$rs['data_aprovado_arte'],
+                'data_aprovado' =>$this->service->formatarData($rs['data_aprovado']),
+                'dataOrcAtualizado' =>$this->service->formatarData($rs['dataOrcAtualizado']),
+                'data_aprovado_arte' =>$this->service->formatarData($rs['data_aprovado_arte']),
                 'razao' =>$rs['razao'],
-                'dataPrevista' =>$rs['dataPrevista'],
-                'dataEntrada' =>$rs['dataEntrada'],
-                'dataSaida' =>$rs['dataSaida'],
-                'dataArtePostada' =>$rs['dataArtePostada'],
+                'dataPrevista' =>$this->service->formatarData($rs['dataPrevista']),
+                'dataEntrada' =>$this->service->formatarData($rs['dataEntrada']),
+                'dataSaida' =>$this->service->formatarData($rs['dataSaida']),
+                'dataArtePostada' =>$this->service->formatarData($rs['dataArtePostada']),
                 'observacao' =>$rs['observacao'],
                 'fotoArte' =>$rs['fotoArte'],
                 'valorProduto' =>$rs['valorProduto'],
@@ -374,21 +376,20 @@ class FornecedorController extends Controller
         
         $rs = $request->all();
 
-        $resp =  $this->service->EnviarFornecedor($rs['token'],$rs['fornecedor'], $rs['data'] );
+        $resp =  $this->fornecedor->EnviarFornecedor($rs['token'],$rs['fornecedor'], $rs['data'] );
         return view('fornecedores.consulta', compact('resp'));
 
     }
     
-    public function EntregaPedido(Request $request){
-        $rs = $request->all();
+    public function EntregaPedido($id){
 
-        $resp =   $this->service->EntregaPedido($rs['token'] );
-        return view('fornecedores.consulta', compact('resp'));
+        $resp =   $this->fornecedor->EntregaPedido($id);
+        return $resp;
 
     }
     public function finalizar(Request $request){
         $rs = $request->all();
-       $resp =  $this->service->finalizarPedido($rs);
+       $resp =  $this->fornecedor->finalizarPedido($rs);
 
        return view('fornecedores.consulta', compact('resp'));
 

@@ -39,27 +39,27 @@
 
 
         </div>
-            <div class="col-lg-4">
 
-                <div id="morris">
-                    <h2><i class="fa fa-bar-chart"></i> Pedidos em Fase de Orçamentação</h2>
-                    <div class="panel-body">
-                        <div id="hero-bar" class="graph"></div>
-                    </div>
-
-                </div>
-
-
-            </div>
 
 
         </div>
 
 
+    <div class="col-lg-4">
+
+        <div id="morris">
+            <h2><i class="fa fa-bar-chart"></i> Pedidos em Fase de Orçamentação</h2>
+            <div class="panel-body">
+                <div id="hero-bar" class="graph"></div>
+            </div>
+
+        </div>
 
 
+    </div>
 
-        <div class="col-lg-6">
+
+       <!-- <div class="col-lg-6">
 
 
             <h2><i class="fa fa-area-chart"></i> Incidencia de Pedidos</h2>
@@ -67,7 +67,7 @@
                 <div id="hero-area" class="graph"></div>
             </div>
 
-        </div>
+        </div> -->
         <div class="col-lg-5" style="font-size: 50px;">
             <h2><i class="fa fa-industry"></i> Incidencia de Fabricação</h2><br>
 

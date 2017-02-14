@@ -5,11 +5,12 @@
     <div class="col-lg-12">
 
         <div class="col-lg-2">
-            <img src="{{ url('img/sem-foto.png') }}" class=""><br>
+            <img ng-if="criacaoUser[0].foto != null"  class="img-circle img-thumbnail img-responsive" src="{{ url('img/fotos/<% criacaoUser[0].foto %>') }}">
+            <img ng-if="criacaoUser[0].foto == null" class="img-circle img-thumbnail img-responsive" src="{{ url('/img/sem-foto.png') }}"><br>
         </div>
         <div class="col-lg-2">
             <br>
-            <a href="#"><img src="{{ url('img/carregar-foto.png') }}" class=""></a>
+            <!--<a href="#"><img src="{{ url('img/carregar-foto.png') }}" class=""></a>-->
             <h2 class="colorAzul"><% criacaoUser[0].criacao %></h2>
             <p>Criação/Design</p>
             <a href=""><% criacaoUser[0].email %></a><p></p>
@@ -49,7 +50,7 @@
                 <% x.idCompra - x.titulo %><br>
                 <p>Loja: <% x.loja %></p>
                 <p>Solicitante: <% x.solicitante %></p>
-                <form action="{{url('/producao/fila/salvarArte')}}" method="post" enctype="multipart/form-data">
+                    {!! Form::open(array( 'method' => 'post', 'enctype' => 'multipart/form-data', 'action' => 'ProducaoController@salvarArte')) !!}
                     <table class="table subTable table-responsive left">
                         <tr>
                             <td>Material</td>
@@ -80,15 +81,15 @@
                             <td><% sub.custeio %></td>
                             <td><% sub.descricao %></td>
                             <td>
-                                {!! Form::open(array( 'method' => 'post', 'enctype' => 'multipart/form-data', 'action'=>'ProducaoController@salvarArte')) !!}
+
                                 <div class="form-group" ng-if="sub.status == 'criacao'">
 
-                                    <input type="file" class="" name="foto" style="    font-size: 10px;"><br><br>
-                                    <input type="hidden" name="token" value="<% sub.idPedido %>"><br><br>
-                                    <input type="submit" name="enviar" value="Enviar" class="btn btn-success" >
+                                    <input type="file" class="" required name="foto[]" style="    font-size: 10px;"><br><br>
+                                    <input type="hidden" name="token[]" value="<% sub.idPedido %>"><br><br>
+
 
                                 </div>
-                                {!! Form::close()!!}
+
                                 <div class="form-group" ng-if=" sub.status == 'revisao'">
 
                                     <input type="button" ng-click="servico.aprovacaoPedido(sub.idPedido, 1)" name="enviar" value="Enviar para aprovação" class="btn btn-success" ><br>
@@ -104,8 +105,11 @@
                                 </div>
                             </td>
                         </tr>
+                        <tr>
+                            <td ng-if="x.filaEnviar == 1" colspan="9" align="right"><input type="submit" name="enviar" value="Enviar" class="btn btn-success" ></td>
+                        </tr>
                     </table><br>
-                </form>
+                    {!! Form::close()!!}
                 </div>
                 <div class="centered center-block">
                      <p class="colorLaranja">Indicador de Produção</p>

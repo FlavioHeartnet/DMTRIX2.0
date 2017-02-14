@@ -7,11 +7,7 @@
 
 <div ng-controller="aprovacao-arte">
 
-    @if(isset($resp))
 
-        <p class="{{ $resp['class'] }}"><b>{{ $resp['msg'] }}</b></p>
-
-    @endif
     <div class="container-fluid" >
         <div class="page-header">
             <h1 id="timeline"><i class="fa fa-paint-brush"></i> Aprovação de Arte </h1>
@@ -50,8 +46,8 @@
                                         <td><% sub.quantidade %></td>
                                         <td>
                                             <div ng-if=" sub.fotoArte != 'Sem Arte' ">
-                                                <a ng-if="sub.fotoArte != ''" data-toggle="modal" data-target="#myModal" ng-click="modal(sub.fotoArte)" class="btn btn-primary"  ng-href="{{ url('http://dmcard.com.br/dmtrade/img/brindes/<% sub.fotoArte %>') }}">Foto</a><br><br>
-                                                <a ng-if="sub.fotoArte != ''" data-toggle="modal" data-target="#myModal" ng-click="modal(sub.fotoArte)" class="btn btn-primary"  ng-href="{{ url('img/fotos/<% sub.fotoArte %>') }}">Foto - Opção 2</a>
+                                                <a ng-if="sub.fotoArte != ''" data-toggle="modal" data-target="#myModal" ng-click="modal(sub.fotoArte)" class="btn btn-primary"  >Foto</a><br><br>
+                                                <a ng-if="sub.fotoArte != ''" data-toggle="modal" data-target="#myModal" ng-click="modal(sub.fotoArte)" class="btn btn-primary"  >Foto - Opção 2</a>
                                             </div>
                                             <div ng-if=" sub.fotoArte == 'Sem Arte' ">
                                                 <h3>Sem arte</h3>
