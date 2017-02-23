@@ -22,8 +22,7 @@ class PedidosServices
     }
 
 
-
-
+    
 
     public function AtualizaValores($request)
     {
@@ -52,6 +51,7 @@ class PedidosServices
             $custoUnitarioReal = $material['valor'];
             $idCompra =  $material['idCompra'];
             $idMaterial = $material['idMaterial'];
+            $nomeMaterial = $material['material'];
 
             if($custoUnitarioReal != $custoUnitario[$i]){
 
@@ -84,9 +84,9 @@ class PedidosServices
             $this->con->query("update PedidoDMTRIX set largura = '$largura[$i]', altura='$altura[$i]', quantidade='$quantidade[$i]',observacao='$observacao[$i]', status_pedido = '$status', valorProduto='$custoTotal[$i]'
             ,valorTotal='$total' where idPedido = '$idPedidos[$i]'");
 
-                $info = ['idPedido' => $idPedidos[$i], 'texto'=> 'Valor do pedido foi atualizado', 'tipo' => 1];
-                $this->historico->create($info);
 
+                $info = ['idPedido' => $idPedidos[$i], 'texto'=> 'Valor do pedido foi atualizado, item: '.$nomeMaterial, 'tipo' => 1];
+                $this->historico->create($info);
 
         }
 
@@ -97,7 +97,7 @@ class PedidosServices
             $info = ['idCompra' => $idCompra, 'texto'=> 'Valor da compra foi atualizado', 'tipo' => 1];
             $this->historico->historicoCompras($info);
 
-            $this->con->query("update ComprasDMTRIX set status_compra = 'aprovacoes', dataOrcAtualizado = getdate() where idCompra = '$idCompra'");
+            $this->con->query("update ComprasDMTRIX set status_compra = 'aprovacoes', dataOrcAtualizado = getdate(), valorTotal = '$total' where idCompra = '$idCompra'");
 
 
             $class = 'bg-success text-center text-success';
@@ -106,7 +106,8 @@ class PedidosServices
             $resp = ['class'=>$class, 'msg'=> $msg];
             return $resp;
             
-        }else{
+        }else
+        {
 
             $class = 'bg-danger text-center';
             $msg = 'Falha: '.odbc_errormsg();
@@ -225,21 +226,22 @@ class PedidosServices
                         $idPedido = $rs['idPedido'];
                         $material = $rs['material'];
                         $status_pedido = $rs['status_pedido'];
-                        
-                        $dataIdeal = new \DateTime($dataIdeal);
-                        $dataIdeal = $dataIdeal->format('d/m/y');
+
+                       $date = new \DateTime($dataIdeal);
+                        $dataIdealFormatada = $date->format('d/m/Y H:i');
 
                         if($status_pedido == 3 or $status_pedido == 5 or $status_pedido == 7 or $status_pedido == 6)
                         {
 
                             $tarefas = $this->con->query("select idPedido from tarefasDMTRIX where idPedido = '$idPedido'");
-                            if (odbc_num_rows($tarefas) > 0) {
+                            if (odbc_num_rows($tarefas) > 0)
+                            {
 
                                 $usuario = $this->con->fetch_array($this->con->query("select nome+' '+sobrenome as nome from usuariosDMTRIX where idUsuario = '$criacao'"));
                                 $usuario = $usuario['nome'];
 
                                 $this->con->query("update ComprasDMTRIX set prioridade = '$prioridade', status_compra = 'criacao' where idCompra = '$idCompra'");
-                                $this->con->query("update PedidoDMTRIX set status_pedido = '5', dataIdeal = '$dataIdeal' where idPedido = '$idPedido'");
+                                $this->con->query("update PedidoDMTRIX set status_pedido = '5', dataIdeal = '$dataIdealFormatada' where idPedido = '$idPedido'");
                                 $this->con->query("update tarefasDMTRIX set idUsuario = '$criacao', idPedido = '$idPedido',ativo = 'nao', iniciado = 0, dataDelegado = GETDATE() where idPedido = '$idPedido'");
                                 $info = ['idPedido' => $idPedido, 'texto' => 'Foi Redelegado uma tarefa  para o usuario: ' . $usuario . ', material: ' . $material, 'tipo' => 3];
                                 $this->historico->create($info);
@@ -250,7 +252,7 @@ class PedidosServices
                                 $usuario = $usuario['nome'];
 
 
-                                $this->con->query("update PedidoDMTRIX set status_pedido = 5, dataIdeal = '$dataIdeal' where idPedido = '$idPedido'");
+                                $this->con->query("update PedidoDMTRIX set status_pedido = 5, dataIdeal = '$dataIdealFormatada' where idPedido = '$idPedido'");
                                 $this->con->query("insert into tarefasDMTRIX(idUsuario,idPedido,ativo,iniciado, dataDelegado) values('$criacao','$idPedido','nao','0', getdate())");
                                 $this->con->query("update ComprasDMTRIX set prioridade = '$prioridade', status_compra = 'criacao' where idCompra = '$idCompra'");
                                 $info = ['idPedido' => $idPedido, 'texto' => 'Foi criado uma tarefa e o pedido foi delegado para usuario: ' . $usuario . ', material: ' . $material, 'tipo' => 3];
@@ -304,9 +306,9 @@ class PedidosServices
 
     public function cancelamento()
     {
-
+        ini_set('max_execution_time', 300);
         $sql = $this->con->query("  select idPedido,idCompra,status_pedido,u.email,u.nome+u.sobrenome as solicitante from 
-  PedidoDMTRIX p join usuariosDMTRIX u on u.idUsuario = p.idUsuario where status_pedido != 12  order by p.idCompra");
+  PedidoDMTRIX p join usuariosDMTRIX u on u.idUsuario = p.idUsuario where status_pedido != 11  order by p.idCompra");
 
         $array = array();
         while($rs = $this->con->fetch_array($sql))
@@ -317,8 +319,8 @@ class PedidosServices
             $email = $rs['email'];
             $nome = $rs['solicitante'];
 
-            $pesquisa = $this->con->fetch_array($this->con->query("select top 1 dataObs from dmtrixII.historicoObs where idPedido = '$idPedido' order by dataObs desc"));
-            $pesquisa = new \DateTime($pesquisa['dataObs']);
+            $sql1 = $this->con->fetch_array($this->con->query("select top 1 dataObs from dmtrixII.historicoObs where idPedido = '$idPedido' order by dataObs desc"));
+            $pesquisa = new \DateTime($sql1['dataObs']);
             $date = new \DateTime();
             $diff = $date->diff($pesquisa);
             if($diff->days >= 30)
@@ -414,26 +416,22 @@ class PedidosServices
             $idCompra = $this->con->fetch_array($this->con->query("select idCompra from PedidoDMTRIX  where idPedido = '$idPedido'"));
             $idCompra = $idCompra['idCompra'];
 
-            $buscaCompra = $this->con->query("select status_pedido from PedidoDMTRIX  where idCompra = '$idCompra'");
-
+            $buscaCompra = $this->con->fetch_array($this->con->query("select COUNT(*) as num from PedidoDMTRIX  where idCompra = '$idCompra'"));
+            $buscaCompraFinalizada = $this->con->fetch_array($this->con->query("select COUNT(*) as num from PedidoDMTRIX  where idCompra = '$idCompra' and status_pedido = 11"));
+            $numItens = $buscaCompra['num'];
+            $numItensFinalizado = $buscaCompraFinalizada['num'];
             $this->con->query("update PedidoDMTRIX set status_pedido = 11 where idPedido = '$idPedido'");
-            $count = odbc_num_rows($buscaCompra);
-            $x=0;
 
-            if($count == 1)
+
+            if($numItens == 1)
             {
 
                $this->con->query("update ComprasDMTRIX set status_compra = 'Cancelado' where idCompra = '$idCompra'");
 
             }else {
-                while ($RsbuscaCompra = odbc_fetch_array($buscaCompra)) {
-                    $status = $RsbuscaCompra['status_pedido'];
-                    if ($status == 11) {
-                        $x++;
-                    }
-                }
 
-                if ($count == $x) {
+
+                if ($numItens == $numItensFinalizado) {
 
                    $this->con->query("update ComprasDMTRIX set status_compra = 'Cancelado' where idCompra = '$idCompra'");
 
@@ -442,7 +440,7 @@ class PedidosServices
             
             $infos = $this->services->infoPedido($idPedido);
             $this->con->query("insert into dmtrixII.pedidosExpirados (idPedido, dataExpirado,email, status) values ('$idPedido',GETDATE(),1, 0)");
-            $mensagem = 'Caro(a) '.$infos['solicitante'].' o material: '.$infos['Material'].' foi cancelado pelo seguinte motivo: '.$motivo;
+            $mensagem = 'Caro(a) '.$infos['solicitante'].' o material: '.$infos['Material'].' foi cancelado pelo seguinte motivo: "]'.$motivo.'". <br> Para mais informações entre em contato com a agência!';
 
 
             Mail::send('emails.aprovacaoArte', compact('mensagem'), function ($m) use ($infos) {
@@ -454,8 +452,11 @@ class PedidosServices
 
 
             if(odbc_error() == ''){
+                
+               $pedidoMaterial = $this->services->materialCompra($idPedido);
+                $material = $pedidoMaterial['material'];
 
-                $info = ['idPedido' => $idPedido, 'texto'=> 'Pedido cancelado', 'tipo' => 2];
+                $info = ['idPedido' => $idPedido, 'texto'=> 'Pedido cancelado, item: '.$material, 'tipo' => 2];
                 $this->historico->create($info);
                 $info = ['idCompra' => $idCompra, 'texto'=> 'o Pedido: '.$idPedido.' foi cancelado, pelo usuario', 'tipo' => 2];
                 $this->historico->historicoCompras($info);

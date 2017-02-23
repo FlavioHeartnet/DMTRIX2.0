@@ -79,6 +79,7 @@ class FornecedorController extends Controller
             return view('fornecedores.gestaoFonecedor', compact('msg', 'class'));
 
         }
+        
         if(odbc_error() == ''){
             
             $msg = 'Cadastrado com sucesso!';
@@ -206,6 +207,12 @@ class FornecedorController extends Controller
         
 
     }
+    
+    public function indicadores(){
+        
+        return $this->fornecedor->pedidosFornecedor();
+        
+    }
 
 
     public function destroy($id)
@@ -286,7 +293,7 @@ class FornecedorController extends Controller
    m.material,p.idPedido, l.numeroLoja+' - '+l.nomeLoja as loja, p.largura,p.altura,p.quantidade,m.formaCalculo, ca.data_aprovado,
    ca.data_aprovado_arte, p.dataArtePostada, p.observacao,p.fotoArte,p.valorProduto,p.valorTotal, p.status_pedido,f.razao,cf.dataPrevista,
    cf.dataEntrada,cf.dataSaida
-  from PedidoDMTRIX p join materiaisDMTRIX m on m.idMaterial = p.idMaterial join ControleAprovacoesDMTRIX ca on ca.idPedido = p.idPedido
+  from PedidoDMTRIX p join materiaisDMTRIX m on m.idMaterial = p.idMaterial left join ControleAprovacoesDMTRIX ca on ca.idPedido = p.idPedido
   join ComprasDMTRIX c on c.idCompra = p.idCompra join lojasDMTRIX l on l.numeroLoja = c.idLoja
   left join dmtrixII.[controle-fornecedor] cf on cf.idPedido = p.idPedido
   left join dmtrixII.fornecedores f on f.id = cf.idFornecedor where c.idCompra = '$id'");
@@ -294,7 +301,7 @@ class FornecedorController extends Controller
         $fornecedor = $this->con->query("select razao,id from dmtrixII.fornecedores");
         $arrayFor = array();
         while($rs = $this->con->fetch_array($fornecedor)){
-            array_push($arrayFor, ['nome' => $rs['razao'], 'id' => $rs['id']]);
+            array_push($arrayFor, ['nome' => utf8_encode($rs['razao']), 'id' => $rs['id']]);
         }
 
         $response = array();
@@ -349,7 +356,7 @@ class FornecedorController extends Controller
                 'data_aprovado' =>$this->service->formatarData($rs['data_aprovado']),
                 'dataOrcAtualizado' =>$this->service->formatarData($rs['dataOrcAtualizado']),
                 'data_aprovado_arte' =>$this->service->formatarData($rs['data_aprovado_arte']),
-                'razao' =>$rs['razao'],
+                'razao' =>utf8_encode($rs['razao']),
                 'dataPrevista' =>$this->service->formatarData($rs['dataPrevista']),
                 'dataEntrada' =>$this->service->formatarData($rs['dataEntrada']),
                 'dataSaida' =>$this->service->formatarData($rs['dataSaida']),

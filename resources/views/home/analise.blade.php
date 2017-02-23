@@ -13,7 +13,7 @@
             <td>Compras:<br> 450</td>
         </tr>
         <tr>
-            <td class="colorLaranja" style="font-size: 20px">2016</td>
+            <td class="colorLaranja" style="font-size: 20px">2017</td>
             <td>280</td>
             <td>920</td>
         </tr>
@@ -51,7 +51,7 @@
             <td>Compras:<br> 450</td>
         </tr>
         <tr>
-            <td class="colorLaranja" style="font-size: 20px">2015</td>
+            <td class="colorLaranja" style="font-size: 20px">2016</td>
             <td>280</td>
             <td>920</td>
         </tr>

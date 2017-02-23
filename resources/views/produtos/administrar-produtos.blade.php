@@ -5,60 +5,32 @@
 
 @section('content')
 
-
+<div ng-controller="produtos">
     <h1><i class="fa fa-shopping-cart"></i> Administração de Produtos</h1>
 
     <div class="col-lg-4">
 
-        <h3><a onclick="exibir(1,0)" href="" class="colorAzul"><i class="fa fa-plus-circle"></i> Cadastrar Produtos</a></h3>
+        <h3><a href="#/produtos/cad" class="colorAzul loader"><i class="fa fa-plus-circle"></i> Cadastrar Produtos</a></h3>
 
         <div class="form-group">
 
             <h3> <i class="fa fa-search"></i> Filtro</h3>
 
-            <input type="text" class="form-control" name="filtro" placeholder="digite o nome do item"><br>
-            <button onclick="exibir(2,0)" class="btn btn-primary"><i class="fa fa-search"></i></button>
+            <input ng-model="busca" type="text" class="form-control" name="filtro" placeholder="digite o nome do item"><br>
+
 
         </div>
 
-
+        <a style="font-size: 30px" class="colorAzul loader"  href="#/produtos/consulta" ng-click="consulta()">Todos os produtos</a>
         <div class="form-group">
 
             <h4> <i class="fa fa-shopping-cart"></i> Regiões da Loja</h4>
 
             <table class="table colorAzul" style="font-weight:bold ">
 
-                <tr>
-                    <td><a onclick="exibir(2,0)" href="">Checkout</a></td>
-                    <td>50</td>
-                </tr>
-                <tr>
-                    <td><a onclick="exibir(2,0)" href="">Balcão</a></td>
-                    <td>100</td>
-                </tr>
-                <tr>
-                    <td><a onclick="exibir(2,0)" href="">Entrada de Loja</a></td>
-                    <td>100</td>
-                </tr>
-                <tr>
-                    <td><a onclick="exibir(2,0)" href="">Gôndola</a></td>
-                    <td>100</td>
-                </tr>
-                <tr>
-                    <td><a onclick="exibir(2,0)" href="">Apresentações e Treinamentos</a></td>
-                    <td>100</td>
-                </tr>
-                <tr>
-                    <td><a onclick="exibir(2,0)" href="">Campanhas</a></td>
-                    <td>100</td>
-                </tr>
-                <tr>
-                    <td><a onclick="exibir(2,0)" href="">Digital</a></td>
-                    <td>100</td>
-                </tr>
-                <tr>
-                    <td><a onclick="exibir(2,0)" href="">Outros</a></td>
-                    <td>100</td>
+                <tr ng-repeat="x in categoriaGeral">
+                    <td><a class="loader"  href="#/produtos/consulta" ng-click="produtosGeral(x.id)"><% x.nome %></a></td>
+                    <td><% x.num %></td>
                 </tr>
 
             </table>
@@ -71,14 +43,11 @@
 
             <table class="table colorAzul" style="font-weight:bold ">
 
-                <tr>
-                    <td><a onclick="exibir(2,0)" href="">Adesivo Balcão de Vendas</a></td>
-                    <td>10</td>
+                <tr ng-repeat="x in categoria">
+                    <td><a class="loader"  href="#/produtos/consulta" ng-click="produtosCategoria(x.id)"><% x.nome %></a></td>
+                    <td><% x.num %></td>
                 </tr>
-                <tr>
-                    <td><a onclick="exibir(2,0)" href="">Anuncio Impresso</a></td>
-                    <td>12</td>
-                </tr>
+
 
             </table>
 
@@ -89,12 +58,12 @@
 
     </div>
 
-    <div class="col-lg-8" id="result">
+    <div class="col-lg-8" ng-view id="result">
 
 
-            @include('produtos.consulta')
+
 
     </div>
 
-
+</div>
 @endsection

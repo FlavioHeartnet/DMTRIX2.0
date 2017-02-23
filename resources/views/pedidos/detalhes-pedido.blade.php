@@ -11,7 +11,7 @@
                 {!! Form::open(array( 'method' => 'post', 'action' => 'PedidosController@finalizarCompra')) !!}
                 <div class="form-group" ng-if="array.status_compra != 'Finalizado'">
 
-                    <div class="panel panel-danger">
+                    <div class="panel panel-danger" ng-if="array.status_compra != 'Finalizado'">
                         <div class="panel-heading">Deseja finalizar a compra?</div>
                         <div class="panel-body">
                             <textarea class="form-control" name="motivoFinalizar" placeholder="Motivo de finalizar"></textarea><br>
@@ -38,7 +38,7 @@
                         <div class="panel-heading">Informações da compra</div>
                         <div class="panel-body">
                             <div class="row">
-                                <div class="col-lg-3">Nome da loja: <% array.Loja %> Custo total: <b>R$ <% array.valorTotal %></b></div>
+                                <div class="col-lg-3">Nome da loja: <% array.Loja %> Custo total: <b>R$ <% array.valorTotal | number: 2 %></b></div>
                                 <div class="col-lg-4">Data da Compra: <b><% array.dataCompra %></b><br><br> Pagamento: <b><% array.formaPagamento %><br>Custeio: <% array.custeio %></br> <br><br> Segmento: <b><% array.segmento %></b></div>
                                 <div class="col-lg-5">Solicitante: <% array.nome %><br>
                                     <p>Entrega ideial: <b><% array.dataIdeal %></b></p><p><br> Fornecedor entregou :  <b><% array.dataEntrada %></b> |</p><br><p> Pedido finalizado: <% array.dataSaida %> <b></b></p>
@@ -52,7 +52,7 @@
                     <div class="col-lg-3">
                         {!! Form::open(array( 'method' => 'post', 'action' => 'PedidosController@redelegarTarefas')) !!}
                         {!! Form::hidden('token','<% array.idCompra %>') !!}
-                        <div class="panel panel-success">
+                        <div class="panel panel-success" ng-if="array.status_compra == 'criacao'">
                             <div class="panel-heading">Criação</div>
                             <div class="panel-body">
                                 <div class="form-group">
@@ -115,9 +115,13 @@
                                                 </div>
                                                 <div class="col-lg-10">
 
-                                                    <textarea class="form-control" name="motivo<% x.idPedido %>" placeholder="Motivo do cancelamento"></textarea><br>
+                                                    <div ng-if="x.status_pedido !='Finalizado'">
 
-                                                    <button ng-if="x.status != 11" class="btn btn-primary" ng-click="botoes.cancelarPedido(x.idPedido)"><i class="fa fa-trash-o"></i> Cancelar Pedido</button><p></p>
+                                                    <textarea class="form-control" id="motivo<% x.idPedido %>" placeholder="Motivo do cancelamento"></textarea><br>
+
+                                                    <button class="btn btn-primary" ng-click="cancelarPedido(x.idPedido)"><i class="fa fa-trash-o"></i> Cancelar Pedido</button><p></p>
+
+                                                    </div>
                                                     <table  class="table-responsive table-bordered" cellpadding="0" cellspacing="0" border="0" style="text-align: center">
                                                         <tr>
                                                             <td colspan="4">
@@ -181,11 +185,11 @@
                                                             </td>
                                                             <td>
                                                                 <b>Custo unitátio</b><br>
-                                                                R$ <% x.precoUnitario %>
+                                                                R$ <% x.precoUnitario | number: 2 %>
                                                             </td>
                                                             <td>
                                                                 <b>Custo Total</b><br>
-                                                                R$ <% x.valorProduto %>
+                                                                R$ <% x.valorProduto | number: 2  %>
                                                             </td>
                                                             <td>
                                                                 <b>Data de entrega</b><br>

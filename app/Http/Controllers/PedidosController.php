@@ -68,7 +68,7 @@ class PedidosController extends Controller
 
         $con = $this->con;
 
-        $timeline = $this->con->query("select h.id,p.idCompra,h.tipo, h.observacao, u.nome, h.dataObs,h.lida,p.idPedido from dmtrixII.historicoObs h join PedidoDMTRIX p on p.idPedido = h.idPedido 
+        $timeline = $this->con->query("select DISTINCT h.id,p.idCompra,h.tipo, h.observacao, u.nome, h.dataObs,h.lida from dmtrixII.historicoObs h join PedidoDMTRIX p on p.idPedido = h.idPedido 
   join usuariosDMTRIX u on u.idUsuario = h.idUsusario where p.idCompra = '$idCompra' order by h.dataObs desc");
         $arrayTimeline = array();
         while($rs = odbc_fetch_array($timeline))

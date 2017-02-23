@@ -17,6 +17,9 @@ app.config(['$routeProvider', function($routeProvider){
         .when('/usuario/cad', { templateUrl: '/usuarios/gestao/cad'})
         .when('/usuario/edit/:id', { templateUrl: '/usuarios/gestao/edit/'})
         .when('/usuario/consulta', { templateUrl: '/usuarios/gestao/consulta/mostrar'})
+        .when('/produtos/cad', { templateUrl: '/produtos/cad'})
+        .when('/produtos/edit/:id', { templateUrl: '/produtos/edit/mostrar'})
+        .when('/produtos/consulta', { templateUrl: '/produtos/consulta/mostrar'})
 
 }]);
 //serviço que conecta com o back
@@ -61,6 +64,12 @@ app.factory('FornecedorSrv', function($resource) {
 
                                 url: '/fornecedores/gestao/pedidos/detalhes/finalizar/:id'
                             }
+                    ,indicadores: {
+
+                        method: 'get',
+                        url: '/fornecedores/indicadores'
+
+                    }
 
             }
 
@@ -214,6 +223,65 @@ app.factory('criacao', function($resource){
     
 });
 
+app.factory('produtos', function($resource){
+
+    return $resource('/produtos/consulta',{
+
+            id: '@id'
+        },
+        {
+            consulta: {
+
+                method: 'GET',
+                isArray: true,
+                url: '/produtos/consulta'
+            },
+
+            categoriaGeral: {
+
+                method: 'GET',
+                isArray: true,
+                url: '/produtos/categoria/geral'
+
+            },
+
+            categoria:{
+
+                method: 'GET',
+                isArray: true,
+                url: '/produtos/categoria'
+
+            },
+
+            produtosGeral: {
+
+                method: 'GET',
+                isArray: true,
+                url: '/produtos/categoriaGeral/:id'
+
+            },
+
+            categoriaProdutos:{
+
+                method: 'GET',
+                isArray: true,
+                url: '/produtos/categoriaProdutos/:id'
+
+            },
+
+            edit:{
+
+                method: 'GET',
+                url: '/produtos/edit/:id'
+
+            }
+
+
+        }
+    );
+
+});
+
 //serviço de funcções genericas usadas no sistema
 app.service('Services', function ($http, $location, detalhesPedidos, criacao, AtualizarValorPedidosSrv) {
 
@@ -323,24 +391,20 @@ app.service('Services', function ($http, $location, detalhesPedidos, criacao, At
 
     };
 
-    this.cancelarPedido = function(id){
+    this.cancelarPedido = function(id, motivo){
 
-        jQuery(function($) {
-            var motivo = 'motivo' + id;
-            motivo = $("textarea[name=" + motivo + "]").val();
+                   var resp = AtualizarValorPedidosSrv.cancelarPedido({id:id, obs: motivo}).$promise.then(function (data) {
 
-        });
+                       return data;
 
-       var resp = AtualizarValorPedidosSrv.cancelarPedido({id:id, obs:obs}).$promise.then(function (data) {
+                  });
 
-           return data;
+             var response = resp.then(function (d) {
 
-       });
+                alert(d.resp);
+                return d.resp;
 
-
-      return resp.then(function(d) {
-            return d
-        });
+            });
 
 
     };
@@ -446,7 +510,7 @@ app.directive('onFinishRender', function ($timeout) {
 
 
 //Controllers
-app.controller('home', function($scope, $http, Services)
+app.controller('home', function($scope, $http, Services, FornecedorSrv)
 {
     $scope.criacao = [];
     $scope.criacaoUser = [];
@@ -466,7 +530,22 @@ app.controller('home', function($scope, $http, Services)
 
     });
 
+    $scope.init = function () {
+        $scope.indicadores = [];
+        var resp = FornecedorSrv.indicadores().$promise.then(function (data) {
 
+            return data;
+
+        });
+
+        resp.then(function (d) {
+            $scope.indicadores = d;
+            console.log($scope.indicadores)
+        })
+
+    };
+
+    $scope.init();
 
     $scope.$on('ngRepeatFinished', function() {
 
@@ -508,7 +587,6 @@ app.controller('home', function($scope, $http, Services)
             $scope.criacaoUser = d;
         });
 
-        
     }
     
 
@@ -569,11 +647,16 @@ app.controller('detalhesPedido',function($scope,$http,Services){
 
     $scope.botoes = Services;
 
+
+
     $scope.cancelarPedido = function(id){
 
-        $scope.botoes.cancelarPedido(id);
+        var motivo = 'motivo' + id;
+        motivo = document.getElementById(motivo).value;
+        $scope.botoes.cancelarPedido(id, motivo);
 
         $scope.pesquisar($scope.idCompra);
+
     };
 
 
@@ -667,7 +750,7 @@ app.controller('custoAprovar', function ($scope, Services, AtualizarValorPedidos
     {
         jQuery(function($) {
             var motivo = 'motivo' + id;
-            motivo = $("textarea[name="+motivo+"]").val();
+            motivo =  document.getElementById(motivo).value;
             
 
         var resp = AtualizarValorPedidosSrv.cancelarPedido({ id: id, obs: motivo}).$promise.then(function (data) {
@@ -705,7 +788,7 @@ app.controller('custoAprovar', function ($scope, Services, AtualizarValorPedidos
 
 
             total = (largura * altura) * valor * quantidade;
-            total = parseFloat(total);
+            total = $filter('number')(parseFloat(total), 2);
 
             document.getElementById('custoTotal' + id).innerHTML = total;
             $('#custoInput' + id).val(total);
@@ -760,7 +843,7 @@ app.controller('custoAprovar', function ($scope, Services, AtualizarValorPedidos
 
         $scope.val = 0;
         angular.forEach($scope.total, function(value) {
-            $scope.val += value.valor;
+            $scope.val += parseFloat(value.valor);
             console.log($filter('number')($scope.val,3))
         })
 
@@ -1261,7 +1344,7 @@ app.controller('master', function ($scope,$http,Services, detalhesPedidos){
 
 });
 
-app.controller('mensagem',function ($scope,$http,Services, detalhesPedidos){
+app.controller('mensagem',function ($scope,$http,Services){
 
 
     $scope.service = Services;
@@ -1281,5 +1364,145 @@ app.controller('mensagem',function ($scope,$http,Services, detalhesPedidos){
         });
 
     };
+
+});
+
+app.controller('produtos', function ($scope,$http,Services,produtos) {
+
+    $scope.categoriaGeral = [];
+    $scope.categoria = [];
+
+
+    $scope.produtosGeral = function (id) {
+        $scope.produtos = [];
+
+       var resp = produtos.produtosGeral({id:id}).$promise.then(function(data){
+
+            return data
+        });
+
+        resp.then(function (d) {
+
+            $scope.produtos = d;
+
+        });
+
+
+    };
+
+    $scope.produtosCategoria = function (id) {
+        $scope.produtos = [];
+
+        var resp = produtos.categoriaProdutos({id:id}).$promise.then(function(data){
+
+            return data
+        });
+
+        resp.then(function (d) {
+
+            $scope.produtos = d;
+
+        });
+
+
+    };
+
+    $scope.consulta = function()
+    {
+        $scope.produtos = [];
+       var resp = produtos.consulta().$promise.then(function(data){
+
+            return data
+        });
+
+        resp.then(function (d) {
+
+            $scope.produtos = d;
+            console.log($scope.produtos)
+        });
+    }
+
+    $scope.init = function(){
+
+        var resp = produtos.categoriaGeral().$promise.then(function(data){
+
+            return data
+        });
+
+        resp.then(function (d) {
+
+            $scope.categoriaGeral.push(d);
+            $scope.categoriaGeral = $scope.categoriaGeral[0];
+          
+        });
+
+         resp = produtos.categoria().$promise.then(function(data){
+
+            return data
+        });
+
+        resp.then(function (d) {
+
+            $scope.categoria.push(d);
+            $scope.categoria = $scope.categoria[0];
+        });
+
+        $scope.consulta();
+        
+        
+
+        location.href = '#/produtos/consulta';
+
+
+    };
+    
+    $scope.editPedido = function(id){
+        $scope.itemPedido =[];
+        var resp = produtos.edit({ id:id }).$promise.then(function(data){
+            
+            return data;
+        });
+        
+        resp.then(function(d){
+
+            $scope.itemPedido = d;
+            console.log($scope.itemPedido)
+
+            $scope.valor = $scope.itemPedido.valor;
+            $scope.nome = $scope.itemPedido.material;
+            $scope.forma =
+            $scope.categoriaCorrente = [{
+                id: $scope.itemPedido.idCategoria,
+                nome: $scope.itemPedido.nomeCategoria
+                }];
+            $scope.selectedCategoria = $scope.categoriaCorrente[0];
+
+            $scope.formaCorrente = [{
+                id: $scope.itemPedido.formaCalculo,
+                nome: $scope.itemPedido.forma
+            }];
+
+            $scope.formaCalculo = [{
+                id: '1',
+                nome: 'Free'
+            },{
+
+                id: '2',
+                nome: 'Unidade'
+
+            },{
+
+                id:'3',
+                nome:'Metro'
+
+            }];
+
+            $scope.forma = $scope.formaCorrente[0];
+        });
+        
+    };
+
+    $scope.init();
+
 
 });

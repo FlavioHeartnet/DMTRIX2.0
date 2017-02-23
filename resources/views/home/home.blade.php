@@ -74,28 +74,28 @@
             <div class="col-lg-2">
                 <a href="" class="colorCinza">
                     <i class="fa fa-search"></i>
-                    <p>16</p>
+                    <p><% indicadores.aprovados %></p>
                     <p style="font-size: 10px">Disponiveis para fabricação</p>
                 </a>
             </div>
             <div class="col-lg-2">
                 <a href="" class="colorCinza">
                     <i class="fa fa-share-square-o"></i>
-                    <p>50</p>
+                    <p><% indicadores.fila %></p>
                     <p style="font-size: 10px">Enviados para Fabricação</p>
                 </a>
             </div>
             <div class="col-lg-2">
                 <a href="" class="colorCinza">
                     <i class="fa fa-clock-o"></i>
-                    <p>36</p>
+                    <p><% indicadores.entrega %></p>
                     <p style="font-size: 10px">Proximos a Entrega</p>
                 </a>
             </div>
             <div class="col-lg-2">
                 <a href="" class="colorCinza">
                     <i class="li_stack"></i>
-                    <p>100</p>
+                    <p><% indicadores.aguardandoRetirada %></p>
                     <p style="font-size: 10px">Disponiveis para Retirada</p>
 
                 </a>
@@ -103,7 +103,7 @@
             <div class="col-lg-2">
                 <a href="" class="colorCinza">
                     <i class="fa fa-check-circle-o"></i>
-                    <p>516</p>
+                    <p><% indicadores.finalizado %></p>
                     <p style="font-size: 10px">Pedidos finalizados</p>
                 </a>
 

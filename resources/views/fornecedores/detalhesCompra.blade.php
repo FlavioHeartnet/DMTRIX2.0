@@ -26,8 +26,8 @@
                             </tr>
                             <tr>
                                 <td>
-                                    <b>Nº</b><br>
-                                    <% d.idPedido %>
+                                    <b>Nº do Pedido</b><br>
+                                    <% d.idCompra %>
                                 </td>
                                 <td><b>Loja:</b><br>
                                     <% d.loja %></td>

@@ -27,14 +27,25 @@ class Services
 
 
         if($data != '') {
-            $data = new \DateTime($data);
-            return $data->format('d/m/Y H:i');
+            $date = new \DateTime($data);
+          
+            return $date->format('d/m/Y H:i');
         }else{
 
             return 'Sem data no momento!';
 
         }
         
+    }
+
+    public function materialCompra($idPedido)
+    {
+        $sql = $this->con->query("select m.material,m.valor,p.quantidade,m.formaCalculo,p.valorProduto, u.nome+' '+sobrenome as solicitante from materiaisDMTRIX m join PedidoDMTRIX p on p.idMaterial = m.idMaterial
+join usuariosDMTRIX u on u.idUsuario = p.idUsuario where p.idPedido = '$idPedido'");
+
+        return $this->con->fetch_array($sql);
+
+
     }
 
     public function DiffDatasPedidos($data){

@@ -99,6 +99,7 @@ Route::get('/fornecedores/gestao', function () {
     return view('fornecedores.gestaoFonecedor', compact('msg'));
 });
 Route::get('/fornecedores/gestao/show', 'FornecedorController@show');
+Route::get('/fornecedores/indicadores', 'FornecedorController@indicadores');
 Route::get('/fornecedores/gestao/pedidos', 'FornecedorController@PedidosFornecedor');
 Route::get('/fornecedores/gestao/pedidos/mostrar', function () {
     $msg = '';
@@ -144,10 +145,16 @@ Route::get('/producao/fila/criacao/mostrar', 'ProducaoController@index' );
 
 Route::get('/produtos/administrar', 'ProdutoController@index' );
 Route::get('/produtos/cad','ProdutoController@create' );
+Route::post('/produtos/cad','ProdutoController@store' );
 Route::get('/produtos/consulta/mostrar','ProdutoController@consultar' );
-Route::get('/produtos/consulta', 'ProdutoController@pedidos');
-
+Route::get('/produtos/consulta', 'ProdutoController@produtos');
+Route::get('/produtos/edit/mostrar', 'ProdutoController@editarMostrar');
 Route::get('/produtos/edit/{id}', 'ProdutoController@edit');
+Route::post('/produtos/edit/{id}', 'ProdutoController@update');
+Route::get('/produtos/categoria/geral', 'ProdutoController@categoriaGeral');
+Route::get('/produtos/categoria', 'ProdutoController@categoria');
+Route::get('/produtos/categoriaGeral/{id}', 'ProdutoController@produtosGeral');
+Route::get('/produtos/categoriaProdutos/{id}', 'ProdutoController@produtosCategoria');
 
 
 //loader

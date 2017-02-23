@@ -118,8 +118,8 @@
                                                 </table>
 
 
-                                                    <textarea class="form-control" name="motivo<% x.idPedido %>" placeholder="Motivo do cancelamento"></textarea><br>
-                                                    <input type="button" ng-click="cancelarItem(x.idPedido, result[0].idCompra )" class="btn btn-danger" value="Cancelar este item?"><p></p>
+                                                    <textarea class="form-control" id="motivo<% x.idPedido %>" placeholder="Motivo do cancelamento"></textarea><br>
+                                                    <input type="button" ng-click="botoes.cancelarPedido(x.idPedido)" class="btn btn-danger" value="Cancelar este item?"><p></p>
 
 
 
@@ -157,7 +157,7 @@
                                     <input type="submit" class="btn btn-warning backgroundLaranja" value="Atualizar">
                                 </div>
                                 <div class="col-lg-4">
-                                    <h3>Custo total atualizado: <b>R$<% val | number:2  %></b></h3>
+                                    <h3>Custo total atualizado: <b>R$<% val  %></b></h3>
                                 </div>
 
                             </div>

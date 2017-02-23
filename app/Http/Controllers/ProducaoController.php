@@ -76,16 +76,19 @@ class ProducaoController extends Controller
         for($i=0;$i<count($idPedido);$i++) {
 
             
-            if ($request->hasFile('foto')) {
+            if (isset($_FILES['foto'])) {
 
-                $foto = $request->file('foto');
+                $foto = $_FILES['foto']['name'];
 
 
                 if($foto[$i] != '') {
 
-                    $data['foto'] = $foto[$i];
-                    $data['extension'] = $foto[$i]->getClientOriginalExtension();
-                    $data['nome'] = "arte" . $idPedido[$i];
+                    $exteFoto = explode(".", $_FILES['foto']['name'][$i]);//pega a extensão da foto
+                    $exteFoto_ex = strtolower($exteFoto[1]);
+
+                    $data['foto'] =  $_FILES['foto']['tmp_name'][$i];
+                    $data['extension'] = $exteFoto_ex;
+                    $data['nome'] = "arteDMTRIX" . $idPedido[$i];
                     $this->fornecedor->createFile($data);
                     $nomeFoto = trim($data['nome']) . '.' . $data['extension'];
                    $resp = $this->producaoService->revisao($idPedido[$i], $nomeFoto);
@@ -97,9 +100,6 @@ class ProducaoController extends Controller
                     $erro++;
 
                 }
-
-
-
 
 
             }else {

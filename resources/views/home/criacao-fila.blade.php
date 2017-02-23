@@ -84,7 +84,7 @@
 
                                 <div class="form-group" ng-if="sub.status == 'criacao'">
 
-                                    <input type="file" class="" required name="foto[]" style="    font-size: 10px;"><br><br>
+                                    {!! Form::file('foto[]',['style'=> 'font-size: 10px']) !!}
                                     <input type="hidden" name="token[]" value="<% sub.idPedido %>"><br><br>
 
 

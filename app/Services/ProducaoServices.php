@@ -86,10 +86,14 @@ class ProducaoServices
                         {
                             $status = 'aprovado';
                             
-                        }else{
+                        }elseif($is['status_pedido'] == 5 or $is['status_pedido'] == 7){
                             
                             $status = 'criacao';
                             
+                        }else{
+
+                            $status = '';
+
                         }
 
                         $altura = $is['altura'];
@@ -109,9 +113,10 @@ class ProducaoServices
                             $descricao = 'Produto com medida padão';
                         }
 
-                        
-                        array_push($texto, ["material"=>$material, 'observacao'=>$observacao, 'situacao' => $situacao, 'dataObs' => $dataHist['dataObs'], 'idPedido' => $idPedido, 'status'=>$status, 'foto'=>$is['fotoArte'],
-                        'quantidade'=> $is['quantidade'], 'custeio'=> $is['custeio'], 'descricao'=>$descricao]);
+                        if($status != '') { // caso o pedido esteja em um status diferente da criação ele não é exibido
+                            array_push($texto, ["material" => $material, 'observacao' => $observacao, 'situacao' => $situacao, 'dataObs' => $dataHist['dataObs'], 'idPedido' => $idPedido, 'status' => $status, 'foto' => $is['fotoArte'],
+                                'quantidade' => $is['quantidade'], 'custeio' => $is['custeio'], 'descricao' => $descricao]);
+                        }
                         
 
                     }

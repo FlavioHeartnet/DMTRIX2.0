@@ -331,5 +331,15 @@ if($value['token'] == 1){
 <script src="{{ asset('js/sparkline-chart.js')  }}"></script>
 <script src="{{ asset('js/module.js')}}"></script>
 
+<script type="text/javascript">
+
+    jQuery('.loader').click(function(){
+
+        document.getElementById('result').innerHTML = '@include('loaders.loader')';
+
+    });
+
+</script>
+
 </body>
 </html>

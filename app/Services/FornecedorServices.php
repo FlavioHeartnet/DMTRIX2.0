@@ -35,6 +35,21 @@ class FornecedorServices
         $this->services = $services;
     }
 
+    public function pedidosFornecedor(){
+
+       $sql = $this->con->fetch_array($this->con->query("select (select count(*) as fila from PedidoDMTRIX where status_pedido = 6) as aprovados,
+   (select count(*) as fila from PedidoDMTRIX where status_pedido = 8) as fila
+   ,(select count(*) as fila from PedidoDMTRIX where  status_pedido = 81) as aguardandoRetirada
+   ,(select count(*) as fila from PedidoDMTRIX where status_pedido = 11 and YEAR(dataArtePostada) = YEAR(GETDATE()) ) as finalizado,
+   (select COUNT(*) as num from dmtrixII.[controle-fornecedor] c join PedidoDMTRIX p on p.idPedido = c.idPedido  
+   where DATEDIFF(day, dataPrevista, GETDATE()) < 2 and p.status_pedido = 8) as entrega"));
+        
+        return $sql;
+
+
+
+    }
+
     public function createFile(array $data)
     {
 
@@ -127,22 +142,32 @@ class FornecedorServices
 
             $this->con->query("update PedidoDMTRIX set status_pedido = 81 where idPedido = '$idPedido'");
 
-            $msg = $this->con->fetch_array($this->con->query("select u.nome, u.email, (select email from usuariosDMTRIX where idUsuario = u.supervisor) as re, m.material from usuariosDMTRIX u join PedidoDMTRIX p on p.idUsuario = u.idUsuario
+            $msg = $this->con->fetch_array($this->con->query("select u.nome, u.email,p.idcompra, (select email from usuariosDMTRIX where idUsuario = u.supervisor) as re, m.material from usuariosDMTRIX u join PedidoDMTRIX p on p.idUsuario = u.idUsuario
 join materiaisDMTRIX m on m.idMaterial = p.idMaterial where p.idPedido = '$idPedido'"));
             $nome = $msg['nome'];
             $Cc = $msg['re'];
             $email = $msg['email'];
+            $idCompra = $msg['idCompra'];
 
-            $x = ['email' => $email, 'Cc' => $Cc, 'nome'=>$nome];
-            $material = $msg['material'];
-            $mensagem = "Olá ".$nome.", o material: ".$material." que você solicitou ja esta disponível para retirada, compareça na DMCard ou entre em contato com o trade para recebe-lo!";
+           $verifica =$this->con->fetch_array($this->con->query("  select COUNT(*) as num, (select COUNT(*) as num from PedidoDMTRIX where idCompra = '1530' and status_pedido = 81) as numPedido 
+  from PedidoDMTRIX where idCompra = '$idCompra'"));
 
-            Mail::send('emails.aprovacaoArte', compact('mensagem'), function ($m) use ($x) {
-                $m->from('faqdmtrade@dmcard.com.br', 'DMTRIX');
-                $m->cc($x['Cc'], 'Supervisor');
-                $m->to($x['email'], $x['nome'])->subject('Pedido já esta disponível para retirada!');
-            });
+            $num = $verifica['num'];
+            $numPedido = $verifica['numPedido'];
 
+            if($num == $numPedido) {
+
+                $x = ['email' => $email, 'Cc' => $Cc, 'nome' => $nome];
+                $material = $msg['material'];
+                $mensagem = "Olá " . $nome . ", os materiais: " . $material . " que você solicitou ja esta disponível para retirada, compareça na DMCard ou entre em contato com o trade para recebe-lo!";
+
+
+                Mail::send('emails.aprovacaoArte', compact('mensagem'), function ($m) use ($x) {
+                    $m->from('faqdmtrade@dmcard.com.br', 'DMTRIX');
+                    $m->cc($x['Cc'], 'Supervisor');
+                    $m->to($x['email'], $x['nome'])->subject('Pedido já esta disponível para retirada!');
+                });
+            }
 
             $info = ['idPedido' => $idPedido, 'texto'=> 'Pedido que estava com o fornecedor: '.$razao.' foi entregue!', 'tipo' => 4];
             $this->historico->create($info);
