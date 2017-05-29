@@ -43,8 +43,8 @@ class HistoricoController extends Controller
         $texto = $infos['texto'];
         $tipo = $infos['tipo'];
 
-        $this->con->query("insert into dmtrixII.historicoObs (tipo, observacao, idUsusario,dataObs,idPedido)
-  values('$tipo','$texto', '$idUsuario',GETDATE(),'$idPedido')");
+        $this->con->query("insert into dmtrixII.historicoObs (tipo, observacao, idUsusario,dataObs,idPedido,lida)
+  values('$tipo','$texto', '$idUsuario',GETDATE(),'$idPedido',0)");
 
         if(odbc_error() == ''){
             

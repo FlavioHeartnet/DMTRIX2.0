@@ -71,38 +71,38 @@ class ProducaoController extends Controller
         $rs = $request->all();
 
         $idPedido = $rs['token'];
+
         $erro = 0;
 
-        for($i=0;$i<count($idPedido);$i++) {
 
+
+        for($i=0;$i<count($idPedido);$i++) {
             
             if (isset($_FILES['foto'])) {
 
-                $foto = $_FILES['foto']['name'];
+                if ($_FILES['foto']['name'][$i] != '') {
 
-
-                if($foto[$i] != '') {
 
                     $exteFoto = explode(".", $_FILES['foto']['name'][$i]);//pega a extensão da foto
                     $exteFoto_ex = strtolower($exteFoto[1]);
 
-                    $data['foto'] =  $_FILES['foto']['tmp_name'][$i];
+                    $data['foto'] = $_FILES['foto']['tmp_name'][$i];
                     $data['extension'] = $exteFoto_ex;
                     $data['nome'] = "arteDMTRIX" . $idPedido[$i];
                     $this->fornecedor->createFile($data);
                     $nomeFoto = trim($data['nome']) . '.' . $data['extension'];
-                   $resp = $this->producaoService->revisao($idPedido[$i], $nomeFoto);
+                    $resp = $this->producaoService->revisao($idPedido[$i], $nomeFoto);
                     $class = 'bg-sucess text-center text-sucess';
+                   $resp = ['class' => $class, 'msg' => $resp];
 
-                    $resp = ['class' => $class, 'msg' => $resp];
-                }else{
+                } else {
 
                     $erro++;
 
                 }
 
 
-            }else {
+            } else {
 
 
                 $class = 'bg-warning text-center text-warning';
@@ -112,6 +112,8 @@ class ProducaoController extends Controller
 
 
             }
+
+
         }
 
         if($erro > 0){
@@ -127,8 +129,6 @@ class ProducaoController extends Controller
 
       return view('home.home', compact('resp'));
 
-
-        
     }
     
     public function ConsultaRevisao()

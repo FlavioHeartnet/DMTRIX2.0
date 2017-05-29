@@ -88,7 +88,7 @@ class FornecedorServices
 
             $dados = $this->services->infoPedido($idPedido);
             $idCompra = $dados['idCompra'];
-            $this->services->atualizarStatusCompra(8,$idCompra,'Fornecedor');
+            $respAtualizar = $this->services->atualizarStatusCompra(8,$idCompra,'Fornecedor');
 
             $this->con->query("update PedidoDMTRIX set status_pedido = 8 where idPedido = '$idPedido'");
 
@@ -99,7 +99,7 @@ class FornecedorServices
             $this->historico->create($info);
 
             $class = 'bg-success text-center text-success';
-            $msg = 'Enviado para o Fornecedor com sucesso';
+            $msg = 'Enviado para o Fornecedor com sucesso <br> <p>'.$respAtualizar.'</p>';
 
             $resp = ['class'=>$class, 'msg'=> $msg];
             return $resp;
@@ -142,14 +142,14 @@ class FornecedorServices
 
             $this->con->query("update PedidoDMTRIX set status_pedido = 81 where idPedido = '$idPedido'");
 
-            $msg = $this->con->fetch_array($this->con->query("select u.nome, u.email,p.idcompra, (select email from usuariosDMTRIX where idUsuario = u.supervisor) as re, m.material from usuariosDMTRIX u join PedidoDMTRIX p on p.idUsuario = u.idUsuario
+            $msg = $this->con->fetch_array($this->con->query("select u.nome, u.email,p.idCompra, (select email from usuariosDMTRIX where idUsuario = u.supervisor) as re, m.material from usuariosDMTRIX u join PedidoDMTRIX p on p.idUsuario = u.idUsuario
 join materiaisDMTRIX m on m.idMaterial = p.idMaterial where p.idPedido = '$idPedido'"));
             $nome = $msg['nome'];
             $Cc = $msg['re'];
             $email = $msg['email'];
             $idCompra = $msg['idCompra'];
 
-           $verifica =$this->con->fetch_array($this->con->query("  select COUNT(*) as num, (select COUNT(*) as num from PedidoDMTRIX where idCompra = '1530' and status_pedido = 81) as numPedido 
+           $verifica =$this->con->fetch_array($this->con->query("  select COUNT(*) as num, (select COUNT(*) as num from PedidoDMTRIX where idCompra = '$idCompra' and status_pedido = 81) as numPedido 
   from PedidoDMTRIX where idCompra = '$idCompra'"));
 
             $num = $verifica['num'];

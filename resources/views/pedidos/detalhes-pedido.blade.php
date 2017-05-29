@@ -5,12 +5,12 @@
             <div style="font-size: 25px">
                 <div class="col-lg-1"></div>
                 <div class="col-lg-3">Nº <% array.idCompra %></div>
-                <div class="col-lg-3"><% array.Titulo %></div>
+                <!--<div class="col-lg-3"><% array.Titulo %></div>-->
             </div>
             <div class="col-lg-4">
                 {!! Form::open(array( 'method' => 'post', 'action' => 'PedidosController@finalizarCompra')) !!}
                 <div class="form-group" ng-if="array.status_compra != 'Finalizado'">
-
+                    {!! Form::hidden('token', '<% array.idCompra %>') !!}
                     <div class="panel panel-danger" ng-if="array.status_compra != 'Finalizado'">
                         <div class="panel-heading">Deseja finalizar a compra?</div>
                         <div class="panel-body">
@@ -30,18 +30,29 @@
             <div class="col-lg-9" style="margin-top: 20px">
 
 
-                    <div class="col-lg-3">Foto</div>
+                   <!-- <div class="col-lg-3">Foto</div>-->
 
 
-                <div class="col-lg-6" style="text-align: left">
+                <div class="col-lg-9" style="text-align: left;     line-height: 27px;">
                     <div class="panel panel-primary">
                         <div class="panel-heading">Informações da compra</div>
                         <div class="panel-body">
-                            <div class="row">
-                                <div class="col-lg-3">Nome da loja: <% array.Loja %> Custo total: <b>R$ <% array.valorTotal | number: 2 %></b></div>
-                                <div class="col-lg-4">Data da Compra: <b><% array.dataCompra %></b><br><br> Pagamento: <b><% array.formaPagamento %><br>Custeio: <% array.custeio %></br> <br><br> Segmento: <b><% array.segmento %></b></div>
-                                <div class="col-lg-5">Solicitante: <% array.nome %><br>
-                                    <p>Entrega ideial: <b><% array.dataIdeal %></b></p><p><br> Fornecedor entregou :  <b><% array.dataEntrada %></b> |</p><br><p> Pedido finalizado: <% array.dataSaida %> <b></b></p>
+                            <div class="row titulos">
+                                <div class="col-lg-3">
+                                    <p><b>Nome da loja:</b><br> <% array.Loja %></p>
+                                    <p><b>Custo total:</b><br> R$ <% array.valorTotal | number: 2 %></p>
+                                </div>
+                                <div class="col-lg-4">
+                                    <p><b>Data da Compra:</b> <br><% array.dataCompra %></p>
+                                    <p><b>Pagamento:</b> <br><% array.formaPagamento %></p>
+                                    <p><b>Custeio:</b> <br><% array.custeio %></p>
+                                    <p><b>Segmento:</b> <br><% array.segmento %></p>
+                                </div>
+                                <div class="col-lg-5">
+                                    <p><b>Solicitante:</b><br> <% array.nome %></p>
+                                    <p><b>Entrega ideial:</b><br> <% array.dataIdeal %></p>
+                                    <p><b>Fornecedor entregou :</b><br>  <% array.dataEntrada %></p>
+                                    <p><b>Pedido finalizado:</b> <br> <% array.dataSaida %> </p>
                                 </div>
                             </div><br>
                         </div>
@@ -94,7 +105,7 @@
 
         </div><br>
 
-        <div class="col-lg-9">
+        <div class="col-lg-9 titulos">
             <div class="col-lg-7">
 
                 <div class="content-panel">
@@ -121,49 +132,71 @@
 
                                                     <button class="btn btn-primary" ng-click="cancelarPedido(x.idPedido)"><i class="fa fa-trash-o"></i> Cancelar Pedido</button><p></p>
 
+
+                                                    <input ng-if="x.tipo == 'Produto sem custo'" type="button" ng-click="devolverItem(x.idPedido)" class="btn btn-danger" value="Recusar item?"><p></p>
+
                                                     </div>
-                                                    <table  class="table-responsive table-bordered" cellpadding="0" cellspacing="0" border="0" style="text-align: center">
+                                                </div>
+                                                <div class="col-lg-12">
+                                                    <table  class="table table-responsive table-bordered" cellpadding="0" cellspacing="0" border="0" style="text-align: center; ">
                                                         <tr>
-                                                            <td colspan="4">
+                                                            <td>
                                                                 <b>Material</b><br>
-                                                                <% x.Material %>
                                                             </td>
-                                                            <td></td>
-                                                        </tr>
-                                                        <tr>
                                                             <td>
                                                                 <b>Nº</b><br>
-                                                                <% x.idPedido %>
-                                                            </td>
-                                                            <td><b>Loja:</b><br>
-                                                                <% x.nomeLoja %>
-                                                            <td>
-                                                                <b>Descrição</b></br>
-                                                                <span ng-if="x.altura == '' && x.largura==''">
-                                                                    <% x.tipo %>
-                                                                </span>
-                                                                <span ng-if="x.altura != '' && x.largura!=''">
-                                                                    Altura: <% x.altura %> cm | Largura: <% x.largura %>cm
-                                                                </span>
 
+                                                            </td>
+                                                            <td>
+                                                                <b>Loja:</b><br>
+
+                                                            </td>
+                                                            <td>
+                                                                <b>Descrição</b>
 
                                                             </td>
                                                             <td>
                                                                 <b>Quantidade:</b></br>
+
+                                                            </td>
+                                                        </tr>
+                                                        <tr>
+                                                            <td>
+                                                                <% x.Material %>
+                                                            </td>
+                                                            <td>
+                                                                <% x.idPedido %>
+                                                            </td>
+                                                            <td>
+                                                                <% x.nomeLoja %>
+                                                            </td>
+                                                            <td>
+                                                                <span ng-if="x.altura == '' && x.largura==''">
+                                                                    <% x.tipo %>
+                                                                </span>
+                                                                <span ng-if="x.altura != '' && x.largura!=''">
+                                                                    Largura: <% x.largura %>cm | Altura: <% x.altura %> cm
+                                                                </span>
+
+
+                                                            </td>
+                                                            <td>
                                                                 <% x.quantidade %>
                                                             </td>
+
+
+
                                                         </tr>
 
                                                         <tr>
-                                                            <td colspan="4">
+                                                            <td colspan="6">
                                                                 <b>Observações</b><br>
                                                                 <% x.observacao %>
 
                                                             </td>
                                                         </tr>
 
-                                                    </table>
-
+                                                    </table><p></p>
                                                 </div>
 
                                                 <div class="row">
@@ -229,6 +262,7 @@
                 </div>
             </div>
             <div class="col-lg-5">
+
                 <div class="content-panel">
 
                     <div class="panel-body text-center" >
@@ -239,6 +273,17 @@
                                 <div class="page-header">
                                     <h1 id="timeline">Timeline do Pedido</h1>
                                 </div>
+                                <div class="row">
+                                <form method="post" ng-submit="submit()">
+                                    <div class="col-lg-7">
+                                        <textarea name="obs" class="form-control" ng-model="obs" id="text" required placeholder="Digite alguma observação do produto"></textarea><br>
+                                    </div>
+                                    <div class="col-lg-3" style="color: #ffffff">
+                                        <button class="btn btn-warning backgroundLaranja "  style="width: 100%">Enviar</button>
+                                    </div>
+                                </form><p></p>
+                                </div>
+                                <div class="row">
                                 <ul class="timeline ">
                                     <li class="timeline-inverted" ng-repeat="x in timeline">
                                         <div class="timeline-badge"><img src="{{ url('img/sem-foto.png')  }}" class="img-responsive img-circle"> </div>
@@ -255,20 +300,14 @@
                                     </li>
 
                                 </ul>
+                                    </div>
                             </div>
 
                         </div>
 
                     </div>
                 </div><br><br>
-                <form method="post" ng-submit="submit()">
-                    <div class="col-lg-7">
-                        <textarea name="obs" class="form-control" ng-model="obs" id="text" required placeholder="Digite alguma observação do produto"></textarea><br>
-                    </div>
-                    <div class="col-lg-3" style="color: #ffffff">
-                        <button class="btn btn-warning backgroundLaranja "  style="width: 100%">Enviar</button>
-                    </div>
-                </form>
+
 
 
 

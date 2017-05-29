@@ -18,6 +18,7 @@ Route::get('/', function () {
 Route::get('/teste', 'PedidosController@teste');
 
 Route::post('/logar', 'Auth\AuthController@login');
+Route::get('/home-trade', 'Auth\AuthController@criacao');
 Route::get('/logout', 'Auth\AuthController@logout');
 
 Route::get('/home', function () {
@@ -31,6 +32,7 @@ Route::get('/home/analise', function () {
 
 Route::get('/pedidos/nortificacao','PedidosController@nortificacao');
 Route::get('/pedidos/msgTopo','PedidosController@msgTopo');
+Route::get('/pedidos/devolver/{id}/{obs}','PedidosController@devolverPedido');
 
 Route::get('/pedidos/todos','PedidosController@index');
 Route::get('/pedidos/todos/carregar','PedidosController@Pedidos');

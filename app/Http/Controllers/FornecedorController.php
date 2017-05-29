@@ -272,7 +272,7 @@ class FornecedorController extends Controller
                 'status' => $status,
                 'loja' => $rs['loja'],
                 'criacao' =>$rs['criacao'],
-                'dataOrcAtualizado' =>$rs['dataOrcAtualizado'],
+                'dataOrcAtualizado' =>$this->service->formatarData($rs['dataOrcAtualizado']),
                 'valorTotal' =>$rs['valorTotal']
 
             ]);
@@ -292,7 +292,7 @@ class FornecedorController extends Controller
         $sql = $this->con->query("select c.dataOrcAtualizado, (select top 1 dataObs from dmtrixII.historicoObs where observacao like '%Pedido enviado para %' and idPedido = p.idPedido order by dataObs desc) as dataRevisao, 
    m.material,p.idPedido, l.numeroLoja+' - '+l.nomeLoja as loja, p.largura,p.altura,p.quantidade,m.formaCalculo, ca.data_aprovado,
    ca.data_aprovado_arte, p.dataArtePostada, p.observacao,p.fotoArte,p.valorProduto,p.valorTotal, p.status_pedido,f.razao,cf.dataPrevista,
-   cf.dataEntrada,cf.dataSaida
+   cf.dataEntrada,cf.dataSaida, p.idCompra, p.custeio
   from PedidoDMTRIX p join materiaisDMTRIX m on m.idMaterial = p.idMaterial left join ControleAprovacoesDMTRIX ca on ca.idPedido = p.idPedido
   join ComprasDMTRIX c on c.idCompra = p.idCompra join lojasDMTRIX l on l.numeroLoja = c.idLoja
   left join dmtrixII.[controle-fornecedor] cf on cf.idPedido = p.idPedido
@@ -317,7 +317,7 @@ class FornecedorController extends Controller
                 $dias = $diff->days;
 
 
-                if($dias <= 2 && $status_pedido != 81)
+                if($dias <= 2 && $status_pedido != 81 && $status_pedido != 11)
                 {
 
                     $status_pedido = 82; //pedido proximo a data de entrega
@@ -342,36 +342,40 @@ class FornecedorController extends Controller
 
             }
 
-
-            array_push($response, [
-                'idPedido' => $rs['idPedido'],
-                'material' => $rs['material'],
-                'status' => $status,
-                'dataRevisao' => $this->service->formatarData($rs['dataRevisao']),
-                'loja' => $rs['loja'],
-                'largura' =>$rs['largura'],
-                'altura' =>$rs['altura'],
-                'quantidade' =>$rs['quantidade'],
-                'formaCalculo' =>$rs['formaCalculo'],
-                'data_aprovado' =>$this->service->formatarData($rs['data_aprovado']),
-                'dataOrcAtualizado' =>$this->service->formatarData($rs['dataOrcAtualizado']),
-                'data_aprovado_arte' =>$this->service->formatarData($rs['data_aprovado_arte']),
-                'razao' =>utf8_encode($rs['razao']),
-                'dataPrevista' =>$this->service->formatarData($rs['dataPrevista']),
-                'dataEntrada' =>$this->service->formatarData($rs['dataEntrada']),
-                'dataSaida' =>$this->service->formatarData($rs['dataSaida']),
-                'dataArtePostada' =>$this->service->formatarData($rs['dataArtePostada']),
-                'observacao' =>$rs['observacao'],
-                'fotoArte' =>$rs['fotoArte'],
-                'valorProduto' =>$rs['valorProduto'],
-                'valorTotal' =>$rs['valorTotal'],
-                'fornecedor' => $arrayFor,
-                'status_pedido' => $status_pedido
+            if($status != '') {
 
 
-            ]);
+                array_push($response, [
+                    'idPedido' => $rs['idPedido'],
+                    'idCompra' => $rs['idCompra'],
+                    'custeio' => $rs['custeio'],
+                    'material' => $rs['material'],
+                    'status' => $status,
+                    'dataRevisao' => $this->service->formatarData($rs['dataRevisao']),
+                    'loja' => $rs['loja'],
+                    'largura' => $rs['largura'],
+                    'altura' => $rs['altura'],
+                    'quantidade' => $rs['quantidade'],
+                    'formaCalculo' => $rs['formaCalculo'],
+                    'data_aprovado' => $this->service->formatarData($rs['data_aprovado']),
+                    'dataOrcAtualizado' => $this->service->formatarData($rs['dataOrcAtualizado']),
+                    'data_aprovado_arte' => $this->service->formatarData($rs['data_aprovado_arte']),
+                    'razao' => utf8_encode($rs['razao']),
+                    'dataPrevista' => $this->service->formatarData($rs['dataPrevista']),
+                    'dataEntrada' => $this->service->formatarData($rs['dataEntrada']),
+                    'dataSaida' => $this->service->formatarData($rs['dataSaida']),
+                    'dataArtePostada' => $this->service->formatarData($rs['dataArtePostada']),
+                    'observacao' => $rs['observacao'],
+                    'fotoArte' => $rs['fotoArte'],
+                    'valorProduto' => $rs['valorProduto'],
+                    'valorTotal' => $rs['valorTotal'],
+                    'fornecedor' => $arrayFor,
+                    'status_pedido' => $status_pedido
 
 
+                ]);
+
+            }
         }
 
         return $response;

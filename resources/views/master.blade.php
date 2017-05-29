@@ -3,6 +3,13 @@ $value = session('user');
 
 if($value['token'] == 1){
 
+if($value['criacao'] == 1){
+
+
+    echo '<script>location.href="/home-trade"</script>';
+
+}
+    $id = $value['id'];
 
 }else{
 
@@ -201,7 +208,7 @@ if($value['token'] == 1){
                 <li><a  href="{{ url('/pedidos/atualizacao') }}"><span ng-if="nortificacoes.numOrcamento != 0" class="badge bg-theme04 nortifica"><% nortificacoes.numOrcamento %></span><i class="fa fa-star-o"></i> Atualização de Custo </a></li>
                <li><a  href="{{ url('/pedidos/aprovado/trade')  }}"><span ng-if="nortificacoes.numTrade != 0" class="badge bg-theme04 nortifica"><% nortificacoes.numTrade %></span><i class="li_star"></i>Avaliação de orçamento do Trade</a></li>
                 <li><a  href="{{ url('/pedidos/aprovado')  }}"><span ng-if="nortificacoes.triagem != 0" class="badge bg-theme04 nortifica"><% nortificacoes.triagem %></span><i class="li_vallet"></i>Triagem de pedidos com custo aprovado</a></li>
-                <li><a  href="{{ url('/pedidos/cancelamento')  }}"><i class="fa fa-ban"></i>Pedidos proximo ao cancelemento</a></li>
+                <li><a  href="{{ url('/pedidos/cancelamento')  }}"><i class="fa fa-ban"></i>Pedidos proximo ao cancelamento</a></li>
 
 
                 <li class="">
@@ -331,15 +338,6 @@ if($value['token'] == 1){
 <script src="{{ asset('js/sparkline-chart.js')  }}"></script>
 <script src="{{ asset('js/module.js')}}"></script>
 
-<script type="text/javascript">
-
-    jQuery('.loader').click(function(){
-
-        document.getElementById('result').innerHTML = '@include('loaders.loader')';
-
-    });
-
-</script>
 
 </body>
 </html>

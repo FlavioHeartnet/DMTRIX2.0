@@ -94,7 +94,18 @@ class PedidosServices
         if(odbc_error() == '')
         {
 
-            $info = ['idCompra' => $idCompra, 'texto'=> 'Valor da compra foi atualizado', 'tipo' => 1];
+            $infos = $this->services->infoPedido($idPedidos[0]);
+            $mensagem = 'Olá caro(a) '.$infos['solicitante'].' sua compra: '.$idCompra.' foi atualizado o orçamento, entre no DMTRIX para aprovar/reprovar, caso de duvidas entre em contato com a agencia!';
+
+            Mail::send('emails.aprovacaoArte', compact('mensagem'), function ($m) use ($infos) {
+                $m->from('faqdmtrade@dmcard.com.br', 'DMTRIX');
+                //$m->cc('agenciamarketing@dmcard.com.br', 'Flavio');
+                $m->to($infos['email'], $infos['solicitante'])->subject('Aviso de atualização de compra');
+
+            });
+
+
+            $info = ['idCompra' => $idCompra, 'texto' => 'Valor da compra foi atualizado', 'tipo' => 1];
             $this->historico->historicoCompras($info);
 
             $this->con->query("update ComprasDMTRIX set status_compra = 'aprovacoes', dataOrcAtualizado = getdate(), valorTotal = '$total' where idCompra = '$idCompra'");
@@ -319,13 +330,9 @@ class PedidosServices
             $email = $rs['email'];
             $nome = $rs['solicitante'];
 
-            $sql1 = $this->con->fetch_array($this->con->query("select top 1 dataObs from dmtrixII.historicoObs where idPedido = '$idPedido' order by dataObs desc"));
-            $pesquisa = new \DateTime($sql1['dataObs']);
-            $date = new \DateTime();
-            $diff = $date->diff($pesquisa);
-            if($diff->days >= 30)
-            {
-                $situacao = 'Pedido expirado';
+            $situacao = $this->services->dataParaCancelar($idPedido);
+
+            if($situacao == 'Pedido expirado'){
 
                 $verifica = $this->con->query("select * from dmtrixII.pedidosExpirados where idPedido = '$idPedido'");
 
@@ -340,38 +347,24 @@ class PedidosServices
 
                 }
 
-            }else if($diff->days >= 25){
-
-                $dias = 30 - $diff->days;
-                $situacao = 'Expira em '.$dias.' dias';
-
-            }else if($diff->days == 29)
-            {
-
-                $situacao = 'Expira em 1 dia';
-
-
-            }else
-            {
-                $situacao = 'ok';
-
-
             }
 
+            if($situacao['situacao'] != 'ok') {
+                
+                $x = ['dias' => $situacao['dias'], 'idPedido' => $idPedido, 'idCompra' => $idCompra, 'situacao' => $situacao['situacao'], 'status' => $this->services->status_pedido($status), 'email' => $email, 'nome' => $nome];
+                array_push($array, $x);
+            
 
-            $x = ['dias'=> $diff->days, 'idPedido' => $idPedido, 'idCompra'=> $idCompra, 'situacao' => $situacao, 'status'=>$status,'email'=>$email, 'nome' => $nome];
-            array_push($array, $x);
-
-            if($x['situacao'] != 'ok' and $diff->days < 30 and $x['status'] == 3 or $x['status'] == 9 )
+            if( $situacao['dias'] < 30 and $x['status'] == 10 or $x['status'] == 9 )
             {
 
                 Mail::send('emails.cancelamento', compact('x'), function ($m) use ($x) {
                     $m->from('faqdmtrade@dmcard.com.br', 'DMTRIX');
                     $m->cc('flavio.barros@dmcard.com.br', 'Flavio');
-                    $m->to($x['email'], $x['nome'])->subject('Aviso de cancelamento de pedido');
+                    $m->to($x['email'], $x['nome'])->subject('Pedidos proximos ao cancelamento');
                 });
 
-            }else if($x['situacao'] != 'ok' and $diff->days < 30 and  $x['status'] == 5)
+            }else if( $situacao['dias'] < 30 and  $x['status'] == 5)
             {
 
                 $tarefa = $this->con->fetch_array($this->con->query("select distinct t.idUsuario, idCompra, u.email from tarefasDMTRIX t join dmtrixII.PedidoDMTRIX p on p.idPedido = t.idPedido join usuariosDMTRIX u on u.idUsuario = t.idUsuario
@@ -383,17 +376,18 @@ class PedidosServices
                     $m->to($tarefa['email'], $tarefa['email'])->subject('Aviso de cancelamento de pedido');
                 });
 
-            }else if($x['situacao'] != 'ok'){
+            }else{
 
                 Mail::send('emails.cancelamento', compact('x'), function ($m) {
                     $m->from('faqdmtrade@dmcard.com.br', 'DMTRIX');
                     $m->cc('flavio.barros@dmcard.com.br', 'Flavio');
                     $m->to('agenciamarketing@dmcard.com.br', 'Loren')->subject('Aviso de cancelamento de pedido');
                 });
-
-
-            }
             
+                }
+            }
+
+
         }
 
         return $array;
@@ -506,6 +500,61 @@ class PedidosServices
         
 
         
+
+
+    }
+
+    public function devolverPedido($request){
+        $idPedido = $request['token'];
+        $motivo = $request['motivo'];
+
+        $this->con->query("update PedidoDMTRIX set status_pedido = 13 where idPedido = '$idPedido'");
+        
+        if(odbc_error() == ''){
+
+
+            
+            $pedidoInfo = $this->services->infoPedido($idPedido);
+            $idCompra = $pedidoInfo['idCompra'];
+            $sql1=  $this->con->fetch_array($this->con->query("select COUNT(*) as num from PedidoDMTRIX  where idCompra = '$idCompra'"));
+            $sql2 = $this->con->fetch_array($this->con->query("select COUNT(*) as num from PedidoDMTRIX  where idCompra = '$idCompra' and status_pedido = 13"));
+
+            if($sql1['num'] == $sql2['num']){
+
+                $this->con->query("update ComprasDMTRIX set status_compra= 'Devolvido' where idCompra = '$idCompra' ");
+            }
+
+            $info = ['idPedido' => $idPedido, 'texto'=> 'Pedido: '.$pedidoInfo['idCompra'].' '.$pedidoInfo['Material'].' foi devolvido para correção pelo seguinte motivo: '.$motivo, 'tipo'=> 6];
+            $this->historico->create($info);
+
+            $mensagem = 'Caro(a) '.$pedidoInfo['solicitante'].' seu pedido: '.$idCompra.' foi Recusado pela nossa equipe, pelo seguinte motivo: <b>'.$motivo.'</b> entre no <a href="http://dmcard.com.br/dmtrix">DMTRIX</a> acesse a opção "Gerenciar Compras" para
+            atualizar a compra para que possamos melhor atende-lo!<p>Caso de duvídas entre em contato com a agência.</p>';
+
+            Mail::send('emails.aprovacaoArte', compact('mensagem'), function ($m) use ($pedidoInfo) {
+                $m->from('faqdmtrade@dmcard.com.br', 'DMTRIX');
+                $m->to($pedidoInfo['email'], $pedidoInfo['solicitante'])->subject('Aviso de devolução de pedido');
+
+            });
+
+            $class = 'bg-success text-center text-success';
+            $msg = 'Cancelado com sucesso, um email foi enviado para o solicitante';
+
+            $resp = ['class'=>$class, 'msg'=> $msg];
+
+            return $msg = ['resp'=>'Devolvido com sucesso, um email foi enviado para o solicitante'];
+            
+            
+        }else{
+
+            $class = 'bg-warning text-center text-warning';
+            $msg = 'Pedido já cancelado';
+
+            $resp = ['class'=>$class, 'msg'=> $msg];
+            return  $msg = ['resp'=>'Ocorreu um Erro'];
+
+
+        }
+
 
 
     }

@@ -5,3 +5,4 @@ atualizações do usuario: 2
  ||       	da criação: 3
  ||	     	de Fornecimento: 4
  ||	    	do sistema: 5
+ ||        devoluções: 6

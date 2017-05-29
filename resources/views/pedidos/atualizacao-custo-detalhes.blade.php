@@ -84,13 +84,21 @@
                                                             </div>
                                                             <div class="form-group" ng-if="x.formaCalculo == 2">
                                                                 <b>Descrição</b></br>
-                                                                <label for="Altura<% x.idPedido %>">Altura:</label><input Required id="Altura<% x.idPedido %>" ng-blur="soma(x.idPedido)" ng-click="soma(x.idPedido)"  type="text" ng-value="x.altura" class="form-control" name="altura[]">
                                                                 <label for="Largura<% x.idPedido %>">Largura:</label><input Required id="Largura<% x.idPedido %>" ng-blur="soma(x.idPedido)" ng-click="soma(x.idPedido)"  type="text" ng-value=" x.largura " class="form-control" name="largura[]">
+                                                                <label for="Altura<% x.idPedido %>">Altura:</label><input Required id="Altura<% x.idPedido %>" ng-blur="soma(x.idPedido)" ng-click="soma(x.idPedido)"  type="text" ng-value="x.altura" class="form-control" name="altura[]">
+
                                                             </div>
                                                             <div class="form-group" ng-if="x.formaCalculo == 3">
                                                                 <b>Descrição</b></br>
-                                                                <label for="Altura<% x.idPedido %>">Altura:</label><input Required id="Altura<% x.idPedido %>" ng-blur="soma(x.idPedido)" ng-click="soma(x.idPedido)"  type="text" ng-value="100"  class="form-control" name="altura[]">
                                                                 <label for="Largura<% x.idPedido %>">Largura:</label><input Required id="Largura<% x.idPedido %>" ng-blur="soma(x.idPedido)" ng-click="soma(x.idPedido)"  type="text" ng-value="100"  class="form-control" name="largura[]">
+                                                                <label for="Altura<% x.idPedido %>">Altura:</label><input Required id="Altura<% x.idPedido %>" ng-blur="soma(x.idPedido)" ng-click="soma(x.idPedido)"  type="text" ng-value="100"  class="form-control" name="altura[]">
+
+                                                            </div>
+                                                            <div class="form-group" ng-if="x.formaCalculo == 4">
+                                                                <b>Descrição</b></br>
+                                                                <label for="Largura<% x.idPedido %>">Largura:</label><input Required id="Largura<% x.idPedido %>" ng-blur="soma(x.idPedido)" ng-click="soma(x.idPedido)"  type="text" ng-value="100"  class="form-control" name="largura[]">
+                                                                <label for="Altura<% x.idPedido %>">Altura:</label><input Required id="Altura<% x.idPedido %>" ng-blur="soma(x.idPedido)" ng-click="soma(x.idPedido)"  type="text" ng-value="100"  class="form-control" name="altura[]">
+
                                                             </div>
                                                         </td>
                                                         <td>
@@ -118,8 +126,14 @@
                                                 </table>
 
 
-                                                    <textarea class="form-control" id="motivo<% x.idPedido %>" placeholder="Motivo do cancelamento"></textarea><br>
+                                                    <textarea class="form-control" id="motivo<% x.idPedido %>" placeholder="Motivo do cancelamento ou Recusa"></textarea><br>
+
+                                                <div class="col-lg-6">
                                                     <input type="button" ng-click="botoes.cancelarPedido(x.idPedido)" class="btn btn-danger" value="Cancelar este item?"><p></p>
+                                                </div>
+                                                <div class="col-lg-6">
+                                                    <input type="button" ng-click="devolverItem(x.idPedido)" class="btn btn-danger" value="Recusar item?"><p></p>
+                                                    </div>
 
 
 
@@ -157,7 +171,7 @@
                                     <input type="submit" class="btn btn-warning backgroundLaranja" value="Atualizar">
                                 </div>
                                 <div class="col-lg-4">
-                                    <h3>Custo total atualizado: <b>R$<% val  %></b></h3>
+                                    <h3>Custo total atualizado: <b>R$<% val %></b></h3>
                                 </div>
 
                             </div>

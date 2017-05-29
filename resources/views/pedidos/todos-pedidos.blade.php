@@ -2,11 +2,7 @@
 
 
 @section('content')
-    @if(isset($resp))
 
-        <p class="{{ $resp['class'] }}"><b>{{ $resp['msg'] }}</b></p>
-
-    @endif
 
 
     <div ng-controller="todosPedidos">

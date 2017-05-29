@@ -56,7 +56,7 @@
                                         <td style="font-size: 20px"><b><% sub.criacao %></b></td>
                                         <td>
                                             <div class="form-group" ng-if="sub.status == 'Aguardando'">
-                                                <p class="colorLaranja" style="font-size: 25px"><i class="fa fa-clock-o"></i> Aguardadndo</p>
+                                                <p class="colorLaranja" style="font-size: 25px"><i class="fa fa-clock-o"></i> Aguardando</p>
                                                 <input ng-click="aprovar(sub.idPedido)" type="button" value="aprovar" class="btn btn-warning backgroundLaranja">
                                             </div>
                                             <div class="form-group" ng-if="sub.status == 'Reprovado'">

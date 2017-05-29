@@ -5,7 +5,7 @@
     <div class="col-lg-12">
 
         <div class="col-lg-2">
-            <img ng-if="criacaoUser[0].foto != null"  class="img-circle img-thumbnail img-responsive" src="{{ url('img/fotos/<% criacaoUser[0].foto %>') }}">
+            <img ng-if="criacaoUser[0].foto != null" width="150px"  class="img-circle img-thumbnail img-responsive" src="{{ url('img/fotos/<% criacaoUser[0].foto %>') }}">
             <img ng-if="criacaoUser[0].foto == null" class="img-circle img-thumbnail img-responsive" src="{{ url('/img/sem-foto.png') }}"><br>
         </div>
         <div class="col-lg-2">
@@ -82,23 +82,24 @@
                             <td><% sub.descricao %></td>
                             <td>
 
-                                <div class="form-group" ng-if="sub.status == 'criacao'">
+
+
+                                <div class="form-group" >
 
                                     {!! Form::file('foto[]',['style'=> 'font-size: 10px']) !!}
-                                    <input type="hidden" name="token[]" value="<% sub.idPedido %>"><br><br>
+                                    {!! Form::hidden('token[]', '<% sub.idPedido %>')  !!}
 
 
                                 </div>
 
                                 <div class="form-group" ng-if=" sub.status == 'revisao'">
 
-                                    <input type="button" ng-click="servico.aprovacaoPedido(sub.idPedido, 1)" name="enviar" value="Enviar para aprovação" class="btn btn-success" ><br>
-                                    <p></p>
-                                    <input type="button" ng-click="servico.aprovacaoPedido(sub.idPedido, 2)" name="reprovar" value="Reprovar" class="btn btn-danger" ><br>
+
+                                    <p class="colorAzul" style="font-size: 20px"><i class="fa fa-clock-o"></i> Revisão</p>
 
                                 </div>
                                 <div class="form-group" ng-if="sub.status == 'aprovacao'">
-                                    <p class="colorLaranja" style="font-size: 20px"><i class="fa fa-clock-o"></i> Aguardadndo</p>
+                                    <p class="colorLaranja" style="font-size: 20px"><i class="fa fa-clock-o"></i> Aguardando</p>
                                 </div>
                                 <div class="form-group" ng-if="sub.status == 'aprovado'">
                                     <p class="colorVerde" style="font-size: 20px"><i class="fa fa-check"></i> Aprovado</p>

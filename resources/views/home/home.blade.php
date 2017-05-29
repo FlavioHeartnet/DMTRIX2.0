@@ -11,7 +11,7 @@
         <span class="colorLaranja">05 de julho de 2016</span>
         <h2>Processos da agencia</h2>
                 <canvas class="center-block" id="chartGeral" height="300" width="300"></canvas><br>
-            <a href="{{ url('/home/analise')  }}"><button class="btn btn-warning center-block  backgroundLaranja"  >Analise Completa</button><br></a>
+          <!--  <a href="{{ url('/home/analise')  }}"><button class="btn btn-warning center-block  backgroundLaranja"  >Analise Completa</button><br></a>-->
             <div class="centered">
             <p><% criacao[0].total %> pedidos em<br>Criação</p>
             <h1><% criacao[0].porcentagem %>%</h1>

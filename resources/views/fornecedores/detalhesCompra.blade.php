@@ -1,7 +1,7 @@
 
 
 
-<div class="container-fluid col-lg-12" >
+<div class="container-fluid " style="max-width: 89em" >
     <div class="page-header">
         <h1 id="timeline">Dados da Compra</h1>
     </div>
@@ -11,7 +11,8 @@
             <div class="timeline-panel">
                 <div class="timeline-body">
                     <div class="col-lg-3">
-                        <img class="img-responsive" src="{{url('img/sem-arte.png')}}" alt="">
+                        <img class="img-responsive" src="{{url('http://mkt.dmcardweb.com.br/img/fotos/<% d.fotoArte %>')}}" alt="">
+
                     </div>
                     <div class="col-lg-9">
 
@@ -27,26 +28,31 @@
                             <tr>
                                 <td>
                                     <b>Nº do Pedido</b><br>
-                                    <% d.idCompra %>
+                                    <p style="font-size: 30px"><% d.idCompra %></p>
                                 </td>
                                 <td><b>Loja:</b><br>
                                     <% d.loja %></td>
                                 <td>
                                     <b>Descrição</b></br>
-                                    Altura: <% d.altura %> | Largura: <% d.largura %>
+                                    <p>Largura: <br><% d.largura %> </p>
+                                    <p>Altura: <br><% d.altura %></p>
 
                                 </td>
                                 <td>
                                     <b>Quantidade:</b></br>
                                     <% d.quantidade %>
                                 </td>
+                                <td>
+                                    <b>Custeio:</b></br>
+                                    <% d.custeio %>
+                                </td>
                             </tr>
                             <tr>
-                                <td class=""><b>Data Orçamento foi aprovado</b></td>
-                                <td class=""><b>Data de entrega ideal da arte</b></td>
-                                <td class="" ><b>Data da arte postada</b></td>
-                                <td class=""><b>Data da revisão</b></td>
-                                <td class=""><b>Data que a arte foi aprovada</b></td>
+                                <td class=""><b>Orçamento foi aprovado:</b></td>
+                                <td class=""><b>Entrega ideal da arte:</b></td>
+                                <td class="" ><b>Arte postada:</b></td>
+                                <td class=""><b>Revisão:</b></td>
+                                <td class=""><b>Arte foi aprovada:</b></td>
 
                             </tr>
                             <tr>
@@ -88,10 +94,7 @@
                                     <b>Custo Total</b><br>
                                     R$ <% d.valorTotal %>
                                 </td>
-                                <td>
-                                    <b>Data de entrega</b><br>
-                                    <% d.dataPrevista %>
-                                </td>
+
                             </tr>
                             <tr>
                                 <td class=""><b>Enviado para produção</b></td>
@@ -105,7 +108,7 @@
                             </tr>
 
                             <tr>
-                                <td ng-if="d.status_pedido == '6'">
+                                <td ng-if="d.status_pedido != '11'">
                                     {!! Form::open(array( 'method' => 'post', 'action' => 'FornecedorController@enviarFornecedor')) !!}
                                             <i style="font-size: 30px" class="fa fa-search colorAzul"></i>
                                             <div class="form-group">

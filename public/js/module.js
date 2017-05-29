@@ -93,6 +93,11 @@ app.factory('AtualizarValorPedidosSrv', function($resource) {
                 method: 'get',
                 url: '/pedidos/atualizacao/cancelar/:id/:obs'
 
+            },
+            devolverPedido:{
+                
+                method:'get',
+                url: '/pedidos/devolver/:id/:obs'
             }
 
         }
@@ -409,6 +414,23 @@ app.service('Services', function ($http, $location, detalhesPedidos, criacao, At
 
     };
 
+    this.devolverPedido = function (id) {
+        
+        jQuery(function($)
+        {
+
+            var motivo = $('#motivo'+id).val();
+
+            var resp = AtualizarValorPedidosSrv.devolverPedido({id:id, obs: motivo}).$promise.then(function (data) {
+
+                return data;
+
+            });
+
+        });
+
+    }
+
     this.gerarCharts = function(id, aprovados, pedidos,reprovados, pendente,revisao){
 
         var dados = {
@@ -490,6 +512,8 @@ app.service('Services', function ($http, $location, detalhesPedidos, criacao, At
 
     }
 
+ 
+
 
 
 });
@@ -530,6 +554,28 @@ app.controller('home', function($scope, $http, Services, FornecedorSrv)
 
     });
 
+    $scope.modal = function (img) {
+        $scope.foto = '';
+        $scope.foto = img;
+
+    };
+
+    $scope.mostrarFilaHome = function () {
+
+        jQuery(function ($) {
+
+            var id = $('#criacao').val();
+
+            if(id != null) {
+
+                $scope.mostrarFila(id);
+                console.log(id);
+            }
+
+        });
+
+    }
+
     $scope.init = function () {
         $scope.indicadores = [];
         var resp = FornecedorSrv.indicadores().$promise.then(function (data) {
@@ -541,7 +587,9 @@ app.controller('home', function($scope, $http, Services, FornecedorSrv)
         resp.then(function (d) {
             $scope.indicadores = d;
             console.log($scope.indicadores)
-        })
+        });
+
+        $scope.mostrarFilaHome();
 
     };
 
@@ -588,6 +636,8 @@ app.controller('home', function($scope, $http, Services, FornecedorSrv)
         });
 
     }
+
+
     
 
 });
@@ -656,6 +706,30 @@ app.controller('detalhesPedido',function($scope,$http,Services){
         $scope.botoes.cancelarPedido(id, motivo);
 
         $scope.pesquisar($scope.idCompra);
+
+    };
+
+    $scope.devolverItem = function(id)
+    {
+        jQuery(function($) {
+            var motivo = 'motivo' + id;
+            motivo =  document.getElementById(motivo).value;
+
+
+            var resp = AtualizarValorPedidosSrv.devolverPedido({ id: id, obs: motivo}).$promise.then(function (data) {
+
+                return data;
+
+            });
+
+            resp.then(function (d) {
+                $scope.resp = d;
+                alert($scope.resp.resp);
+            });
+
+            $scope.pequisar($scope.idCompra);
+
+        });
 
     };
 
@@ -745,7 +819,7 @@ app.controller('fornecedor', function($scope,$http,Services, $routeParams, Forne
 app.controller('custoAprovar', function ($scope, Services, AtualizarValorPedidosSrv, $http, $filter) {
 
     $scope.botoes = Services; // funcções do DOM
-
+    $scope.idCompra = '';
     $scope.cancelarItem = function(id, idCompra)
     {
         jQuery(function($) {
@@ -765,6 +839,30 @@ app.controller('custoAprovar', function ($scope, Services, AtualizarValorPedidos
             });
 
         $scope.pequisar(idCompra);
+
+        });
+
+    };
+
+    $scope.devolverItem = function(id)
+    {
+        jQuery(function($) {
+            var motivo = 'motivo' + id;
+            motivo =  document.getElementById(motivo).value;
+
+
+            var resp = AtualizarValorPedidosSrv.devolverPedido({ id: id, obs: motivo}).$promise.then(function (data) {
+
+                return data;
+
+            });
+
+            resp.then(function (d) {
+                $scope.resp = d;
+                alert($scope.resp.resp);
+            });
+
+            $scope.pequisar($scope.idCompra);
 
         });
 
@@ -843,8 +941,9 @@ app.controller('custoAprovar', function ($scope, Services, AtualizarValorPedidos
 
         $scope.val = 0;
         angular.forEach($scope.total, function(value) {
-            $scope.val += parseFloat(value.valor);
-            console.log($filter('number')($scope.val,3))
+            $scope.val += parseFloat(value.valor.replace(",",""));
+
+            console.log(('O valor da compra: '+$scope.val));
         })
 
     };
@@ -863,6 +962,8 @@ app.controller('custoAprovar', function ($scope, Services, AtualizarValorPedidos
         $scope.total = [];
         $scope.result = [];
         $scope.val = 0;
+        $scope.idCompra = id;
+
         
         $scope.botoes.mostrarModal();
         $scope.result = AtualizarValorPedidosSrv.consulta({id: id, status: 2});
@@ -1135,6 +1236,7 @@ app.controller('filaFornecedor',function ($scope,$http,Services, FornecedorSrv)
 {
 
     $scope.servico = Services;
+    $scope.idCompra = '';
 
 
 
@@ -1164,6 +1266,7 @@ app.controller('filaFornecedor',function ($scope,$http,Services, FornecedorSrv)
 
     $scope.pesquisar = function(id){
 
+        $scope.idCompra = id;
         $scope.detalhes = [];
         $scope.servico.mostrarModal();
 
@@ -1215,9 +1318,12 @@ app.controller('filaFornecedor',function ($scope,$http,Services, FornecedorSrv)
         resp.then(function (d) {
 
             alert(d.msg);
-            $scope.init();
+
 
         });
+
+
+        $scope.pesquisar($scope.idCompra);
           
     };
 

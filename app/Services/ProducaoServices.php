@@ -25,12 +25,12 @@ class ProducaoServices
 
     public function filaIndividual($idUsuario){
 
-       $sql = $this->con->query("  select distinct count(*)as pedidos, ut.criacao, p.idCompra, c.titulo, ut.email, l.numeroLoja+' '+ l.nomeLoja as loja, u.nome+' '+u.sobrenome as solicitante,ut.foto from tarefasDMTRIX t  
+       $sql = $this->con->query("  select distinct count(*)as pedidos, ut.criacao, p.idCompra, c.titulo, ut.email, l.numeroLoja+' '+ l.nomeLoja as loja, u.nome+' '+u.sobrenome as solicitante,ut.foto,c.status_compra  from tarefasDMTRIX t  
   inner join PedidoDMTRIX p on p.idPedido = t.idPedido join ComprasDMTRIX c on c.idCompra = p.idCompra join lojasDMTRIX l on l.idLoja = p.idLoja
   join usuariosDMTRIX u on u.idUsuario = c.idUsuario,
   (select nome+' '+sobrenome as criacao, email,foto from usuariosDMTRIX  where idUsuario = '$idUsuario' ) as ut 
-  where t.idUsuario = '$idUsuario' and p.status_pedido != '11' and p.status_pedido != '8' 
-  group by ut.criacao, p.idCompra, c.titulo,ut.email, l.nomeLoja,l.numeroLoja,u.nome,u.sobrenome,ut.foto order by p.idCompra desc");
+  where t.idUsuario = '$idUsuario' and c.status_compra = 'criacao'
+  group by ut.criacao, p.idCompra, c.titulo,ut.email, l.nomeLoja,l.numeroLoja,u.nome,u.sobrenome,ut.foto,c.status_compra order by p.idCompra desc");
 
         if(odbc_num_rows($sql) > 0)
         {
@@ -114,7 +114,7 @@ class ProducaoServices
                         }
 
                         if($status != '') { // caso o pedido esteja em um status diferente da criação ele não é exibido
-                            array_push($texto, ["material" => $material, 'observacao' => $observacao, 'situacao' => $situacao, 'dataObs' => $dataHist['dataObs'], 'idPedido' => $idPedido, 'status' => $status, 'foto' => $is['fotoArte'],
+                            array_push($texto, ["material" => $material, 'observacao' => $observacao, 'situacao' => $situacao, 'dataObs' => $this->services->formatarData($dataHist['dataObs']), 'idPedido' => $idPedido, 'status' => $status, 'foto' => $is['fotoArte'],
                                 'quantidade' => $is['quantidade'], 'custeio' => $is['custeio'], 'descricao' => $descricao]);
                         }
                         
@@ -131,7 +131,7 @@ class ProducaoServices
                 $total += $graph['aprovados'] + $graph['fila'] + $graph['reprovados'] + $graph['pendente']+ $graph['revisao'];
                 $aprovados += $graph['aprovados'];
                 
-                if($graph['total'] == $graph['fila']){
+                if( $graph['fila'] > 0 or $graph['reprovados'] > 0){
                     
                     $fila = 1;
                     
@@ -140,7 +140,6 @@ class ProducaoServices
                     
                     $fila = 0;
                 }
-
                 array_push($response, [
 
                     'pedidos' => $rs['pedidos'],
@@ -327,7 +326,6 @@ class ProducaoServices
 
             Mail::send('emails.aprovacaoArte', compact('mensagem'), function ($m) use ($itens) {
                 $m->from('faqdmtrade@dmcard.com.br', 'DMTRIX');
-                $m->cc('flavio.barros@dmcard.com.br', 'Flavio');
                 $m->to($itens['email'], $itens['nome'])->subject('Arte foi disponibilizada para aprovação');
             });
 
@@ -467,9 +465,9 @@ class ProducaoServices
                 'quantidade' => $rs['quantidade'],
                 'custeio' => $rs['custeio'],
                 'segmento' => $rs['segmento'],
-                'dataCompra' => $rs['dataCompra'],
-                'dataOrcAtualizado' => $rs['dataOrcAtualizado'],
-                'dataArtePostada' => $rs['dataArtePostada'],
+                'dataCompra' => $this->services->formatarData($rs['dataCompra']),
+                'dataOrcAtualizado' => $this->services->formatarData($rs['dataOrcAtualizado']),
+                'dataArtePostada' => $this->services->formatarData($rs['dataArtePostada']),
                 'fotoArte' => $rs['fotoArte'],
                 'loja' => $rs['loja'],
                 'criacao' =>$rs['criacao'] 

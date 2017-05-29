@@ -19,8 +19,8 @@
                 <td>Orçamento aprovado</td>
                 <td>Prioridade</td>
                 <td>Responsavel</td>
-                <td>Revisão interna de arte</td>
-                <td>Tempo de para cancelamento</td>
+                <td>Status do Pedido</td>
+                <td>Situação</td>
             </tr>
             <tr ng-repeat="x in pedidos">
                 <td><a ng-href="#/pedidos/detalhes/mostrar" ng-click="pesquisar(x.idCompra)"><% x.idCompra %></a></td>
@@ -31,8 +31,8 @@
                 <td><% x.dataAprovado %></td>
                 <td><% x.prioridade %></td>
                 <td><% x.criacao %></td>
-                <td>22/06/2016</td>
-                <td>1 dias</td>
+                <td><% x.status %></td>
+                <td><% x.dias %></td>
             </tr>
         </table>
 

@@ -59,11 +59,29 @@ class AuthController extends Controller
 
             if($dados['nivel'] < 3 and $dados['status'] == 1) {
 
+                $id = $dados['idUsuario'];
+
+                $criacao = $this->con->query("select u.usuario from dmtrixII.criacaoDMTRIX c join usuariosDMTRIX u on u.idUsuario = c.idUsuario where u.idUsuario = '$id'"); //verifica se o usuario pertence a criacao
 
 
-                $data = ['user' => $user, 'id' => $dados['idUsuario'], 'nivel' => $dados['nivel'], 'token' => '1'];
-                $request->session()->put('user',$data);
-                return view('home.home');
+                
+                if(odbc_num_rows($criacao) == 0 or $dados['nivel'] == 1) {
+                    
+                    $data = ['user' => $user, 'id' => $dados['idUsuario'], 'nivel' => $dados['nivel'], 'token' => '1', 'criacao' => 0];
+                    $request->session()->put('user', $data);
+
+
+                    return view('home.home');
+
+                }else{
+
+
+                    $data = ['user' => $user, 'id' => $dados['idUsuario'], 'nivel' => $dados['nivel'], 'token' => '1', 'criacao' => 1];
+                    $request->session()->put('user', $data);
+
+                    return view('producao.fila-home');
+
+                }
 
             }else{
 
@@ -81,6 +99,13 @@ class AuthController extends Controller
             
         }
 
+
+    }
+
+    public function criacao()
+    {
+
+       return view('producao.fila-home');
 
     }
 

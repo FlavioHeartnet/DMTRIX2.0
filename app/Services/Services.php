@@ -99,9 +99,8 @@ join usuariosDMTRIX u on u.idUsuario = p.idUsuario where p.idPedido = '$idPedido
             return 'ainda tem itens pendentes nesta compra!';
             
         }
-
-
-
+        
+        
     }
     
     public function nortificacoesMenu(){
@@ -138,11 +137,9 @@ join usuariosDMTRIX u on u.idUsuario = p.idUsuario where p.idPedido = '$idPedido
 
 
        }
-        
-        
+
         return ['msg'=>$msg, 'triagem' => $rs['triagem'],'numTrade' => $rs['numTrade'],'numRevisao' => $rs['numRevisao'],'numAprovacao' => $rs['numAprovacao'],'numOrcamento' => $rs['numOrcamento'],'numFornecedor' => $rs['numFornecedor'],'numAprovados' => $rs['numAprovados'] ];
-        
-        
+
     }
 
     public function mensagensTopo(){
@@ -271,7 +268,7 @@ join usuariosDMTRIX u on u.idUsuario = p.idUsuario where p.idPedido = '$idPedido
 			when p.status_pedido = 10 then 'Aguardando aprovação de arte'
 			when p.status_pedido = 101 then 'Aguardando Revisão de arte'
 			else 'Pedido não disponivel' end as status_pedido,
-         (select observacao from dmtrixII.historicoObs where idPedido = p.idPedido and tipo = 5) as entrega
+         (select top 1 observacao from dmtrixII.historicoObs where idPedido = p.idPedido and tipo = 5) as entrega
          from PedidoDMTRIX p join materiaisDMTRIX m on m.idMaterial = p.idMaterial 
          join lojasDMTRIX l on l.idLoja = p.idLoja 
          join usuariosDMTRIX us on us.idUsuario = p.idUsuario
@@ -307,6 +304,74 @@ join usuariosDMTRIX u on u.idUsuario = p.idUsuario where p.idPedido = '$idPedido
         ];
 
         return $array1;
+
+    }
+    
+  public function dataParaCancelar($idPedido) // Verifica se os pedidos estão proximos de 30 dias ou passaram!
+  {
+
+      $sql1 = $this->con->fetch_array($this->con->query("select top 1 dataObs from dmtrixII.historicoObs where idPedido = '$idPedido' order by dataObs desc"));
+      $pesquisa = new \DateTime($sql1['dataObs']);
+      $date = new \DateTime();
+      $diff = $date->diff($pesquisa);
+      if($diff->days >= 30)
+      {
+          $situacao = 'Pedido expirado';
+
+      }else if($diff->days >= 25){
+
+          $dias = 30 - $diff->days;
+          $situacao = 'Expira em '.$dias.' dias';
+
+      }else if($diff->days == 29)
+      {
+          $situacao = 'Expira em 1 dia';
+
+      }else
+      {
+          $situacao = 'ok';
+      }
+      
+      return ['situacao' => $situacao,'dias'=>$diff->days];
+  } 
+
+    public function  status_pedido($status)
+    {
+
+        switch ($status){
+
+            case 2: $texto = 'Aguardando revisão de orçamento';
+                break;
+            case 3: $texto = 'Orçamento Aprovado';
+                break;
+            case 4: $texto = 'Orçamento Reprovado';
+                break;
+            case 5: $texto = 'Criação';
+                break;
+            case 6: $texto = 'Arte Aprovada';
+                break;
+            case 7: $texto = 'Arte Reprovado';
+                break;
+            case 8: $texto = 'Com Fornecedor';
+                break;
+            case 9: $texto = 'Aguardando Aprovação de Orçamento';
+                break;
+            case 10: $texto = 'Aguardando Aprovação de Arte';
+                break;
+            case 101: $texto = 'Aguardando Revisão de arte';
+                break;
+            case 81: $texto = 'Pedido disponível para entrega';
+                break;
+            case 11: $texto = 'Finalizado';
+                break;
+            case 13: $texto = 'Cancelado';
+                break;
+            default: $texto = 'Sem status';
+
+
+        }
+
+        return $texto;
 
     }
     

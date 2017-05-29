@@ -30,7 +30,7 @@ class PedidosController extends Controller
     {
         $con = $this->con;
 
-        $sql = $this->con->query(" select top 100 p.dataCompra,p.valorTotal,
+        $sql = $this->con->query(" select top 250 p.dataCompra,p.valorTotal,
         case when p.titulo is null then 'Sem Titulo' else p.titulo end as Titulo ,p.idCompra,u.nome,l.numeroLoja +' - '+l.nomeLoja as loja, 
         case when p.Prioridade is null then 0 
         else p.Prioridade end as prioridade,
@@ -163,7 +163,7 @@ class PedidosController extends Controller
 			when p.status_pedido = 101 then 'Aguardando Revisão de arte'
 			when p.status_pedido = 25 then 'Analise do trade'
 			else 'Pedido não disponivel' end as status_pedido,
-         (select observacao from dmtrixII.historicoObs where idPedido = p.idPedido and tipo = 5) as entrega
+         (select top 1 observacao from dmtrixII.historicoObs where idPedido = p.idPedido and tipo = 5) as entrega
          from PedidoDMTRIX p join materiaisDMTRIX m on m.idMaterial = p.idMaterial 
          join lojasDMTRIX l on l.idLoja = p.idLoja 
          left join tarefasDMTRIX t on t.idPedido = p.idPedido
@@ -337,10 +337,10 @@ class PedidosController extends Controller
     
     public function consultar($id, $status){
         
-        $sql = $this->con->query("  select p.custeio,p.idCompra,p.idMaterial,c.titulo,p.formaPagamento,p.Data_do_Pedido,u.nome + ' '+ u.sobrenome as solicitante,
+        $sql = $this->con->query("   select distinct p.custeio,p.idCompra,p.idMaterial,c.titulo,p.formaPagamento,p.Data_do_Pedido,u.nome + ' '+ u.sobrenome as solicitante,
     m.material,p.idPedido,l.nomeLoja,l.numeroLoja,p.largura,p.altura,p.quantidade,m.valor as valorUnitario, p.valorProduto,p.observacao, p.status_pedido, rp.Motivo, m.formaCalculo
   from PedidoDMTRIX p join materiaisDMTRIX m on m.idMaterial = p.idMaterial join ComprasDMTRIX c on c.idCompra = p.idCompra join lojasDMTRIX l on l.numeroLoja = c.idLoja 
-   join usuariosDMTRIX u on u.idUsuario = p.idUsuario left join ControleReprovacoesDMTRIX rp on rp.idCompra = c.idCompra
+   join usuariosDMTRIX u on u.idUsuario = p.idUsuario left join ControleReprovacoesDMTRIX rp on rp.idPedido = p.idPedido
    where p.idCompra = '$id'");
 
         if(odbc_num_rows($sql) > 0) {
@@ -359,6 +359,8 @@ class PedidosController extends Controller
                         case 4: $situacao = 'Reprovado o orçamento: '.$rs['Motivo'];
                             break;
                         case 25: $situacao = 'Aguardando avaliação trade';
+                            break;
+                        case 13: $situacao = 'Devolvido para o solicitante';
                             break;
                         default: $situacao = 'Erro no pedido';
 
@@ -481,7 +483,7 @@ class PedidosController extends Controller
 
             $resp = $this->pedidosService->redelegar($request->all());
 
-        return view('pedidos.custo-aprovado', compact('resp'));
+        return view('pedidos.todos-pedidos', compact('resp'));
 
     }
 
@@ -491,7 +493,7 @@ class PedidosController extends Controller
     {
         $sql = $this->con->query("select distinct p.idCompra, u.nome+' '+u.sobrenome as solicitante,c.titulo, c.dataCompra, a.data_aprovado, c.dataOrcAtualizado, 
 	case when c.Prioridade  = 1 then 'alta' when c.Prioridade  = 2 then 'media' when c.Prioridade  = 3 then 'baixa' else 'Sem prioridade' end as prioridade, 
-	(select nome +' '+sobrenome from usuariosDMTRIX where idUsuario = t.idUsuario)as criacao
+	(select nome +' '+sobrenome from usuariosDMTRIX where idUsuario = t.idUsuario)as criacao, p.status_pedido
    from dmtrixII.pedidosExpirados e join PedidoDMTRIX p on e.idPedido = p.idPedido join ComprasDMTRIX c on c.idCompra = p.idCompra
   join usuariosDMTRIX u on u.idUsuario = p.idUsuario left join ControleAprovacoesDMTRIX a on a.idPedido = p.idPedido
   left join tarefasDMTRIX t on t.idPedido = p.idPedido where e.status = 0");
@@ -499,18 +501,27 @@ class PedidosController extends Controller
         $response = array();
 
         while($rs = $this->con->fetch_array($sql)){
+            
+            
+            if($rs['status_pedido'] != 11) {
+                
+                $status = $this->services->status_pedido($rs['status_pedido']);
+                $diffDias = $this->services->dataParaCancelar($rs['status_pedido']);
 
-            $array = ['idCompra' => $rs['idCompra'],
+                $array = ['idCompra' => $rs['idCompra'],
                     'solicitante' => $rs['solicitante'],
                     'dataCompra' => $rs['dataCompra'],
                     'dataAprovado' => $rs['data_aprovado'],
                     'dataOrcAtualizado' => $rs['dataOrcAtualizado'],
                     'prioridade' => $rs['prioridade'],
+                    'status' => $status,
+                    'dias' => $diffDias['situacao'],
                     'criacao' => $rs['criacao'],
                     'titulo' => utf8_encode($rs['titulo'])
-            ];
-            
-            array_push($response, $array);
+                ];
+
+                array_push($response, $array);
+            }
 
         }
         
@@ -528,6 +539,17 @@ class PedidosController extends Controller
 
         return $resp;
         
+    }
+
+    public function devolverPedido($id, $obs)
+    {
+
+        $request = ['token' => $id, 'motivo' => $obs];
+
+        $resp = $this->pedidosService->devolverPedido($request);
+
+        return $resp;
+
     }
     
         public function nortificacao(){
