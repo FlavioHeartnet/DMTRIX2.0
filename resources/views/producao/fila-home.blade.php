@@ -171,7 +171,7 @@ if($value['token'] == 1){
         </ul>
     </div>
 </header>
-<div class="container-fluid" ng-controller="home">
+<div class="container-fluid" ng-controller="criacao-fila">
 
 
 
@@ -228,7 +228,7 @@ if($value['token'] == 1){
         <tr ng-repeat="x in criacaoUser | filter: busca" on-finish-render="ngRepeatFinishedDetails">
             <td>
                 <div class="col-lg-12">
-                    <% x.idCompra - x.titulo %><br>
+                    <a ng-href="#/pedidos/detalhes/mostrar" ng-click="pesquisar(x.idCompra)"><% x.idCompra %></a><br>
                     <p>Loja: <% x.loja %></p>
                     <p>Solicitante: <% x.solicitante %></p>
                     {!! Form::open(array( 'method' => 'post', 'enctype' => 'multipart/form-data', 'action' => 'ProducaoController@salvarArte')) !!}
@@ -314,11 +314,31 @@ if($value['token'] == 1){
                 <h4 class="modal-title" id="myModalLabel">Foto</h4>
             </div>
             <div class="modal-body">
-                <img src="{{ url('http://mkt.dmcardweb.com.br/img/fotos/<% foto %>') }}" class="img-responsive">
+                <img src="{{ url('http://mkt.dmcardweb.com.br:8000/img/fotos/<% foto %>') }}" class="img-responsive">
             </div>
         </div>
     </div>
 </div>
+
+    <div id="drop-area" class="drop-area detailsPedido">
+
+        <div>
+            <button class="btn btn-primary voltar" ng-click="servico.voltar()">voltar</button>
+            <p></p>
+
+            <div ng-view>
+
+
+
+            </div>
+
+
+
+        </div>
+    </div>
+
+
+    <div class="drop-overlay"></div>
 </div>
 <script src="{{ asset('build/js/vendor/jquery.min.js')  }}"></script>
 <script src="{{ asset('js/TweenMax.min.js')  }}"></script>

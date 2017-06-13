@@ -310,9 +310,10 @@ join usuariosDMTRIX u on u.idUsuario = p.idUsuario where p.idPedido = '$idPedido
   public function dataParaCancelar($idPedido) // Verifica se os pedidos estão proximos de 30 dias ou passaram!
   {
 
-      $sql1 = $this->con->fetch_array($this->con->query("select top 1 dataObs from dmtrixII.historicoObs where idPedido = '$idPedido' order by dataObs desc"));
+      $sql1 = $this->con->fetch_array($this->con->query("select top 1 dataObs from dmtrixII.historicoObs where idPedido = '$idPedido' and observacao != 'Pedido cancelado' order by dataObs desc"));
       $pesquisa = new \DateTime($sql1['dataObs']);
       $date = new \DateTime();
+      $ultimaatualizacao = $pesquisa->format('d/m/Y H:i');
       $diff = $date->diff($pesquisa);
       if($diff->days >= 30)
       {
@@ -332,7 +333,7 @@ join usuariosDMTRIX u on u.idUsuario = p.idUsuario where p.idPedido = '$idPedido
           $situacao = 'ok';
       }
       
-      return ['situacao' => $situacao,'dias'=>$diff->days];
+      return ['situacao' => $situacao,'dias'=>$diff->days, 'ultimaatualizacao' => $ultimaatualizacao];
   } 
 
     public function  status_pedido($status)

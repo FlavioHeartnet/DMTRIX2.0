@@ -493,26 +493,27 @@ class PedidosController extends Controller
     {
         $sql = $this->con->query("select distinct p.idCompra, u.nome+' '+u.sobrenome as solicitante,c.titulo, c.dataCompra, a.data_aprovado, c.dataOrcAtualizado, 
 	case when c.Prioridade  = 1 then 'alta' when c.Prioridade  = 2 then 'media' when c.Prioridade  = 3 then 'baixa' else 'Sem prioridade' end as prioridade, 
-	(select nome +' '+sobrenome from usuariosDMTRIX where idUsuario = t.idUsuario)as criacao, p.status_pedido
-   from dmtrixII.pedidosExpirados e join PedidoDMTRIX p on e.idPedido = p.idPedido join ComprasDMTRIX c on c.idCompra = p.idCompra
+	(select nome +' '+sobrenome from usuariosDMTRIX where idUsuario = t.idUsuario)as criacao, p.status_pedido, p.idPedido
+   from  PedidoDMTRIX p join ComprasDMTRIX c on c.idCompra = p.idCompra
   join usuariosDMTRIX u on u.idUsuario = p.idUsuario left join ControleAprovacoesDMTRIX a on a.idPedido = p.idPedido
-  left join tarefasDMTRIX t on t.idPedido = p.idPedido where e.status = 0");
+  left join tarefasDMTRIX t on t.idPedido = p.idPedido where p.status_pedido != 11");
 
         $response = array();
 
         while($rs = $this->con->fetch_array($sql)){
             
             
-            if($rs['status_pedido'] != 11) {
                 
                 $status = $this->services->status_pedido($rs['status_pedido']);
-                $diffDias = $this->services->dataParaCancelar($rs['status_pedido']);
+                $diffDias = $this->services->dataParaCancelar($rs['idPedido']);
+
+            if($diffDias['situacao'] != 'ok') {
 
                 $array = ['idCompra' => $rs['idCompra'],
                     'solicitante' => $rs['solicitante'],
-                    'dataCompra' => $rs['dataCompra'],
-                    'dataAprovado' => $rs['data_aprovado'],
-                    'dataOrcAtualizado' => $rs['dataOrcAtualizado'],
+                    'dataCompra' => $this->services->formatarData($rs['dataCompra']),
+                    'diasDiff' => $diffDias['dias'],
+                    'ultimaatualizacao' => $diffDias['ultimaatualizacao'],
                     'prioridade' => $rs['prioridade'],
                     'status' => $status,
                     'dias' => $diffDias['situacao'],

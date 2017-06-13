@@ -129,7 +129,7 @@
                                                     <textarea class="form-control" id="motivo<% x.idPedido %>" placeholder="Motivo do cancelamento ou Recusa"></textarea><br>
 
                                                 <div class="col-lg-6">
-                                                    <input type="button" ng-click="botoes.cancelarPedido(x.idPedido)" class="btn btn-danger" value="Cancelar este item?"><p></p>
+                                                    <input type="button" ng-click="cancelarItem(x.idPedido, result[0].idCompra )" class="btn btn-danger" value="Cancelar este item?"><p></p>
                                                 </div>
                                                 <div class="col-lg-6">
                                                     <input type="button" ng-click="devolverItem(x.idPedido)" class="btn btn-danger" value="Recusar item?"><p></p>

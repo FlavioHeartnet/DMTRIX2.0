@@ -102,7 +102,7 @@ class ProducaoServices
 
                         if($calculo == 2)
                         {
-                            $descricao = 'Altura: '.$altura.'cm - Largura: '.$largura.'cm';
+                            $descricao = 'Largura: '.$largura.'cm - Altura: '.$altura.'cm';
 
                         }else if($calculo == 2){
 

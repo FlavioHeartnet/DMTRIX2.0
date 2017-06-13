@@ -540,6 +540,8 @@ app.controller('home', function($scope, $http, Services, FornecedorSrv)
     $scope.criacaoUser = [];
     $scope.servico = Services;
     $scope.porcentagem = 0;
+
+
     var obj = {};
     obj.triagem = function () {
         return $http.get('/producao/fila');
@@ -560,6 +562,24 @@ app.controller('home', function($scope, $http, Services, FornecedorSrv)
 
     };
 
+
+    $scope.pesquisar = function(id){
+        $scope.idCompra = id;
+        $scope.array = [];
+        $scope.pedido = [];
+        $scope.timeline = [];
+
+        var resp1 = Services.perfil(id);
+
+        resp1.then(function(d) {
+            $scope.array = d[0];
+            $scope.pedido = d[1];
+            $scope.timeline = d[2];
+        });
+
+    };
+
+
     $scope.mostrarFilaHome = function () {
 
         jQuery(function ($) {
@@ -569,7 +589,7 @@ app.controller('home', function($scope, $http, Services, FornecedorSrv)
             if(id != null) {
 
                 $scope.mostrarFila(id);
-                console.log(id);
+                
             }
 
         });
@@ -641,6 +661,61 @@ app.controller('home', function($scope, $http, Services, FornecedorSrv)
     
 
 });
+app.controller('criacao-fila', function($scope, $http, Services)
+{
+
+    $scope.servico = Services;
+    $scope.criacao = [];
+    $scope.criacaoUser = [];
+
+    var id = $('#criacao').val()
+
+    $scope.modal = function (img) {
+        $scope.foto = '';
+        $scope.foto = img;
+
+    };
+
+    var obj = {};
+    obj.triagem = function () {
+        return $http.get('/producao/fila');
+    };
+
+    obj.triagem().then(function (data) {
+
+        for(var i = 0; i <= data.data.length; i++)
+        {
+            $scope.criacao = data.data;
+        }
+
+    });
+
+    $scope.pesquisar = function(id){
+        $scope.idCompra = id;
+        $scope.array = [];
+        $scope.pedido = [];
+        $scope.timeline = [];
+
+        var resp1 = Services.perfil(id);
+
+        resp1.then(function(d) {
+            $scope.array = d[0];
+            $scope.pedido = d[1];
+            $scope.timeline = d[2];
+        });
+
+    };
+
+    var resp = $scope.servico.filaIndividual(id);
+    
+
+    resp.then(function(d) {
+        $scope.criacaoUser = d;
+    });
+
+
+});
+
 
 app.controller('mainCusto', function($scope, $http, Services)
 {

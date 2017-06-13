@@ -12,11 +12,10 @@
         <table class="table table-responsive table-bordered">
             <tr>
                 <td>Nº</td>
-                <td>Titulo</td>
                 <td>Solicitante</td>
                 <td>Data de Entrada</td>
-                <td>Orçamento atualizado</td>
-                <td>Orçamento aprovado</td>
+                <td>Data da ultima atualização</td>
+                <td>Dias desde a ultima atualização</td>
                 <td>Prioridade</td>
                 <td>Responsavel</td>
                 <td>Status do Pedido</td>
@@ -24,11 +23,10 @@
             </tr>
             <tr ng-repeat="x in pedidos">
                 <td><a ng-href="#/pedidos/detalhes/mostrar" ng-click="pesquisar(x.idCompra)"><% x.idCompra %></a></td>
-                <td><% x.titulo %></td>
                 <td><% x.solicitante %></td>
                 <td><% x.dataCompra %></td>
-                <td><% x.dataOrcAtualizado %></td>
-                <td><% x.dataAprovado %></td>
+                <td><% x.ultimaatualizacao %></td>
+                <td><% x.diasDiff %></td>
                 <td><% x.prioridade %></td>
                 <td><% x.criacao %></td>
                 <td><% x.status %></td>

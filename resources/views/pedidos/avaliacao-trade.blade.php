@@ -29,7 +29,7 @@
                 <td><% x.titulo %></td>
                 <td><% x.solicitante %></td>
                 <td><% x.dataCompra %></td>
-                <td>Aguardadndo analise</td>
+                <td><% x.situacao %></td>
             </tr>
         </table>
 
