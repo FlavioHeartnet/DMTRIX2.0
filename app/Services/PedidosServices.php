@@ -44,15 +44,32 @@ class PedidosServices
         $idCompra = '';
         for($i=0;$i<count($idPedidos); $i++)
         {
-
-            $sql =  $this->con->query("select m.valor,p.idCompra,m.material, m.idMaterial from materiaisDMTRIX m join PedidoDMTRIX p on p.idMaterial = m.idMaterial  where p.idPedido = '$idPedidos[$i]'");
+            $sql =  $this->con->query("select m.formaCalculo,m.valor,p.idCompra,m.material, m.idMaterial,p.idUsuario from materiaisDMTRIX m join PedidoDMTRIX p on p.idMaterial = m.idMaterial  where p.idPedido = '$idPedidos[$i]'");
 
             $material = $this->con->fetch_array($sql);
             $custoUnitarioReal = $material['valor'];
             $idCompra =  $material['idCompra'];
             $idMaterial = $material['idMaterial'];
             $nomeMaterial = $material['material'];
+            $idUsuario = $material['idUsuario'];
+            $calculo = $material['formaCalculo'];
 
+
+            //Verifica se a compra ja foi aprovada
+            $verificaPedido = $this->con->query("select * from ControleAprovacoesDMTRIX where idCompra = '$idCompra'");
+            if(odbc_num_rows($verificaPedido) > 0)
+            {
+
+                $class = 'bg-warning text-center text-warning';
+                $msg = 'Compra já atualizada!';
+
+                $resp = ['class'=>$class, 'msg'=> $msg];
+                return $resp;
+
+            }
+
+
+            //altera o valor da tabela de materiais quando o campo de valor unitario é alterado
             if($custoUnitarioReal != $custoUnitario[$i]){
 
                 $this->con->query("update materiaisDMTRIX set valor = '$custoUnitario[$i]' where idMaterial = '$idMaterial'");
@@ -76,7 +93,20 @@ class PedidosServices
                     $this->con->query("insert into [MARKETING].[dbo].[ControleReprovacoesDMTRIX] (idCompra, idPedido,data_reprovado,Motivo) values('$idCompra','$idPedidos[$i]',GETDATE(),'$motivoOrc')");
 
                 }else {
-                    $status = 9;
+
+                    if($calculo == 1) {
+                        $this->con->query("update [marketing].[dbo].[PedidoDMTRIX] set status_pedido = 3  where idPedido = '$idPedidos[$i]'");
+                        $this->con->query("update [marketing].[dbo].[ComprasDMTRIX] set status_compra = 'aprovacoes', dataOrcAtualizado=getdate() where idCompra = '$idCompra'");
+                        $this->con->query(" insert into ControleAprovacoesDMTRIX (idCompra, data_aprovado,idPedido) values('$idCompra',GETDATE(),'$idPedidos[$i]')");
+                        $this->con->query("insert into dmtrixII.historicoObs (tipo,observacao,idUsusario,dataObs,idPedido) 
+								values (3,'Pedido de um produto sem custo aprovado!', '$idUsuario',getdate(),'$idPedidos[$i]' )");
+                        $status = 3;
+                    }else{
+
+                        $status = 9;
+
+                    }
+
                 }
 
 
@@ -93,7 +123,7 @@ class PedidosServices
 
         if(odbc_error() == '')
         {
-
+            //Salva no historico e envia email!
             $infos = $this->services->infoPedido($idPedidos[0]);
             $mensagem = 'Olá caro(a) '.$infos['solicitante'].' sua compra: '.$idCompra.' foi atualizado o orçamento, entre no DMTRIX para aprovar/reprovar, caso de duvidas entre em contato com a agencia!';
 
@@ -169,8 +199,12 @@ class PedidosServices
 
 
                         }else{
+                            
+                            $verificaCancelado = $this->services->VerificaCancelado($idPedido);
 
-                            if($status_pedido == 3) {
+                            if($status_pedido == 3 and $verificaCancelado == false) {
+                                
+                                
 
                                 $usuario = $this->con->fetch_array($this->con->query("select nome+' '+sobrenome as nome from usuariosDMTRIX where idUsuario = '$criacao[$i]'"));
                                 $usuario = $usuario['nome'];
@@ -318,8 +352,9 @@ class PedidosServices
     public function cancelamento()
     {
         ini_set('max_execution_time', 300);
-        $sql = $this->con->query("  select idPedido,idCompra,status_pedido,u.email,u.nome+u.sobrenome as solicitante from 
-  PedidoDMTRIX p join usuariosDMTRIX u on u.idUsuario = p.idUsuario where status_pedido != 11  order by p.idCompra");
+        $sql = $this->con->query("  select m.material,p.idPedido,p.idCompra,status_pedido,u.email,u.nome+u.sobrenome as solicitante from 
+  PedidoDMTRIX p join usuariosDMTRIX u on u.idUsuario = p.idUsuario join materiaisDMTRIX m on m.idMaterial = p.idMaterial 
+  where status_pedido != 11 and p.status_pedido !=1  order by p.idCompra");
 
         $array = array();
         while($rs = $this->con->fetch_array($sql))
@@ -329,10 +364,11 @@ class PedidosServices
             $status =  $rs['status_pedido'];
             $email = $rs['email'];
             $nome = $rs['solicitante'];
+            $material = $rs['material'];
 
             $situacao = $this->services->dataParaCancelar($idPedido);
 
-            if($situacao == 'Pedido expirado'){
+            if($situacao['situacao'] == 'Pedido expirado'){
 
                 $verifica = $this->con->query("select * from dmtrixII.pedidosExpirados where idPedido = '$idPedido'");
 
@@ -350,42 +386,44 @@ class PedidosServices
             }
 
             if($situacao['situacao'] != 'ok') {
-                
-                $x = ['dias' => $situacao['dias'], 'idPedido' => $idPedido, 'idCompra' => $idCompra, 'situacao' => $situacao['situacao'], 'status' => $this->services->status_pedido($status), 'email' => $email, 'nome' => $nome];
+
+                $x = ['dias' => $situacao['dias'], 'idPedido' => $idPedido, 'idCompra' => $idCompra, 'situacao' => $situacao['situacao'], 'status' => $this->services->status_pedido($status), 'email' => $email, 'nome' => $nome, 'material' => $material];
                 array_push($array, $x);
-            
 
-            if( $situacao['dias'] < 30 and $x['status'] == 10 or $x['status'] == 9 )
-            {
 
-                Mail::send('emails.cancelamento', compact('x'), function ($m) use ($x) {
-                    $m->from('faqdmtrade@dmcard.com.br', 'DMTRIX');
-                    $m->cc('flavio.barros@dmcard.com.br', 'Flavio');
-                    $m->to($x['email'], $x['nome'])->subject('Pedidos proximos ao cancelamento');
-                });
+                if ($status == 10 or $status == 9 or $status == 81) {
 
-            }else if( $situacao['dias'] < 30 and  $x['status'] == 5)
-            {
+                    Mail::send('emails.cancelamento', compact('x'), function ($m) use ($x) {
+                        $m->from('faqdmtrade@dmcard.com.br', 'DMTRIX');
+                        $m->cc('agenciamarketing@dmcard.com.br', 'Loren');
+                        $m->cc('flavio.barros@dmcard.com.br', 'Flavio');
+                        $m->to($x['email'], $x['nome'])->subject('Pedidos proximos ao cancelamento');
+                    });
 
-                $tarefa = $this->con->fetch_array($this->con->query("select distinct t.idUsuario, idCompra, u.email from tarefasDMTRIX t join dmtrixII.PedidoDMTRIX p on p.idPedido = t.idPedido join usuariosDMTRIX u on u.idUsuario = t.idUsuario
+                }else if ($situacao['dias'] < 30 or $situacao['dias'] > 7  and $status == 5) {
+
+                    $tarefa = $this->con->fetch_array($this->con->query("select distinct t.idUsuario, idCompra, u.email from tarefasDMTRIX t join dmtrixII.PedidoDMTRIX p on p.idPedido = t.idPedido join usuariosDMTRIX u on u.idUsuario = t.idUsuario
    where p.status_pedido = 5 and p.idPedido = '$idPedido'"));
 
-                Mail::send('emails.cancelamento', compact('x'), function ($m) use ($tarefa) {
-                    $m->from('faqdmtrade@dmcard.com.br', 'DMTRIX');
-                    $m->cc('flavio.barros@dmcard.com.br', 'Flavio');
-                    $m->to($tarefa['email'], $tarefa['email'])->subject('Aviso de cancelamento de pedido');
-                });
+                    Mail::send('emails.cancelamento', compact('x'), function ($m) use ($tarefa) {
+                        $m->from('faqdmtrade@dmcard.com.br', 'DMTRIX');
+                        $m->cc('flavio.barros@dmcard.com.br', 'Flavio');
+                        $m->to($tarefa['email'], $tarefa['email'])->subject('Aviso de cancelamento de pedido');
+                    });
 
-            }else{
+                }else if($situacao['dias'] < 30 or $situacao['dias'] > 25) {
 
-                Mail::send('emails.cancelamento', compact('x'), function ($m) {
-                    $m->from('faqdmtrade@dmcard.com.br', 'DMTRIX');
-                    $m->cc('flavio.barros@dmcard.com.br', 'Flavio');
-                    $m->to('agenciamarketing@dmcard.com.br', 'Loren')->subject('Aviso de cancelamento de pedido');
-                });
-            
+                    Mail::send('emails.cancelamento', compact('x'), function ($m) {
+                        $m->from('faqdmtrade@dmcard.com.br', 'DMTRIX');
+                        $m->cc('flavio.barros@dmcard.com.br', 'Flavio');
+                        $m->to('agenciamarketing@dmcard.com.br', 'Loren')->subject('Aviso de cancelamento de pedido');
+                    });
+
                 }
+
+
             }
+
 
 
         }

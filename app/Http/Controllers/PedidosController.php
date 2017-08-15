@@ -7,6 +7,7 @@ use App\Services\Services;
 use Illuminate\Http\Request;
 use App\Http\Requests;
 use Illuminate\Support\Facades\Session;
+use Mockery\Exception;
 
 class PedidosController extends Controller
 {
@@ -24,6 +25,51 @@ class PedidosController extends Controller
         $this->services = $services;
         $this->historico = $historico;
         
+    }
+
+
+    //$dataCompra, $nome, $numeroLoja
+    public function FiltroTodosPedido()//Filtro para pesquisa de compra
+    {
+        $dataCompra = '2017-06-26';
+        $nome = 'Maria';
+        $numeroLoja = '';
+
+
+        $dataCompra = new \DateTime($dataCompra);
+        $dataCompra = $dataCompra->format('Y-m-d');
+
+        try{
+
+            $sql = $this->con->query("select p.dataCompra,p.valorTotal,
+        case when p.titulo is null then 'Sem Titulo' else p.titulo end as Titulo ,p.idCompra,u.nome,l.numeroLoja +' - '+l.nomeLoja as loja, 
+        case when p.Prioridade is null then 0 
+        else p.Prioridade end as prioridade,
+        (select COUNT(*) as num from PedidoDMTRIX where status_pedido = 5 and idCompra = p.idCompra) as numCriacao,
+        (select COUNT(*) as num from PedidoDMTRIX where status_pedido = 101 and idCompra = p.idCompra) as numRevisao,
+        (select COUNT(*) as num from PedidoDMTRIX where status_pedido = 10 and idCompra = p.idCompra) as numAprovacao,
+        (select COUNT(*) as num from PedidoDMTRIX where status_pedido = 8 and idCompra = p.idCompra) as numFornecedor,
+        (select COUNT(*) as num from PedidoDMTRIX where status_pedido = 81 and idCompra = p.idCompra) as numDisponivel,
+        (select COUNT(*) as num from PedidoDMTRIX where status_pedido = 11 and idCompra = p.idCompra) as numFinalizado,
+        (select COUNT(*) as num from PedidoDMTRIX where status_pedido = 6 and idCompra = p.idCompra) as numAprovados,
+        (select COUNT(*) as num from PedidoDMTRIX where idCompra = p.idCompra) as total
+        , p.status_compra
+         from ComprasDMTRIX p 
+        inner join usuariosDMTRIX u on u.idUsuario = p.idUsuario
+        join lojasDMTRIX l on l.numeroLoja = p.idLoja where dataCompra like '%$dataCompra%' and u.nome like '%$nome%' and l.numeroLoja like '%$numeroLoja%' order by p.dataCompra desc");
+
+            return $sql;
+
+
+        }catch (\Exception $e){
+
+            return 'Falha: '.odbc_errormsg();
+
+        }
+
+
+
+
     }
 
     public function Pedidos()
@@ -46,6 +92,8 @@ class PedidosController extends Controller
          from ComprasDMTRIX p 
         inner join usuariosDMTRIX u on u.idUsuario = p.idUsuario
         join lojasDMTRIX l on l.numeroLoja = p.idLoja order by p.dataCompra desc");
+        
+        //$sql = $this->FiltroTodosPedido();
 
         $response = array();
         while($rs = $con->fetch_array($sql))
@@ -196,7 +244,7 @@ class PedidosController extends Controller
 
             }else{
 
-                $status = 13;
+                $status = 'Pedido Cancelado';
             }
 
             $array1 = [ 'idPedido' => $rs['idPedido'],
@@ -219,7 +267,7 @@ class PedidosController extends Controller
                 'tempoEstimado' => $rs['tempoEstimado'],
                 'status' => $status,
                 'razao' => $rs['razao'],
-                'status_pedido' => $rs['status_pedido'],
+                'status_pedido' => $status,
                 'dataPrevista' => $this->services->formatarData($rs['dataPrevista']),
                 'dataSaida' => $this->services->formatarData($rs['dataSaida']),
                 'entrega' => $rs['entrega']
@@ -553,7 +601,7 @@ class PedidosController extends Controller
 
     }
     
-        public function nortificacao(){
+    public function nortificacao(){
     
         return $this->services->nortificacoesMenu();
     

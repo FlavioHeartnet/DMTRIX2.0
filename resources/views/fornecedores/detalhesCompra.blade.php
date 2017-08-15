@@ -154,6 +154,7 @@
                                 </td>
                                 <td class="" colspan="2" ng-if="d.status_pedido == '81'">
 
+
                                     {!! Form::open(array( 'method' => 'post', 'action' => 'FornecedorController@finalizar')) !!}
                                     {!! Form::hidden('token','<% d.idPedido %>') !!}
 
@@ -173,7 +174,7 @@
 
                                                 <label>Quem entregou
                                                     <input type="text"  class="form-control" name="entregou" ><br>
-                                                    <input type="submit" class="btn btn-warning backgroundLaranja" value="Salvar">
+                                                    <input type="submit"  class="btn btn-warning backgroundLaranja" value="Salvar">
 
                                                 </label>
 

@@ -48,6 +48,7 @@
             <td>
                 <div class="col-lg-12">
                 <% x.idCompra - x.titulo %><br>
+                <p><b>Data ideal solicitada: <% x.dataIdeal %></b></p>
                 <p>Loja: <% x.loja %></p>
                 <p>Solicitante: <% x.solicitante %></p>
                     {!! Form::open(array( 'method' => 'post', 'enctype' => 'multipart/form-data', 'action' => 'ProducaoController@salvarArte')) !!}

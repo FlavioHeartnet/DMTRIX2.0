@@ -287,8 +287,7 @@ if($value['criacao'] == 1){
                     <h4 class="modal-title" id="myModalLabel">Foto</h4>
                 </div>
                 <div class="modal-body">
-                    <img src="{{ url('http://mkt.dmcardweb.com.br/img/fotos/<% foto %>') }}" class="img-responsive">
-                <!-- <img src="{{ url('http://dmcard.com.br/dmtrade/img/brindes/<% foto %>') }}" class="img-responsive"> -->
+                    <img src="{{ url('http://mkt.dmcardweb.com.br:8000/img/fotos/<% foto %>') }}" class="img-responsive">
                 </div>
             </div>
         </div>

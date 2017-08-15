@@ -37,6 +37,20 @@ class Services
         }
         
     }
+    
+    public function VerificaCancelado($idPedido)
+    {
+        $sql = $this->con->query("select * from dmtrixII.pedidosExpirados where status = 0 and idPedido = '$idPedido'");
+        if(odbc_num_rows($sql) == 0){
+
+           return false;
+
+        }else{
+
+            return true;
+        }
+        
+    }
 
     public function materialCompra($idPedido)
     {
@@ -328,6 +342,10 @@ join usuariosDMTRIX u on u.idUsuario = p.idUsuario where p.idPedido = '$idPedido
       {
           $situacao = 'Expira em 1 dia';
 
+      }else if($diff->days >= 7)
+      {
+          $situacao = 'Parado a 7 dias ou mais';
+          
       }else
       {
           $situacao = 'ok';
@@ -374,6 +392,31 @@ join usuariosDMTRIX u on u.idUsuario = p.idUsuario where p.idPedido = '$idPedido
 
         return $texto;
 
+    }
+
+    public function infoSupervisor($idUsuario) //id do Supervisor
+    {
+
+        $sql = $this->con->fetch_array($this->con->query("  select usuario, nivel, nome+' '+ sobrenome as nome, email from usuariosDMTRIX where idUsuario = '$idUsuario'"));
+        
+        return [
+            
+            'nome' => $sql['nome'],
+            'nivel' => $sql['nivel'],
+            'email' => $sql['email'],
+            'usuario' => $sql['usuario']
+            
+        ];
+        
+        
+
+    }
+
+    public function infoLoja($idLoja)
+    {
+
+        return $this->con->fetch_array($this->con->query("select numeroLoja, nomeLoja, rede,responsavel from lojasDMTRIX where idLoja = '$idLoja'"));
+        
     }
     
    

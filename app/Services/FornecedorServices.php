@@ -142,12 +142,18 @@ class FornecedorServices
 
             $this->con->query("update PedidoDMTRIX set status_pedido = 81 where idPedido = '$idPedido'");
 
-            $msg = $this->con->fetch_array($this->con->query("select u.nome, u.email,p.idCompra, (select email from usuariosDMTRIX where idUsuario = u.supervisor) as re, m.material from usuariosDMTRIX u join PedidoDMTRIX p on p.idUsuario = u.idUsuario
+            $msg = $this->con->fetch_array($this->con->query("select u.nome, u.email,p.idCompra, u.supervisor, m.material, p.idLoja from usuariosDMTRIX u join PedidoDMTRIX p on p.idUsuario = u.idUsuario
 join materiaisDMTRIX m on m.idMaterial = p.idMaterial where p.idPedido = '$idPedido'"));
             $nome = $msg['nome'];
-            $Cc = $msg['re'];
+            $idSupervisor = $msg['supervisor'];
+            $infoSupervisor = $this->services->infoSupervisor($idSupervisor);
+            $Cc = $infoSupervisor['email'];
             $email = $msg['email'];
             $idCompra = $msg['idCompra'];
+            $idLoja = $msg['idLoja'];
+
+            $infoLoja = $this->services->infoLoja($idLoja);
+            $nomeLoja = $infoLoja['numeroLoja'].' '.$infoLoja['nomeLoja'];
 
            $verifica =$this->con->fetch_array($this->con->query("  select COUNT(*) as num, (select COUNT(*) as num from PedidoDMTRIX where idCompra = '$idCompra' and status_pedido = 81) as numPedido 
   from PedidoDMTRIX where idCompra = '$idCompra'"));
@@ -159,7 +165,7 @@ join materiaisDMTRIX m on m.idMaterial = p.idMaterial where p.idPedido = '$idPed
 
                 $x = ['email' => $email, 'Cc' => $Cc, 'nome' => $nome];
                 $material = $msg['material'];
-                $mensagem = "Olá " . $nome . ", os materiais: " . $material . " que você solicitou ja esta disponível para retirada, compareça na DMCard ou entre em contato com o trade para recebe-lo!";
+                $mensagem = "Olá " . $nome . ", o materiail: " . $material . " da compra nº: ".$idCompra." para a loja: ".$nomeLoja."  que você solicitou já estão disponíveis para retirada, compareça na DMCard ou entre em contato com o trade para recebe-lo!";
 
 
                 Mail::send('emails.aprovacaoArte', compact('mensagem'), function ($m) use ($x) {
@@ -168,6 +174,7 @@ join materiaisDMTRIX m on m.idMaterial = p.idMaterial where p.idPedido = '$idPed
                     $m->to($x['email'], $x['nome'])->subject('Pedido já esta disponível para retirada!');
                 });
             }
+
 
             $info = ['idPedido' => $idPedido, 'texto'=> 'Pedido que estava com o fornecedor: '.$razao.' foi entregue!', 'tipo' => 4];
             $this->historico->create($info);
@@ -246,6 +253,91 @@ join materiaisDMTRIX m on m.idMaterial = p.idMaterial where p.idPedido = '$idPed
 
         }
 
+
+    }
+
+    public function finalizarCompra($request){
+
+        $idCompra = $request['token'];
+        $sql = $this->con->query("select idPedido from PedidoDMTRIX where idCompra = '$idCompra'");
+
+        $class = 'bg-danger text-center text-danger';
+        $msg = 'Serviço não disponivel';
+        $resp = ['class'=>$class, 'msg'=> $msg];
+        
+        while($rs = $this->con->fetch_array($sql)){
+
+            $array = ['token' => $rs['idPedido'],
+                    'retirou' =>$request['retirou'],
+                    'entregou' =>$request['entregou'],
+                    'data'=>$request['data']];
+
+            $resp = $this->finalizarPedido($array);
+
+
+        }
+
+        return $resp;
+
+    }
+
+
+    public function pedidosEntreguesParados()
+    {
+
+
+        $sql = $this->con->query("select distinct c.idCompra, l.numeroLoja + ' - '+l.nomeLoja as loja, u.email,u.nome + ' '+u.sobrenome as nome,u.supervisor 
+	 from PedidoDMTRIX p join ComprasDMTRIX c on c.idCompra = p.idCompra 
+	 join usuariosDMTRIX u on u.idUsuario = p.idUsuario left join lojasDMTRIX l on l.numeroLoja = c.idLoja where p.status_pedido = 81");
+        while($rs = $this->con->fetch_array($sql))
+        {
+            $materiais = '';
+            $idCompra = $rs['idCompra'];
+
+            //infos para o email
+            $loja = $rs['loja'];
+            $idSupervisor = $rs['supervisor'];
+            $email = $rs['email'];
+            $nome = $rs['nome'];
+
+            $pedidos = $this->con->query("select idPedido from PedidoDMTRIX where idCompra = '$idCompra'");
+            while($rt = $this->con->fetch_array($pedidos))
+            {
+
+                $idPedido = $rt['idPedido'];
+
+                $situacao = $this->services->dataParaCancelar($idPedido);
+                if($situacao['dias'] >= 7) {
+
+                    $validador = $this->con->fetch_array($this->con->query("	 select top 1  m.material
+	  from PedidoDMTRIX p join dmtrixII.historicoObs h on h.idPedido = p.idPedido join ComprasDMTRIX c on c.idCompra = p.idCompra 
+	join materiaisDMTRIX m on m.idMaterial = p.idMaterial
+	  where p.idPedido = '$idPedido' order by h.dataObs desc"));
+
+                    $materiais .= $validador['material'].'<br>';
+
+
+                }
+
+            }
+
+            if($materiais != '')
+            {
+                $infoSupervisor = $this->services->infoSupervisor($idSupervisor);
+                $Cc = $infoSupervisor['email'];
+                $mensagem = 'Caro(a) '.$nome.'<br>Este é um email para lembra-lo(a) de que seu pedido nº '.$idCompra.' para a loja '.$loja.' já está disponivel para retirada a '.$situacao['dias'].' dias, vá até a DMCard para retira-lo ou entre em contato conosco!<br> Segue materiais disponíveis: <br>'.$materiais;
+                $x = ['email' =>$email, 'Cc' => $Cc, 'nome' => $nome ];
+                
+               echo 'Pedido: '.$idCompra.'<br> email: '.$email.'<br> Cc: '.$Cc.'<br> loja: '.$loja.'<br> '.$mensagem.' <br>';
+
+             Mail::send('emails.aprovacaoArte', compact('mensagem'), function ($m) use ($x) {
+                    $m->from('faqdmtrade@dmcard.com.br', 'DMTRIX');
+                    $m->cc($x['Cc'], 'Supervisor');
+                    $m->to($x['email'], $x['nome'])->subject('Pedido já esta disponível para retirada a mais de 7 dias!');
+                });
+            }
+
+        }
 
     }
     

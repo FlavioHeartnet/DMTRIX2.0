@@ -62,7 +62,8 @@ app.factory('FornecedorSrv', function($resource) {
                             {
                                 method: 'post',
 
-                                url: '/fornecedores/gestao/pedidos/detalhes/finalizar/:id'
+
+                                url: '/fornecedores/gestao/pedidos/detalhes/finalizar/:id/:data/:retirou/:recebeu'
                             }
                     ,indicadores: {
 
@@ -865,6 +866,8 @@ app.controller('fornecedor', function($scope,$http,Services, $routeParams, Forne
     var forncedor = {};
     $scope.fornecedor=[];
 
+
+
     forncedor.show = function() { return $http.get('/fornecedores/gestao/show'); };
     forncedor.show().then(function(data){
 
@@ -1313,7 +1316,12 @@ app.controller('filaFornecedor',function ($scope,$http,Services, FornecedorSrv)
     $scope.servico = Services;
     $scope.idCompra = '';
 
+    $scope.modalFinalizar = function (idCompra) {
+        $scope.idCompra = idCompra;
+        
+        jQuery('#myModal').modal('show');
 
+    };
 
     $scope.init= function() {
         $scope.pedidos = [];
@@ -1381,6 +1389,26 @@ app.controller('filaFornecedor',function ($scope,$http,Services, FornecedorSrv)
         });
 
     };
+
+    $scope.finalizarPedido = function (id) {
+
+        var resp = $scope.fornecedor.finalizar({id: id }).$promise.then(function (data) {
+
+            return data;
+
+        });
+
+        resp.then(function (d) {
+
+            alert(d);
+            console.log(d)
+            
+        });
+        $scope.pesquisar($scope.idCompra);
+
+    };
+
+    
     
     $scope.entrega = function (id) {
         

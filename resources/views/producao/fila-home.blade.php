@@ -229,6 +229,7 @@ if($value['token'] == 1){
             <td>
                 <div class="col-lg-12">
                     <a ng-href="#/pedidos/detalhes/mostrar" ng-click="pesquisar(x.idCompra)"><% x.idCompra %></a><br>
+                    <p><b>Data ideal solicitada: <% x.dataIdeal %></b></p>
                     <p>Loja: <% x.loja %></p>
                     <p>Solicitante: <% x.solicitante %></p>
                     {!! Form::open(array( 'method' => 'post', 'enctype' => 'multipart/form-data', 'action' => 'ProducaoController@salvarArte')) !!}

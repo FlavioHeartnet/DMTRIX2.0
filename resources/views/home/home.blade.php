@@ -80,7 +80,7 @@
             </div>
             <div class="col-lg-2">
                 <a href="" class="colorCinza">
-                    <i class="fa fa-share-square-o"></i>
+                    <i class="li_stack"></i>
                     <p><% indicadores.fila %></p>
                     <p style="font-size: 10px">Enviados para Fabricação</p>
                 </a>
@@ -94,7 +94,7 @@
             </div>
             <div class="col-lg-2">
                 <a href="" class="colorCinza">
-                    <i class="li_stack"></i>
+                    <i class="fa fa-star"></i>
                     <p><% indicadores.aguardandoRetirada %></p>
                     <p style="font-size: 10px">Disponiveis para Retirada</p>
 

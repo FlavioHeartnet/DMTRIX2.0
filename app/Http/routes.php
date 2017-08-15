@@ -17,6 +17,10 @@ Route::get('/', function () {
 
 Route::get('/teste', 'PedidosController@teste');
 
+Route::get('/fornecedores/gestao/verifica','FornecedorController@verificaPedidosParados' );
+
+Route::get('/testefiltro', 'PedidosController@FiltroTodosPedido');
+
 Route::post('/logar', 'Auth\AuthController@login');
 Route::get('/home-trade', 'Auth\AuthController@criacao');
 Route::get('/logout', 'Auth\AuthController@logout');
@@ -110,7 +114,8 @@ Route::get('/fornecedores/gestao/pedidos/mostrar', function () {
 Route::get('/fornecedores/gestao/pedidos/detalhes/{id}', 'FornecedorController@detalhesPedidos');
 Route::post('/fornecedores/gestao/pedidos/detalhes/enviar/', 'FornecedorController@enviarFornecedor');
 Route::post('/fornecedores/gestao/pedidos/detalhes/entregue/{id}', 'FornecedorController@EntregaPedido');
-Route::post('/fornecedores/gestao/pedidos/detalhes/finalizar/{id}', 'FornecedorController@finalizar');
+Route::post('/fornecedores/gestao/pedidos/detalhes/finalizar/{id}/{data}/{retirou}/{recebeu}', 'FornecedorController@finalizar');
+Route::post('/fornecedores/gestao/pedidos/detalhes/finalizarCompra/{id}', 'FornecedorController@finalizarCompra');
 
 
 Route::get('/usuarios/gestao', function () {

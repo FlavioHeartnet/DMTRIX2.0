@@ -400,10 +400,25 @@ class FornecedorController extends Controller
     }
     public function finalizar(Request $request){
         $rs = $request->all();
+        
        $resp =  $this->fornecedor->finalizarPedido($rs);
-
        return view('fornecedores.consulta', compact('resp'));
 
     }
+
+    public function finalizarCompra(Request $request){
+        $rs = $request->all();
+        $resp =  $this->fornecedor->finalizarCompra($rs);
+
+        return view('fornecedores.consulta', compact('resp'));
+
+    }
+    
+    public function verificaPedidosParados(){
+        
+         $this->fornecedor->pedidosEntreguesParados();
+        
+    }
+    
     
 }

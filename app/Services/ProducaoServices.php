@@ -25,12 +25,12 @@ class ProducaoServices
 
     public function filaIndividual($idUsuario){
 
-       $sql = $this->con->query("  select distinct count(*)as pedidos, ut.criacao, p.idCompra, c.titulo, ut.email, l.numeroLoja+' '+ l.nomeLoja as loja, u.nome+' '+u.sobrenome as solicitante,ut.foto,c.status_compra  from tarefasDMTRIX t  
+       $sql = $this->con->query("  select distinct count(*)as pedidos, ut.criacao, p.idCompra, c.titulo, ut.email, l.numeroLoja+' '+ l.nomeLoja as loja, u.nome+' '+u.sobrenome as solicitante,ut.foto,c.status_compra, c.Prioridade, p.dataIdeal  from tarefasDMTRIX t  
   inner join PedidoDMTRIX p on p.idPedido = t.idPedido join ComprasDMTRIX c on c.idCompra = p.idCompra join lojasDMTRIX l on l.idLoja = p.idLoja
   join usuariosDMTRIX u on u.idUsuario = c.idUsuario,
   (select nome+' '+sobrenome as criacao, email,foto from usuariosDMTRIX  where idUsuario = '$idUsuario' ) as ut 
   where t.idUsuario = '$idUsuario' and c.status_compra = 'criacao'
-  group by ut.criacao, p.idCompra, c.titulo,ut.email, l.nomeLoja,l.numeroLoja,u.nome,u.sobrenome,ut.foto,c.status_compra order by p.idCompra desc");
+  group by ut.criacao, p.idCompra, c.titulo,ut.email, l.nomeLoja,l.numeroLoja,u.nome,u.sobrenome,ut.foto,c.status_compra, c.Prioridade, p.dataIdeal  order by p.dataIdeal   ");
 
         if(odbc_num_rows($sql) > 0)
         {
@@ -42,7 +42,7 @@ class ProducaoServices
                 $idCompra = $rs['idCompra'];
 
                     //detalhes de cada Compra
-                    $itensCompra = $this->con->query("select  m.material, p.observacao, u.nome+' '+u.sobrenome as Solicitante, p.dataArtePostada,t.dataDelegado, p.status_pedido, re.MotivoArte, p.idPedido, p.fotoArte, p.quantidade,p.custeio
+                    $itensCompra = $this->con->query("select distinct  m.material, p.observacao, u.nome+' '+u.sobrenome as Solicitante, p.dataArtePostada,t.dataDelegado, p.status_pedido, re.MotivoArte, p.idPedido, p.fotoArte, p.quantidade,p.custeio
 ,p.altura,p.largura,m.formaCalculo
    from tarefasDMTRIX t  
   inner join PedidoDMTRIX p on p.idPedido = t.idPedido 
@@ -148,6 +148,7 @@ class ProducaoServices
                     'titulo' => $rs['titulo'],
                     'foto' => $rs['foto'],
                     'email' => $rs['email'],
+                    'dataIdeal' => $this->services->formatarData($rs['dataIdeal']),
                     'loja' => $rs['loja'],
                     'aprovados' => $graph['aprovados'],
                     'fila' => $graph['fila'],
@@ -300,24 +301,30 @@ class ProducaoServices
     }
 
     public function aprovarArte($idPedido){
-        $verifica = $this->con->fetch_array($this->con->query("select status_pedido, idCompra from PedidoDMTRIX where idPedido = '$idPedido'"));
+        $verifica = $this->con->fetch_array($this->con->query("select status_pedido, idCompra, idLoja from PedidoDMTRIX where idPedido = '$idPedido'"));
 
         $idCompra = $verifica['idCompra'];
+        $idLoja = $verifica['idLoja'];
         if ($verifica['status_pedido'] != 10)
         {
 
        $this->con->query("update [marketing].[dbo].[PedidoDMTRIX] set status_pedido = 10  where idPedido = '$idPedido'");
-        $itens = $this->con->fetch_array($this->con->query("select u.nome, u.email,m.material from usuariosDMTRIX u join PedidoDMTRIX p on p.idUsuario = u.idUsuario join materiaisDMTRIX m on m.idMaterial = p.idMaterial where p.idPedido = '$idPedido'"));
+        $itens = $this->con->fetch_array($this->con->query("select u.nome,u.supervisor, u.email,m.material from usuariosDMTRIX u join PedidoDMTRIX p on p.idUsuario = u.idUsuario join materiaisDMTRIX m on m.idMaterial = p.idMaterial where p.idPedido = '$idPedido'"));
 
+         $idSupervisor = $itens['supervisor'];
+            $infoSupervisor = $this->services->infoSupervisor($idSupervisor);
+            $infoLoja = $this->services->infoLoja($idLoja);
+            $nomeLoja = $infoLoja['numeroLoja'].' '.$infoLoja['nomeLoja'];
+            
         $material = $itens['material'];
         $nome = $itens['nome'];
         $email = $itens['email'];
-        $mensagem = utf8_decode("Caro(a) " . $nome . " nossa equipe postou uma arte para a compra que você solicitou. Para visualiza-la basta entrar no E-commerce DMTRIX e ir em Aprovar/Reprovar Artes, o produto é: $material, Compra: $idCompra ");
+        $mensagem = utf8_decode("Caro(a) " . $nome . " nossa equipe postou uma arte para a compra que você solicitou. Para visualiza-la basta entrar no E-commerce DMTRIX e ir em Aprovar/Reprovar Artes, o produto é: $material, Compra: $idCompra, Loja: ".$nomeLoja);
 
 
         if(odbc_error() == '') {
 
-            $itens = ['msg' => $mensagem, 'email' => $email, 'nome' => $nome];
+            $itens = ['msg' => $mensagem, 'email' => $email, 'nome' => $nome, 'supervisor' => $infoSupervisor['email']];
 
             $this->con->query("update PedidoDMTRIX set dataArtePostada = getdate() where idPedido = '$idPedido'");
             $infos = ['tipo' => 3, 'idPedido' => $idPedido, 'texto'=>'Pedido enviado para aprovação do solicitante'];
@@ -326,6 +333,7 @@ class ProducaoServices
 
             Mail::send('emails.aprovacaoArte', compact('mensagem'), function ($m) use ($itens) {
                 $m->from('faqdmtrade@dmcard.com.br', 'DMTRIX');
+                $m->cc($itens['supervisor'], 'DMTRIX');
                 $m->to($itens['email'], $itens['nome'])->subject('Arte foi disponibilizada para aprovação');
             });
 
